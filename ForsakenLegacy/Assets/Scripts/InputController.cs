@@ -1,26 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+using UnityEngine.InputSystem;
+#endif
 
-public class InputController : MonoBehaviour
+namespace ForsakenLegacy
 {
-    // Start is called before the first frame update
-    private PlayerController charController;
+	public class InputController : MonoBehaviour
+	{
+		[Header("Character Input Values")]
+		public Vector2 move;
+		public bool jump;
+		public bool sprint;
 
-    void Awake()
-    {
-        charController = GetComponent<PlayerController>();
-    }
+		[Header("Movement Settings")]
+		public bool analogMovement;
 
-    private void FixedUpdate()
-    {
-        // Get input values
-        int vertical = Mathf.RoundToInt(Input.GetAxis("Vertical"));
-        int horizontal = Mathf.RoundToInt(Input.GetAxis("Horizontal"));
-        bool jump = Input.GetKey(KeyCode.Space);
-        charController.ForwardInput = vertical;
-        charController.TurnInput = horizontal;
-        charController.JumpInput = jump;
-    }
+		[Header("Mouse Cursor Settings")]
+		public bool cursorLocked = true;
+		public bool cursorInputForLook = true;
+
+#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+		public void OnMove(InputValue value)
+		{
+			MoveInput(value.Get<Vector2>());
+		}
+
+		public void OnSprint(InputValue value)
+		{
+			SprintInput(value.isPressed);
+		}
+#endif
+
+
+		public void MoveInput(Vector2 newMoveDirection)
+		{
+			move = newMoveDirection;
+		} 
+
+		public void JumpInput(bool newJumpState)
+		{
+			jump = newJumpState;
+		}
+
+		public void SprintInput(bool newSprintState)
+		{
+			sprint = newSprintState;
+		}
+
+		private void OnApplicationFocus(bool hasFocus)
+		{
+			SetCursorState(cursorLocked);
+		}
+
+		private void SetCursorState(bool newState)
+		{
+			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+	}
+	
+	
 }
-
