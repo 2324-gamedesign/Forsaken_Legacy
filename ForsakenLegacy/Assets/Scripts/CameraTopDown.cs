@@ -11,7 +11,6 @@ public class CameraTopDown : MonoBehaviour
     public float angle = 45f;
     private float smoothSpeed = 0.5f;
     public Transform player;
-    
     private Vector3 refVelocity;
 
 
