@@ -9,7 +9,7 @@ public class CameraTopDown : MonoBehaviour
     public float height = 10f;
     public float distance = 20f;
     public float angle = 45f;
-    private float smoothSpeed = 0.5f;
+    private float smoothSpeed = 0.1f;
     public Transform player;
     private Vector3 refVelocity;
 
