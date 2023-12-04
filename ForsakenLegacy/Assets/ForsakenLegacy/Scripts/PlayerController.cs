@@ -102,10 +102,11 @@ namespace ForsakenLegacy
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+            canMove = !isAttacking;
 
+            if (canMove == true) {Move();}
             HandleGravity();
             GroundedCheck();
-            if (canMove == true) {Move();}
     			    
             Attack();
             HandleAttackAnim();
@@ -276,6 +277,15 @@ namespace ForsakenLegacy
             {
                 _animator.SetBool(_animIDCombo2, false);
                 _animator.SetBool(_animIDCombo3, true);
+            }
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2-End"))
+            {
+                isAttacking = true;
+            }
+            else
+            {
+                isAttacking = false;
             }
         }
 

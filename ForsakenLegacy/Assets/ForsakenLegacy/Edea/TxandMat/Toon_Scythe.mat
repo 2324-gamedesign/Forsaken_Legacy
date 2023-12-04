@@ -7,11 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_Body
+  m_Name: Toon_Scythe
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_ValidKeywords:
   - _HALFTONESHAPE_CROSS
-  - _NORMALMAP
   - _OUTLINE
   - _RIMLIGHTING_ON
   - _SPECULARHIGHLIGHTS_OFF
@@ -32,11 +31,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 60024e6ba6e955747a35de7d07a435c0, type: 3}
+        m_Texture: {fileID: 2800000, guid: cd5039ae1fe6fcc4e9ad639e70348b86, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 1a9e0a2fa7bcff54ca09e87b477957da, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CelCurveTexture:
@@ -104,7 +103,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 60024e6ba6e955747a35de7d07a435c0, type: 3}
+        m_Texture: {fileID: 2800000, guid: cd5039ae1fe6fcc4e9ad639e70348b86, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
