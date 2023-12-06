@@ -1,4 +1,5 @@
 using System.Collections;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -20,13 +21,15 @@ namespace ForsakenLegacy
         public float SprintSpeed = 5.335f;
 
         [Range(0.0f, 0.3f)]
-        public float RotationSmoothTime = 0.12f;
+        private float RotationSmoothTime = 0.12f;
         
-        public float SpeedChangeRate = 10.0f;
+        private float SpeedChangeRate = 10.0f;
 
         // Attack
         public bool isAttacking;
+        private bool isAttackingCheck = true;
         private float maxComboDelay = 1;
+        public GameObject weapon;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -37,9 +40,9 @@ namespace ForsakenLegacy
         public float FallTimeout = 0.15f;
 
         [Header("Player Grounded")]
-        public bool Grounded = true;
-        public float GroundedOffset = -0.14f;
-        public float GroundedRadius = 0.28f;
+        private bool Grounded = true;
+        private float GroundedOffset = -0.14f;
+        private float GroundedRadius = 0.28f;
         public LayerMask GroundLayers;
         
         //Camera
@@ -61,6 +64,9 @@ namespace ForsakenLegacy
         private int _animIDCombo1;
         private int _animIDCombo2;
         private int _animIDCombo3;
+
+        // Feedbacks
+        public MMFeedbacks activateWeapon;
 
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -282,14 +288,22 @@ namespace ForsakenLegacy
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2-End"))
             {
                 isAttacking = true;
+                HandleWeapon();
             }
             else
             {
                 isAttacking = false;
+                HandleWeapon();
             }
         }
 
-        
+        private void HandleWeapon(){
+            if (isAttackingCheck != isAttacking){
+                isAttackingCheck = isAttacking;
+                weapon.gameObject.SetActive(isAttacking);
+                activateWeapon?.PlayFeedbacks();
+            }
+        }
 
         private void SetRootMotion(){
             if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
