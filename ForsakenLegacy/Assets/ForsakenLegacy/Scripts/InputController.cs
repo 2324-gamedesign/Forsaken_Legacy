@@ -16,7 +16,7 @@ namespace ForsakenLegacy
 		public bool attack;
 		public int noOfClicks;
     	public float lastClickedTime;
-		public float clickCooldown = 0.2f;
+		public float clickCooldown = 0.5f;
 
 
 		[Header("Movement Settings")]

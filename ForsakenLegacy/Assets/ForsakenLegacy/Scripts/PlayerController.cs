@@ -64,6 +64,8 @@ namespace ForsakenLegacy
         private int _animIDCombo1;
         private int _animIDCombo2;
         private int _animIDCombo3;
+        private int _animIDNoOfClicks;
+
 
         // Feedbacks
         public MMFeedbacks activateWeapon;
@@ -127,6 +129,7 @@ namespace ForsakenLegacy
             _animIDCombo1 = Animator.StringToHash("Combo1");
             _animIDCombo2 = Animator.StringToHash("Combo2");  
             _animIDCombo3 = Animator.StringToHash("Combo3");
+            _animIDNoOfClicks = Animator.StringToHash("NoOfClicks");
         }
 
         private void GroundedCheck()
@@ -272,13 +275,14 @@ namespace ForsakenLegacy
             {
                 _animator.SetBool(_animIDCombo1, true);
             }
-            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1"))
+            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1-End"))
             {
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, true);
             }
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2"))
+            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2-End"))
             {
+                _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, false);
                 _animator.SetBool(_animIDCombo3, true);
             }
@@ -312,24 +316,26 @@ namespace ForsakenLegacy
                 _animator.applyRootMotion = true;
             }
         }
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                if (FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-                }
-            }
-        }
 
-        private void OnLand(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
-        }
+        
+        // private void OnFootstep(AnimationEvent animationEvent)
+        // {
+        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
+        //     {
+        //         if (FootstepAudioClips.Length > 0)
+        //         {
+        //             var index = Random.Range(0, FootstepAudioClips.Length);
+        //             AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+        //         }
+        //     }
+        // }
+
+        // private void OnLand(AnimationEvent animationEvent)
+        // {
+        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
+        //     {
+        //         AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+        //     }
+        // }
     }
 }
