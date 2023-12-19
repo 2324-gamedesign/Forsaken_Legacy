@@ -30,8 +30,6 @@ namespace ForsakenLegacy
         private bool isAttackingCheck = true;
         private float maxComboDelay = 1;
         public GameObject weapon;
-
-        public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    
@@ -41,7 +39,7 @@ namespace ForsakenLegacy
 
         [Header("Player Grounded")]
         private bool Grounded = true;
-        private float GroundedOffset = -0.14f;
+        public float GroundedOffset = -0.14f;
         private float GroundedRadius = 0.28f;
         public LayerMask GroundLayers;
         
@@ -64,7 +62,6 @@ namespace ForsakenLegacy
         private int _animIDCombo1;
         private int _animIDCombo2;
         private int _animIDCombo3;
-        private int _animIDNoOfClicks;
 
 
         // Feedbacks
@@ -107,6 +104,15 @@ namespace ForsakenLegacy
             _fallTimeoutDelta = FallTimeout;
         }
 
+        private void AssignAnimationIDs()
+        {
+            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDGrounded = Animator.StringToHash("Grounded");
+            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDCombo1 = Animator.StringToHash("Combo1");
+            _animIDCombo2 = Animator.StringToHash("Combo2");
+            _animIDCombo3 = Animator.StringToHash("Combo3");
+        }
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
@@ -115,22 +121,12 @@ namespace ForsakenLegacy
             if (canMove == true) {Move();}
             HandleGravity();
             GroundedCheck();
-    			    
-            Attack();
+
+            if(_input.noOfClicks > 0) {Attack();}
             HandleAttackAnim();
             SetRootMotion();
         }
 
-        private void AssignAnimationIDs()
-        {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDCombo1 = Animator.StringToHash("Combo1");
-            _animIDCombo2 = Animator.StringToHash("Combo2");  
-            _animIDCombo3 = Animator.StringToHash("Combo3");
-            _animIDNoOfClicks = Animator.StringToHash("NoOfClicks");
-        }
 
         private void GroundedCheck()
         {
@@ -243,15 +239,15 @@ namespace ForsakenLegacy
         }
 
         private void HandleAttackAnim(){
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _input.noOfClicks < 1)
             {
                 _animator.SetBool(_animIDCombo1, false);
             }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _input.noOfClicks < 2)
             {
                 _animator.SetBool(_animIDCombo2, false);
             }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash3"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3"))
             {
                 _animator.SetBool(_animIDCombo3, false);
                 _input.noOfClicks = 0;
@@ -266,6 +262,17 @@ namespace ForsakenLegacy
             {
                 _input.noOfClicks = 0;
             }
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
+            {
+                isAttacking = true;
+                HandleWeapon();
+            }
+            else
+            {
+                isAttacking = false;
+                HandleWeapon();
+            }
         }
         
         private void Attack() {
@@ -275,27 +282,16 @@ namespace ForsakenLegacy
             {
                 _animator.SetBool(_animIDCombo1, true);
             }
-            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1-End"))
+            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End"))
             {
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, true);
             }
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2-End"))
+            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
             {
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, false);
                 _animator.SetBool(_animIDCombo3, true);
-            }
-
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Slash2-End"))
-            {
-                isAttacking = true;
-                HandleWeapon();
-            }
-            else
-            {
-                isAttacking = false;
-                HandleWeapon();
             }
         }
 
@@ -316,26 +312,5 @@ namespace ForsakenLegacy
                 _animator.applyRootMotion = true;
             }
         }
-
-        
-        // private void OnFootstep(AnimationEvent animationEvent)
-        // {
-        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
-        //     {
-        //         if (FootstepAudioClips.Length > 0)
-        //         {
-        //             var index = Random.Range(0, FootstepAudioClips.Length);
-        //             AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        //         }
-        //     }
-        // }
-
-        // private void OnLand(AnimationEvent animationEvent)
-        // {
-        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
-        //     {
-        //         AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        //     }
-        // }
     }
 }
