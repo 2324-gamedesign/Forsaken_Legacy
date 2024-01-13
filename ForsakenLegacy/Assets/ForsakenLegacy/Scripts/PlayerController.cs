@@ -1,6 +1,8 @@
 using System.Collections;
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -28,6 +30,7 @@ namespace ForsakenLegacy
         // Attack
         public bool isAttacking;
         private bool isAttackingCheck = true;
+        public RigLayer rigLayer;
         private float maxComboDelay = 1;
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
@@ -287,7 +290,7 @@ namespace ForsakenLegacy
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, true);
             }
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
+            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") )
             {
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, false);
@@ -300,6 +303,11 @@ namespace ForsakenLegacy
                 isAttackingCheck = isAttacking;
                 weapon.gameObject.SetActive(isAttacking);
                 activateWeapon?.PlayFeedbacks();
+                if(isAttacking){
+                    rigLayer.rig.weight = 1;
+                }else{
+                    rigLayer.rig.weight = 0;
+                }
             }
         }
 
