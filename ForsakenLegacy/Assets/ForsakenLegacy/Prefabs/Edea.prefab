@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 6247794598742670815}
   - component: {fileID: 566949685220042620}
   - component: {fileID: 566949685220042619}
+  - component: {fileID: 4077300670130055645}
   - component: {fileID: 566949685220042618}
   - component: {fileID: 566949685220042621}
   m_Layer: 0
@@ -364,10 +365,8 @@ MonoBehaviour:
   canMove: 1
   MoveSpeed: 2
   SprintSpeed: 7
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 15
   isAttacking: 0
-  LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
+  weapon: {fileID: 0}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
   - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
@@ -379,17 +378,34 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
+  rigLayer:
+    m_Rig: {fileID: 0}
+    m_Active: 0
   FootstepAudioVolume: 0.5
   Gravity: -1
   FallTimeout: 0.15
-  Grounded: 1
   GroundedOffset: -0.14
-  GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
     m_Bits: 512
   _mainCamera: {fileID: 0}
+  activateWeapon: {fileID: 0}
   _animator: {fileID: 6247794598742670815}
+--- !u!114 &4077300670130055645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801460885278473503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33cb73273b0fec49a60efdd21b3acdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 566949685220042618}
+  isInAbility: 0
+  dashIndicator: {fileID: 0}
 --- !u!114 &566949685220042618
 MonoBehaviour:
   m_ObjectHideFlags: 0

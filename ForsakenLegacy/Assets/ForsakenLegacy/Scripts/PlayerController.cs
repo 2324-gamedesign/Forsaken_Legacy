@@ -19,28 +19,27 @@ namespace ForsakenLegacy
 
         public bool canMove = true;
         public float MoveSpeed = 2.0f;
-
         public float SprintSpeed = 5.335f;
+        private bool isInAbility;
 
-        [Range(0.0f, 0.3f)]
         private float RotationSmoothTime = 0.12f;
-        
         private float SpeedChangeRate = 10.0f;
 
         // Attack
         public bool isAttacking;
         private bool isAttackingCheck = true;
-        public RigLayer rigLayer;
         private float maxComboDelay = 1;
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
+        public RigLayer rigLayer;
+
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    
         public float Gravity = -15.0f;
 
         public float FallTimeout = 0.15f;
 
-        [Header("Player Grounded")]
+
         private bool Grounded = true;
         public float GroundedOffset = -0.14f;
         private float GroundedRadius = 0.28f;
@@ -105,6 +104,8 @@ namespace ForsakenLegacy
             AssignAnimationIDs();
         
             _fallTimeoutDelta = FallTimeout;
+            isInAbility = gameObject.GetComponent<PlayerAbility>().isInAbility;
+
         }
 
         private void AssignAnimationIDs()
@@ -121,11 +122,11 @@ namespace ForsakenLegacy
             _hasAnimator = TryGetComponent(out _animator);
             canMove = !isAttacking;
 
-            if (canMove == true) {Move();}
+            if (canMove) {Move();}
             HandleGravity();
             GroundedCheck();
 
-            if(_input.noOfClicks > 0) {Attack();}
+            if(_input.noOfClicks > 0 && !isInAbility) {Attack();}
             HandleAttackAnim();
             SetRootMotion();
         }

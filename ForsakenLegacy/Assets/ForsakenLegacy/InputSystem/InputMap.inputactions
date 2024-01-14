@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "Attack",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "385cfd47-8d2c-4702-87b4-4a946e18e79f",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -54,6 +54,24 @@
                     "name": "Menu",
                     "type": "Button",
                     "id": "57fb4a85-8b08-416c-aa45-91dc25808e92",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "1993fe45-e775-4987-a77b-3ade4b3dba56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "9f39e35a-1353-44c7-b8c6-9e373f630137",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -262,7 +280,7 @@
                 {
                     "name": "",
                     "id": "d63eb342-e791-4484-8b53-0f4fd4a7c415",
-                    "path": "<Keyboard>/1",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -278,6 +296,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4d50b21-ff78-4d37-bde9-0a2b9dfaa9fe",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c7164ed-1897-4a27-80c2-4bff04b6ca69",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

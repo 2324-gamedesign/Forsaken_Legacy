@@ -58,6 +58,5 @@ namespace ForsakenLegacy
             	    noOfClicks++;
             	}
 			}
-
 	}
 }
