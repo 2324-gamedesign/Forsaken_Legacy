@@ -266,6 +266,11 @@ namespace ForsakenLegacy
                 _input.noOfClicks = 0;
             }
 
+
+            if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End")) {
+                rigLayer.rig.weight = 0; 
+            }
+
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
             {
                 isAttacking = true;
@@ -305,11 +310,12 @@ namespace ForsakenLegacy
                 activateWeapon?.PlayFeedbacks();
                 if(isAttacking){
                     rigLayer.rig.weight = 1;
-                }else{
-                    rigLayer.rig.weight = 0;
+                }
+                else{
+                    rigLayer.rig.weight = 0; 
+                }
                 }
             }
-        }
 
         private void SetRootMotion(){
             if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
