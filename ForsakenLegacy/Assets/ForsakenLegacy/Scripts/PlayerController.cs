@@ -291,13 +291,19 @@ namespace ForsakenLegacy
             {
                 _animator.SetBool(_animIDCombo1, true);
             }
+            
             if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End"))
             {
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, true);
             }
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") )
+            
+            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2"))
             {
+                _animator.SetBool(_animIDCombo1, false);
+                _animator.SetBool(_animIDCombo2, false);
+                _animator.SetBool(_animIDCombo3, true);
+            }else if(_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End")){
                 _animator.SetBool(_animIDCombo1, false);
                 _animator.SetBool(_animIDCombo2, false);
                 _animator.SetBool(_animIDCombo3, true);

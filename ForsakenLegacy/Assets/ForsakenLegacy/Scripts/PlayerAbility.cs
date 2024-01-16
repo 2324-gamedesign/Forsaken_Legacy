@@ -9,6 +9,8 @@ namespace ForsakenLegacy
     {
         public PlayerInput _playerInput;
         private CharacterController characterController;
+
+         private PlayerController playerController;
         private bool isAttacking;
         public bool isInAbility;
         public Canvas dashCanvas;
@@ -27,6 +29,7 @@ namespace ForsakenLegacy
         {
             isAttacking = gameObject.GetComponent<PlayerController>().isAttacking;
             characterController = GetComponent<CharacterController>();
+            playerController = GetComponent<PlayerController>();
             dashCanvas.enabled = false;
 
             dashAction = _playerInput.actions.FindAction("Dash");
@@ -42,6 +45,11 @@ namespace ForsakenLegacy
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (isIndicatorActive) UpdateIndicatorPosition();
+
+            if (isInAbility){
+                playerController.enabled = false;
+                
+            }else{playerController.enabled = true;}
         }
 
         void OnDashTargetingStart(InputAction.CallbackContext context)
