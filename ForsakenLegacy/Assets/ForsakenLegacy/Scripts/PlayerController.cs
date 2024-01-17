@@ -2,6 +2,7 @@ using System.Collections;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UI;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -32,6 +33,10 @@ namespace ForsakenLegacy
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
         public RigLayer rigLayer;
+        public Image dashCooldownImage;
+
+        // Dash
+        public bool isDashing;
 
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    
@@ -104,8 +109,7 @@ namespace ForsakenLegacy
             AssignAnimationIDs();
         
             _fallTimeoutDelta = FallTimeout;
-            isInAbility = gameObject.GetComponent<PlayerAbility>().isInAbility;
-
+            isDashing = gameObject.GetComponent<DashAbility>().isDashing;
         }
 
         private void AssignAnimationIDs()
@@ -126,7 +130,7 @@ namespace ForsakenLegacy
             HandleGravity();
             GroundedCheck();
 
-            if(_input.noOfClicks > 0 && !isInAbility) {Attack();}
+            if(_input.noOfClicks > 0 && !isDashing) {Attack();}
             HandleAttackAnim();
             SetRootMotion();
         }
