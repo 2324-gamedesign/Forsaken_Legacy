@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using DG.Tweening;
+using MoreMountains.Feedbacks;
 
 public class DashAbility : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class DashAbility : MonoBehaviour
 
     private InputAction dashAction;
     public float dashDistance = 5.0f;
-    private float dashDuration = 1f;
+    private float dashDuration = 0.1f;
     public bool isDashing = false;
     private bool canDash = true;
     private Vector3 dashDirection;
@@ -20,6 +20,9 @@ public class DashAbility : MonoBehaviour
     public float dashCooldown = 5f;
     public Image dashCooldownImage; 
 
+    public GameObject trail;
+    public MMFeedbacks dashParticles;
+    private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,9 @@ public class DashAbility : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         dashAction = _playerInput.actions.FindAction("Dash");
         dashAction.performed += OnDashPerformed;
+
+        _animator = GetComponent<Animator>();
+        Animator.StringToHash("Speed");
     }
 
     void OnDashPerformed(InputAction.CallbackContext context)
@@ -41,22 +47,24 @@ public class DashAbility : MonoBehaviour
         isDashing = true;
         canDash = false;
 
+        _animator.Play("Dash");
         FadeOut();
+
+        trail.SetActive(true);
+        dashParticles.PlayFeedbacks();
 
         // Store the current position, rotation, and y-coordinate
         Vector3 startPosition = transform.position;
         float startY = transform.position.y;
-        // Calculate the dash direction based on input or current rotation if not moving
+
         dashDirection = transform.forward;
-        // Disable character controller while dashing
         _controller.enabled = false;
 
-        // Perform a raycast in the dash direction
-        RaycastHit hit;
-        if (Physics.Raycast(startPosition, dashDirection, out hit, dashDistance, LayerMask.GetMask("Ground","Environment")))
+        // Perform a sphere cast in the dash direction
+        if (Physics.SphereCast(startPosition, _controller.radius, dashDirection, out RaycastHit hit, dashDistance, LayerMask.GetMask("Ground", "Environment")))
         {
             // Adjust the player's position to the point of contact with the obstacle
-            transform.position = hit.point;
+            transform.position = hit.point - dashDirection * _controller.radius;
         }
         else
         {
@@ -64,23 +72,24 @@ public class DashAbility : MonoBehaviour
             transform.position += dashDirection * dashDistance;
         }
 
-        // Reset y-coordinate to the initial value
+        yield return new WaitForSeconds(dashDuration);
+
         transform.position = new Vector3(transform.position.x, startY, transform.position.z);
         _controller.enabled = true;
 
-        // Reset the UI image's fill amount to full
+        FadeIn();
         dashCooldownImage.fillAmount = 1;
 
-        // Wait for the dash duration
-        yield return new WaitForSeconds(dashDuration);
         isDashing = false;
-        // Start the cooldown countdown
         StartCoroutine(DashCooldown());
+
+        yield return new WaitForSeconds(dashDuration);
+        trail.SetActive(false);
     }
     private IEnumerator DashCooldown()
     {
         float elapsedTime = 0f;
-        // Loop until the cooldown duration is reached
+
         while (elapsedTime < dashCooldown)
         {
             // Calculate the fill amount based on the remaining cooldown time
@@ -97,9 +106,20 @@ public class DashAbility : MonoBehaviour
     }
 
     public void FadeOut() {
-        Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(GetComponentInChildren<Renderer>().material.DOFade(0, 0.2f).SetEase(Ease.OutQuint));
-        mySequence.AppendInterval(1f);
-        mySequence.Rewind();
+        Renderer[] renderer = GetComponentsInChildren<Renderer>();
+
+        foreach(Renderer i in renderer)
+        i.enabled = false;
+        
+        Debug.Log("fade out");
+    }
+
+    public void FadeIn() {
+        Renderer[] renderer = GetComponentsInChildren<Renderer>();
+
+        foreach(Renderer i in renderer)
+        i.enabled = true;
+
+        Debug.Log("fade in");
     }
 }

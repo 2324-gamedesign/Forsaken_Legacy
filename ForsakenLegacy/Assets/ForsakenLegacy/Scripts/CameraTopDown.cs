@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CameraTopDown : MonoBehaviour
 {
-
     public float height = 10f;
     public float distance = 20f;
     public float angle = 45f;
@@ -13,21 +10,24 @@ public class CameraTopDown : MonoBehaviour
     public Transform player;
     private Vector3 refVelocity;
 
+    // Add a delay factor to control the delay between player movement and camera follow
+    public float followDelay = 0.5f;
+    private Vector3 targetPosition;
 
-    // Start is called before the first frame update
     void Start()
     {
         HandleCamera();
     }
 
-    // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         HandleCamera();
     }
 
     protected virtual void HandleCamera()
     {
-        if(!player){
+        if (!player)
+        {
             return;
         }
 
@@ -39,8 +39,16 @@ public class CameraTopDown : MonoBehaviour
         flatPlayerPos.y = 0f;
         Vector3 finalPos = flatPlayerPos + rotatedVector;
 
-        transform.position = Vector3.SmoothDamp(transform.position, finalPos, ref refVelocity, smoothSpeed);
+        // Set the target position with a delay
+        targetPosition = Vector3.Lerp(targetPosition, finalPos, Time.deltaTime / followDelay);
 
-        transform.LookAt(player.position);
+        // Smoothly move towards the target position
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref refVelocity, smoothSpeed);
+
+        // Apply the smoothed position to the camera's transform
+        transform.position = smoothedPosition;
+
+        // Keep the camera looking at the player without rotation
+        // transform.LookAt(player.position);
     }
 }
