@@ -35,9 +35,6 @@ namespace ForsakenLegacy
         public RigLayer rigLayer;
         public Image dashCooldownImage;
 
-        // Dash
-        public bool isDashing;
-
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    
         public float Gravity = -15.0f;
@@ -109,7 +106,6 @@ namespace ForsakenLegacy
             AssignAnimationIDs();
         
             _fallTimeoutDelta = FallTimeout;
-            isDashing = gameObject.GetComponent<DashAbility>().isDashing;
         }
 
         private void AssignAnimationIDs()
@@ -125,8 +121,9 @@ namespace ForsakenLegacy
         {
             _hasAnimator = TryGetComponent(out _animator);
             canMove = !isAttacking;
+            bool isDashing = gameObject.GetComponent<DashAbility>().isDashing;
 
-            if (canMove) {Move();}
+            if (canMove && !isDashing) {Move();}
             HandleGravity();
             GroundedCheck();
 

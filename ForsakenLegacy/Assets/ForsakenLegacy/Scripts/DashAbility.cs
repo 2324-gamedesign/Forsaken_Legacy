@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using MoreMountains.Feedbacks;
+using ForsakenLegacy;
 
 public class DashAbility : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class DashAbility : MonoBehaviour
 
     private InputAction dashAction;
     public float dashDistance = 5.0f;
-    private float dashDuration = 0.1f;
+    private float dashDuration = 0.2f;
     public bool isDashing = false;
     private bool canDash = true;
     private Vector3 dashDirection;
@@ -23,6 +24,7 @@ public class DashAbility : MonoBehaviour
     public GameObject trail;
     public MMFeedbacks dashParticles;
     private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,14 +34,20 @@ public class DashAbility : MonoBehaviour
         dashAction.performed += OnDashPerformed;
 
         _animator = GetComponent<Animator>();
-        Animator.StringToHash("Speed");
+
     }
 
     void OnDashPerformed(InputAction.CallbackContext context)
     {
-        if (!isDashing && canDash)
+        bool isAttacking = GetComponent<PlayerController>().isAttacking;
+        
+        if (!isDashing && canDash && !isAttacking)
         {
             StartCoroutine(PerformDash());
+        }
+        else
+        {
+            return;
         }
     }
     private IEnumerator PerformDash()
@@ -110,8 +118,6 @@ public class DashAbility : MonoBehaviour
 
         foreach(Renderer i in renderer)
         i.enabled = false;
-        
-        Debug.Log("fade out");
     }
 
     public void FadeIn() {
@@ -119,7 +125,5 @@ public class DashAbility : MonoBehaviour
 
         foreach(Renderer i in renderer)
         i.enabled = true;
-
-        Debug.Log("fade in");
     }
 }
