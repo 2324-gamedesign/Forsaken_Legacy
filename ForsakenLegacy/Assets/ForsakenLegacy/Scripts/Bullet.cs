@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collision collision)
     {
         // Check if the colliding object has the specified ground tag
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Environment"))
@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator DestroyBullet()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(10);
         Destroy(gameObject);
     }
 }
