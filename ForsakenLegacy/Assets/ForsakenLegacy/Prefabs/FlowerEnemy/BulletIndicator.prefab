@@ -59,14 +59,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23958707, g: 0.7169812, b: 0.21306516, a: 0.7137255}
+  m_Color: {r: 0.67054987, g: 0.14417945, b: 0.6792453, a: 0.5803922}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f7876974a1b60ed4ca3dfd37f229386f, type: 3}
+  m_Sprite: {fileID: -4594720345167028440, guid: fe42c8b526e77e54ab91d0590272d9e8,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,6 +89,8 @@ GameObject:
   - component: {fileID: 7612930703314198968}
   - component: {fileID: 6004674977378908206}
   - component: {fileID: 3972749703867352435}
+  - component: {fileID: 899772628290364471}
+  - component: {fileID: 4979365320937650267}
   m_Layer: 5
   m_Name: BulletIndicator
   m_TagString: Untagged
@@ -113,7 +116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -17, y: 0.92}
+  m_AnchoredPosition: {x: -17, y: 0.9200134}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7612930703314198968
@@ -177,3 +180,30 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!65 &899772628290364471
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142030844027650263}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.6581154, y: 1, z: 5.2963257}
+  m_Center: {x: 0.01725769, y: 0, z: -0.11371231}
+--- !u!114 &4979365320937650267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142030844027650263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f704f358cef0445a53b465c86b3c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAreaPrefab: {fileID: 6075192554148330269, guid: 9907d1d530bf4b34b92530992bb22344,
+    type: 3}

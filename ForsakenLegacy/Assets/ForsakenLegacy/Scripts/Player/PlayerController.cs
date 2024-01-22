@@ -33,7 +33,6 @@ namespace ForsakenLegacy
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
         public RigLayer rigLayer;
-        public Image dashCooldownImage;
 
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    

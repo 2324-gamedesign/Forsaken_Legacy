@@ -1,4 +1,5 @@
 using System.Collections;
+using MoreMountains.Feedbacks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,9 +14,12 @@ public class FlowerEnemy : MonoBehaviour
     public GameObject bulletPrefab;
     private GameObject bullet;
     public GameObject indicatorPrefab;
+    private GameObject indicator;
 
     public float bulletSpeed = 5f;
     public float curveForce = 20f;
+
+    public MMFeedbacks chargeFeedback;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +32,6 @@ public class FlowerEnemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canSee = true;
-            Debug.Log("Player entered the area of attack");
             InvokeRepeating("StartShoot", 0.5f, 5f);
         }
     }
@@ -38,7 +41,6 @@ public class FlowerEnemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canSee = false;
-            Debug.Log("Player exited the area of attack");
             CancelInvoke();
         }
     }
@@ -47,7 +49,6 @@ public class FlowerEnemy : MonoBehaviour
     {
         if (canSee && GetComponentInChildren<Renderer>().isVisible)
         {
-            Debug.Log("Shooting!");
             _animator.SetTrigger("Shoot");
         }
         else
@@ -59,9 +60,11 @@ public class FlowerEnemy : MonoBehaviour
     // <<--- Method Called in Animation Events --->>
     private void CreateBullet()
     {
+        chargeFeedback.PlayFeedbacks();
         Vector3 bulletPos = transform.position;
         bulletPos.y += 0.5f;
         bullet = Instantiate(bulletPrefab, bulletPos, transform.rotation);
+        bullet.transform.SetParent(transform);
     }
 
     private void Shoot()
@@ -97,6 +100,7 @@ public class FlowerEnemy : MonoBehaviour
     {
         landingPosition.y = player.transform.position.y - 0.3f;
         // Instantiate the indicator at the landing position
-        GameObject indicator = Instantiate(indicatorPrefab, landingPosition, Quaternion.identity);
+        indicator = Instantiate(indicatorPrefab, landingPosition, Quaternion.identity);
+        indicator.transform.SetParent(transform);
     }
 }

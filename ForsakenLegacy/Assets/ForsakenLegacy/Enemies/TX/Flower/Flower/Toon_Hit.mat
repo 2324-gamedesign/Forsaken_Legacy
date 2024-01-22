@@ -7,18 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BulletMat
+  m_Name: Toon_Hit
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_ValidKeywords:
-  - _EMISSION
   - _HALFTONESHAPE_CROSS
-  - _OUTLINE
   - _RIMLIGHTING_ON
   - _SPECULARHIGHLIGHTS_OFF
   - _SPECULAR_SETUP
   - _TOON_SHADING_ON
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
@@ -156,7 +154,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DiffuseStep: -0.47
     - _DitherTexelSize: 1
-    - _DitherThreshold: 0.495
+    - _DitherThreshold: 1
     - _DotSize: 0.8
     - _DotTilling: 30
     - _DstBlend: 0
@@ -191,7 +189,7 @@ Material:
     - _HairSpecularSize: 0.8
     - _HairSpecularSmoothness: 0.1
     - _HalfToneDiffuseStep: -0.3
-    - _HalfToneEnabled: 1
+    - _HalfToneEnabled: 0
     - _HalfToneIncludeReceivedShadow: 0
     - _HalfToneShape: 2
     - _HalfToneUvMode: 1
@@ -215,7 +213,7 @@ Material:
     - _NoiseStrength: 0.1
     - _OcclusionStrength: 1
     - _OutlineDepthOffset: 0
-    - _OutlineEnabled: 1
+    - _OutlineEnabled: 0
     - _OutlineMode: 0
     - _OutlineScale: 1
     - _OutlineWidth: 5
@@ -274,14 +272,14 @@ Material:
     - _ZWrite: 1
     - _brushScale: 8
     m_Colors:
-    - _BaseColor: {r: 0.7075472, g: 0.103462085, b: 0.36116853, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorDim: {r: 0.5660378, g: 0.258989, b: 0.258989, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _ColorDimExtra: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _ColorDimSteps: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _ColorGradient: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
-    - _EmissionColor: {r: 0.9339623, g: 0.074893214, b: 0.4574171, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FaceFrontDirection: {r: 0, g: 0, b: 1, a: 0}
     - _FaceRightDirection: {r: 1, g: 0, b: 0, a: 0}
     - _FlatGlitterColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
@@ -293,7 +291,7 @@ Material:
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineDistancFade: {r: -97.52067, g: 119.628075, b: 0, a: 0}
-    - _RimColor: {r: 0.059086837, g: 0.3207547, b: 0.05900677, a: 1}
+    - _RimColor: {r: 0.754717, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpherizeNormalOrigin: {r: 0, g: 0, b: 0, a: 0}

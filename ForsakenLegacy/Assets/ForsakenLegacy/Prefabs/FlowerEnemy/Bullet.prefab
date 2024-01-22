@@ -45,7 +45,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.13833743, g: 0.46226418, b: 0.115566045, a: 1}
+  m_Color: {r: 0.8018868, g: 0.22316661, b: 0.7401865, a: 1}
   m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
@@ -260,10 +260,9 @@ GameObject:
   - component: {fileID: 8333842359372403604}
   - component: {fileID: 8333842359372403607}
   - component: {fileID: 933586757869615832}
-  - component: {fileID: 1927533724461355400}
   m_Layer: 8
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,15 +362,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1927533724461355400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8333842359372403609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 862aa9a44156e1346b25ddf2335825ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
