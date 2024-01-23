@@ -1,8 +1,10 @@
+using Ilumisoft.VisualStateMachine;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public StateMachine stateMachine;
 
     private void Awake()
     {
@@ -17,5 +19,18 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    // Add your game management functions here
+    public void SetNeutralState()
+    {
+        stateMachine.Trigger("Neutral");
+    }
+
+    public void SetDialogueState()
+    {
+        stateMachine.Trigger("Dialogue");
+    }
+    public void QuitGame()
+    {
+
+    }
 }
+
