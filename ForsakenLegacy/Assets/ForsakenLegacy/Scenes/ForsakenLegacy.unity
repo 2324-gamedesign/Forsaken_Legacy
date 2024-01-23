@@ -20983,7 +20983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1686897734
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21554,6 +21554,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
+        type: 3}
+      propertyPath: MoveSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
@@ -25946,7 +25951,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1983939317}
     - target: {fileID: 7575853120920022340, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
       propertyPath: runSpeed
@@ -25995,17 +26000,17 @@ PrefabInstance:
     - target: {fileID: 7973745441083294015, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.74741757
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7973745441083294015, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.74741757
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7973745441083294015, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.74741757
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7973745441083294015, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
@@ -26056,6 +26061,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7973745441083294015, guid: 3ff5393e9daad284fac671fce3e53544,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8141251898775643323, guid: 3ff5393e9daad284fac671fce3e53544,
         type: 3}
