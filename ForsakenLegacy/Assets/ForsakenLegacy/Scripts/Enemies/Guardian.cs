@@ -10,10 +10,14 @@ public class Guardian : MonoBehaviour
     public float attackRange = 2f;
 
     protected float timerSinceLostTarget = 0.0f;
-    private float timeToLostTarget = 3.0f;
+    private float timeToLostTarget = 1.0f;
     private Vector3 originalPosition;
     private bool targetInSight = false;
     private bool isPursuing = false;
+
+    public float idleSpeed = 0f;
+    public float walkSpeed = 1f;
+    public float runSpeed = 2f;
 
     public GameObject _target = null;
     private NavMeshAgent _navMeshAgent;
@@ -28,9 +32,10 @@ public class Guardian : MonoBehaviour
 
     void Update()
     {
+        _animator.SetFloat("Speed", _navMeshAgent.speed);
         if (_target)
         {
-
+            CheckForPlayerInSight();
             if (targetInSight)
             {
                 // Start pursuing the player
@@ -38,8 +43,7 @@ public class Guardian : MonoBehaviour
             }
             else
             {
-                // Check if the player is in sight
-                CheckForPlayerInSight();
+                return;
             }
         }
     }
@@ -77,13 +81,14 @@ public class Guardian : MonoBehaviour
         }
 
         // If the player is not in sight, start counting time since lost target
-        if (!targetInSight)
+        if (!targetInSight && isPursuing)
         {
             timerSinceLostTarget += Time.deltaTime;
 
             // If enough time has passed, return to position
             if (timerSinceLostTarget >= timeToLostTarget)
             {
+                StopPursuit();
                 ReturnToOriginalPosition();
             }
         }
@@ -91,9 +96,18 @@ public class Guardian : MonoBehaviour
 
     void StartPursuit()
     {
+
         // Start pursuing the player
         _navMeshAgent.SetDestination(_target.transform.position);
+        _navMeshAgent.speed = runSpeed;
         isPursuing = true;
+        Debug.Log("Pursuing player");
+    }
+
+    void StopPursuit()
+    {
+        isPursuing = false;
+        _navMeshAgent.ResetPath();
     }
 
     void ReturnToOriginalPosition()
@@ -102,6 +116,7 @@ public class Guardian : MonoBehaviour
         if (!isPursuing)
         {
             _navMeshAgent.SetDestination(originalPosition);
+            _navMeshAgent.speed = walkSpeed;
         }
     }
 
@@ -109,5 +124,16 @@ public class Guardian : MonoBehaviour
     {
         // Trigger the attack animation or perform attack logic here
         _animator.SetTrigger("Attack");
+    }
+
+    void SetStop()
+    {
+        // isAttacking = true;
+        _navMeshAgent.speed = idleSpeed;
+    }
+    void SetGo()
+    {
+        // isAttacking = false;
+        _navMeshAgent.speed = runSpeed;
     }
 }
