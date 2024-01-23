@@ -14961,6 +14961,7 @@ GameObject:
   - component: {fileID: 8842400182999384695}
   - component: {fileID: 9024155250874679985}
   - component: {fileID: 9024155250874679993}
+  - component: {fileID: -7871144247685354997}
   m_Layer: 0
   m_Name: Edea
   m_TagString: Player
@@ -15048,23 +15049,6 @@ MonoBehaviour:
   canMove: 1
   MoveSpeed: 2
   SprintSpeed: 7
-  isAttacking: 0
-  weapon: {fileID: 4731159357442614739}
-  FootstepAudioClips:
-  - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
-  - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
-  - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
-  - {fileID: 8300000, guid: 1a91fcd19acf1e54bba0945d9f390849, type: 3}
-  - {fileID: 8300000, guid: 14e8a8d2158bec840b56c54f5266e692, type: 3}
-  - {fileID: 8300000, guid: 29841e7d5bbfb5b419c9ad16ca8bc4c1, type: 3}
-  - {fileID: 8300000, guid: dd1af302b8902684d9381de1f2d3a5af, type: 3}
-  - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
-  - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
-  - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
-  rigLayer:
-    m_Rig: {fileID: 8842400184595153414}
-    m_Active: 0
-  dashCooldownImage: {fileID: 0}
   FootstepAudioVolume: 0.5
   Gravity: -10
   FallTimeout: 0.15
@@ -15073,7 +15057,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _mainCamera: {fileID: 0}
-  activateWeapon: {fileID: 8842400184249855785}
   _animator: {fileID: 3160420520397199573}
 --- !u!114 &8842400182999384688
 MonoBehaviour:
@@ -15167,6 +15150,26 @@ MonoBehaviour:
   dashCooldownImage: {fileID: 0}
   trail: {fileID: 8842400182860278966}
   dashParticles: {fileID: 8842400183624623016}
+--- !u!114 &-7871144247685354997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8536553095858804757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06075a195a18ca48b42a1c8f74302bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAttacking: 0
+  weapon: {fileID: 0}
+  FootstepAudioClips: []
+  rigLayer:
+    m_Rig: {fileID: 0}
+    m_Active: 0
+  _animator: {fileID: 0}
+  activateWeapon: {fileID: 0}
 --- !u!1 &8739197007850106401
 GameObject:
   m_ObjectHideFlags: 0

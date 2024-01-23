@@ -10,7 +10,7 @@ public class Damageable : MonoBehaviour
     private Collider _collider;
     private bool isInvulnerable;
     private float timeSinceLastHit;
-    private float invulnerabiltyTime = 2.0f;
+    private float invulnerabiltyTime = 0.2f;
 
     private float hitForwardRotation = 360.0f;
     private float hitAngle = 360.0f;
@@ -86,6 +86,7 @@ public class Damageable : MonoBehaviour
 
     private void OnDeath()
     {
+        hitFeedback.PlayFeedbacks(); 
         deathFeedback.PlayFeedbacks();
     }
 }

@@ -27,7 +27,7 @@ namespace ForsakenLegacy
 
         void Start()
         {
-            isAttacking = gameObject.GetComponent<PlayerController>().isAttacking;
+            // isAttacking = gameObject.GetComponent<PlayerController>().isAttacking;
             characterController = GetComponent<CharacterController>();
             playerController = GetComponent<PlayerController>();
             dashCanvas.enabled = false;

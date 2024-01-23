@@ -39,7 +39,7 @@ public class DashAbility : MonoBehaviour
 
     void OnDashPerformed(InputAction.CallbackContext context)
     {
-        bool isAttacking = GetComponent<PlayerController>().isAttacking;
+        bool isAttacking = GetComponent<AttackMelee>().isAttacking;
         
         if (!isDashing && canDash && !isAttacking)
         {

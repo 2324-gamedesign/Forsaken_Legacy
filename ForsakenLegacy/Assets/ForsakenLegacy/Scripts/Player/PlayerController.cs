@@ -26,14 +26,6 @@ namespace ForsakenLegacy
         private float RotationSmoothTime = 0.12f;
         private float SpeedChangeRate = 10.0f;
 
-        // Attack
-        public bool isAttacking;
-        private bool isAttackingCheck = true;
-        private float maxComboDelay = 1;
-        public GameObject weapon;
-        public AudioClip[] FootstepAudioClips;
-        public RigLayer rigLayer;
-
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
    
         public float Gravity = -15.0f;
@@ -62,13 +54,6 @@ namespace ForsakenLegacy
         private int _animIDSpeed;
         private int _animIDGrounded;
         private int _animIDMotionSpeed;
-        private int _animIDCombo1;
-        private int _animIDCombo2;
-        private int _animIDCombo3;
-
-
-        // Feedbacks
-        public MMFeedbacks activateWeapon;
 
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -112,23 +97,18 @@ namespace ForsakenLegacy
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDCombo1 = Animator.StringToHash("Combo1");
-            _animIDCombo2 = Animator.StringToHash("Combo2");
-            _animIDCombo3 = Animator.StringToHash("Combo3");
         }
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
-            canMove = !isAttacking;
             bool isDashing = gameObject.GetComponent<DashAbility>().isDashing;
+            bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
+            _hasAnimator = TryGetComponent(out _animator);
+
+            canMove = !isAttacking;
 
             if (canMove && !isDashing) {Move();}
             HandleGravity();
             GroundedCheck();
-
-            if(_input.noOfClicks > 0 && !isDashing) {Attack();}
-            HandleAttackAnim();
-            SetRootMotion();
         }
 
 
@@ -242,96 +222,6 @@ namespace ForsakenLegacy
             }
         }
 
-        private void HandleAttackAnim(){
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _input.noOfClicks < 1)
-            {
-                _animator.SetBool(_animIDCombo1, false);
-            }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _input.noOfClicks < 2)
-            {
-                _animator.SetBool(_animIDCombo2, false);
-            }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3"))
-            {
-                _animator.SetBool(_animIDCombo3, false);
-                _input.noOfClicks = 0;
-            }
-    
-            if (_input.noOfClicks == 0){
-                _animator.SetBool(_animIDCombo1, false);
-                _animator.SetBool(_animIDCombo2, false);
-                _animator.SetBool(_animIDCombo3, false);
-            }
-            if (Time.time - _input.lastClickedTime > maxComboDelay)
-            {
-                _input.noOfClicks = 0;
-            }
 
-
-            if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3")) {
-                rigLayer.rig.weight = 0; 
-            }
-
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
-            {
-                isAttacking = true;
-                HandleWeapon();
-            }
-            else
-            {
-                isAttacking = false;
-                HandleWeapon();
-            }
-        }
-        
-        private void Attack() {
-            _input.noOfClicks = Mathf.Clamp(_input.noOfClicks, 0, 3);
-
-            if (_input.noOfClicks == 1 && _animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run"))
-            {
-                _animator.SetBool(_animIDCombo1, true);
-            }
-            
-            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End"))
-            {
-                _animator.SetBool(_animIDCombo1, false);
-                _animator.SetBool(_animIDCombo2, true);
-            }
-            
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2"))
-            {
-                _animator.SetBool(_animIDCombo1, false);
-                _animator.SetBool(_animIDCombo2, false);
-                _animator.SetBool(_animIDCombo3, true);
-            }else if(_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End")){
-                _animator.SetBool(_animIDCombo1, false);
-                _animator.SetBool(_animIDCombo2, false);
-                _animator.SetBool(_animIDCombo3, true);
-            }
-        }
-
-        private void HandleWeapon(){
-            if (isAttackingCheck != isAttacking){
-                isAttackingCheck = isAttacking;
-                weapon.gameObject.SetActive(isAttacking);
-                activateWeapon?.PlayFeedbacks();
-                if(isAttacking){
-                    rigLayer.rig.weight = 1;
-                }
-                else{
-                    rigLayer.rig.weight = 0; 
-                }
-                }
-            }
-
-        private void SetRootMotion(){
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
-                _animator.applyRootMotion = false;
-            }
-            else
-            {
-                _animator.applyRootMotion = true;
-            }
-        }
     }
 }
