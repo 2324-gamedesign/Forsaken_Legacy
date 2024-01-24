@@ -1,139 +1,193 @@
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Guardian : MonoBehaviour
+namespace ForsakenLegacy
 {
-    public float fieldOfViewAngle = 110f;
-    public float fieldOfViewDistance = 10f;
-    public float attackRange = 2f;
-
-    protected float timerSinceLostTarget = 0.0f;
-    private float timeToLostTarget = 1.0f;
-    private Vector3 originalPosition;
-    private bool targetInSight = false;
-    private bool isPursuing = false;
-
-    public float idleSpeed = 0f;
-    public float walkSpeed = 1f;
-    public float runSpeed = 2f;
-
-    public GameObject _target = null;
-    private NavMeshAgent _navMeshAgent;
-    private Animator _animator;
-
-    void Start()
+    public class Guardian : MonoBehaviour
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _animator = GetComponent<Animator>();
-        originalPosition = transform.position;
-    }
+        public float fieldOfViewAngle = 110f;
+        public float fieldOfViewDistance = 10f;
+        public Collider attackRange;
 
-    void Update()
-    {
-        _animator.SetFloat("Speed", _navMeshAgent.speed);
-        if (_target)
+        private Vector3 originalPosition;
+        protected float timerSinceLostTarget = 0.0f;
+        private float timeToLostTarget = 1.0f;
+        private bool targetInSight = false;
+        private bool isPursuing = false;
+        private bool isAttacking = false;
+
+        public float idleSpeed = 0f;
+        public float walkSpeed = 2f;
+        public float runSpeed = 4f;
+
+        private float minDistanceToPlayer = 0.8f;
+        private bool isInsideAttackRange = false;
+
+        public GameObject _target = null;
+        private NavMeshAgent _navMeshAgent;
+        private Animator _animator;
+
+        public MMFeedbacks feedbackAttack;
+
+
+        void Start()
         {
-            CheckForPlayerInSight();
-            if (targetInSight)
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
+            originalPosition = transform.position;
+        }
+
+        void Update()
+        {
+            _animator.SetFloat("Speed", _navMeshAgent.speed);
+            if (_target)
             {
-                // Start pursuing the player
-                StartPursuit();
+                if(!isAttacking) CheckForPlayerInSight();
+                if (targetInSight && !isAttacking)
+                {
+                    // Start pursuing the player
+                    StartPursuit();
+                }
             }
-            else
+
+            if (isAttacking)
             {
-                return;
+                Vector3 toPlayer = _target.transform.position - transform.position;
+                float distanceToPlayer = toPlayer.magnitude;
+
+                if (distanceToPlayer < minDistanceToPlayer)
+                {
+                    Vector3 newPosition = _target.transform.position - toPlayer.normalized * minDistanceToPlayer;
+                    transform.position = newPosition;
+                }
             }
         }
-    }
 
-    void CheckForPlayerInSight()
-    {
-        Vector3 toPlayer = _target.transform.position - transform.position;
-        float angle = Vector3.Angle(transform.forward, toPlayer);
-
-        if (angle < fieldOfViewAngle * 0.5f)
+        void CheckForPlayerInSight()
         {
-            RaycastHit hit;
+            Vector3 toPlayer = _target.transform.position - transform.position;
+            float angle = Vector3.Angle(transform.forward, toPlayer);
 
-            if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, fieldOfViewDistance))
+            if (angle < fieldOfViewAngle * 0.5f)
             {
-                if (hit.collider.gameObject == _target)
-                {
-                    // Player is in sight
-                    targetInSight = true;
-                    timerSinceLostTarget = 0f;
+                RaycastHit hit;
 
-                    // Check if the player is within attack range
-                    if (toPlayer.magnitude < attackRange)
+                if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, fieldOfViewDistance))
+                {
+                    if (hit.collider.gameObject.CompareTag("Player"))
                     {
-                        // Attack the player
-                        TriggerAttack();
+                        // Player is in sight
+                        targetInSight = true;
+                        timerSinceLostTarget = 0f;
+                    }
+                    else
+                    {
+                        // Player is not in sight
+                        targetInSight = false;
                     }
                 }
-                else
+            }
+
+            // If the player is not in sight, start counting time since lost target
+            if (!targetInSight && isPursuing)
+            {
+                timerSinceLostTarget += Time.deltaTime;
+
+                // If enough time has passed, return to position
+                if (timerSinceLostTarget >= timeToLostTarget)
                 {
-                    // Player is not in sight
-                    targetInSight = false;
+                    StopPursuit();
+                    ReturnToOriginalPosition();
                 }
             }
         }
 
-        // If the player is not in sight, start counting time since lost target
-        if (!targetInSight && isPursuing)
+        void StartPursuit()
         {
-            timerSinceLostTarget += Time.deltaTime;
+            // Start pursuing the player
+            _navMeshAgent.SetDestination(_target.transform.position);
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.speed = runSpeed;
+            isPursuing = true;
 
-            // If enough time has passed, return to position
-            if (timerSinceLostTarget >= timeToLostTarget)
+            Debug.Log("Pursuing player");
+        }
+
+        void StopPursuit()
+        {
+            isPursuing = false;
+            _navMeshAgent.ResetPath();
+        }
+
+        void ReturnToOriginalPosition()
+        {
+            // Return to the original position if not pursuing
+            if (!isPursuing)
             {
-                StopPursuit();
-                ReturnToOriginalPosition();
+                _navMeshAgent.SetDestination(originalPosition);
+                _navMeshAgent.speed = walkSpeed;
             }
         }
-    }
 
-    void StartPursuit()
-    {
 
-        // Start pursuing the player
-        _navMeshAgent.SetDestination(_target.transform.position);
-        _navMeshAgent.speed = runSpeed;
-        isPursuing = true;
-        Debug.Log("Pursuing player");
-    }
+        private void OnTriggerEnter(Collider other) {
+            if(other == attackRange)
+            {
+                Debug.Log("Attack");
+                isInsideAttackRange = true;
 
-    void StopPursuit()
-    {
-        isPursuing = false;
-        _navMeshAgent.ResetPath();
-    }
-
-    void ReturnToOriginalPosition()
-    {
-        // Return to the original position if not pursuing
-        if (!isPursuing)
-        {
-            _navMeshAgent.SetDestination(originalPosition);
-            _navMeshAgent.speed = walkSpeed;
+                _navMeshAgent.ResetPath();
+                InvokeRepeating("TriggerAttack", 0.5f, 1.5f);
+                _navMeshAgent.isStopped = true;
+            }
         }
-    }
 
-    void TriggerAttack()
-    {
-        // Trigger the attack animation or perform attack logic here
-        _animator.SetTrigger("Attack");
-    }
+        private void OnTriggerExit(Collider other) {
+            if(other == attackRange)
+            {
+                CancelInvoke();
+                _navMeshAgent.isStopped = false;
+                isInsideAttackRange = false;
+            }
+        }
 
-    void SetStop()
-    {
-        // isAttacking = true;
-        _navMeshAgent.speed = idleSpeed;
-    }
-    void SetGo()
-    {
-        // isAttacking = false;
-        _navMeshAgent.speed = runSpeed;
+        void TriggerAttack()
+        {
+            int indexAttack;
+            indexAttack = Random.Range(0, 2);
+
+            feedbackAttack.PlayFeedbacks();
+
+            // Trigger the attack animation or perform attack logic here
+            if(indexAttack == 0) _animator.SetTrigger("Attack");
+            if(indexAttack == 1) _animator.SetTrigger("Combo");
+        }
+
+
+        // Methods Triggered in Animations
+        void SetStop()
+        {
+            isAttacking = true;
+            _navMeshAgent.speed = idleSpeed;
+        }
+        void SetGo()
+        {
+            if(!isInsideAttackRange)
+            {
+                isAttacking = false;
+            }
+        }
+
+        void SetRootMotion()
+        {
+            _animator.applyRootMotion = true;
+        }
+        void UnsetRootMotion()
+        {
+            _animator.applyRootMotion = false;
+        }
     }
 }

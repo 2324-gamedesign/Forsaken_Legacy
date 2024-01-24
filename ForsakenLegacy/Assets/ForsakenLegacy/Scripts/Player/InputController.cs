@@ -13,10 +13,6 @@ namespace ForsakenLegacy
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public bool sprint;
-		public bool attack;
-		public int noOfClicks;
-    	public float lastClickedTime;
-		public float clickCooldown = 0.5f;
 
 
 		[Header("Movement Settings")]
@@ -33,10 +29,6 @@ namespace ForsakenLegacy
 			{
 				SprintInput(value.isPressed);
 			}
-			public void OnAttack(InputValue value)
-			{
-				AttackInput(value.isPressed);
-			}
 		#endif
 
 
@@ -47,16 +39,6 @@ namespace ForsakenLegacy
 		public void SprintInput(bool newSprintState)
 			{
 				sprint = newSprintState;
-			}
-		public void AttackInput(bool newAttackState)
-    		{
-				attack = newAttackState;
-				if (newAttackState && Time.time - lastClickedTime > clickCooldown)
-            	{
-            	    // Register a new click only if enough time has passed
-            	    lastClickedTime = Time.time;
-            	    noOfClicks++;
-            	}
 			}
 	}
 }

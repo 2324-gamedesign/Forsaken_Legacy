@@ -1,23 +1,31 @@
 using System.Collections;
-using MoreMountains.Feedbacks;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using MoreMountains.Feedbacks;
+using ForsakenLegacy;
+using UnityEngine.Animations.Rigging;
 
 namespace ForsakenLegacy
 {
     public class AttackMelee : MonoBehaviour
     {
+        private InputAction attackAction;
+        private PlayerInput _playerInput;
+
+        [SerializeField] private int noOfClicks = 0;
+        private float lastClickedTime = 0;
+
         public bool isAttacking;
         private bool isAttackingCheck = true;
-        private float maxComboDelay = 1;
+        private float maxComboDelay = 1f;
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
         public RigLayer rigLayer;
         
         public Animator _animator;
         private CharacterController _controller;
-        private InputController _input;
 
         // Feedbacks
         public MMFeedbacks activateWeapon;
@@ -25,42 +33,37 @@ namespace ForsakenLegacy
         private void Start()
         { 
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<InputController>();
+            _playerInput = GetComponent<PlayerInput>();
+
+            attackAction = _playerInput.actions.FindAction("Attack");
+            attackAction.performed += OnAttackPerformed;
         }
 
         private void Update()
         {
             bool isDashing = gameObject.GetComponent<DashAbility>().isDashing;
+            noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
+            _animator.SetInteger("noOfClicks", noOfClicks);
 
-            if(_input.noOfClicks > 0 && !isDashing) {Attack();}
             HandleAttackAnim();
             SetRootMotion();
         }
 
+        void OnAttackPerformed(InputAction.CallbackContext context)
+        {
+            noOfClicks ++;
+            lastClickedTime = Time.time;
+        }
+
         private void HandleAttackAnim()
         {
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _input.noOfClicks < 1)
+            if (Time.time - lastClickedTime > maxComboDelay)
             {
-                _animator.SetBool("Combo1", false);
+                noOfClicks = 0;
             }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _input.noOfClicks < 2)
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3"))
             {
-                _animator.SetBool("Combo2", false);
-            }
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3"))
-            {
-                _animator.SetBool("Combo3", false);
-                _input.noOfClicks = 0;
-            }
-    
-            if (_input.noOfClicks == 0){
-                _animator.SetBool("Combo1", false);
-                _animator.SetBool("Combo2", false);
-                _animator.SetBool("Combo3", false);
-            }
-            if (Time.time - _input.lastClickedTime > maxComboDelay)
-            {
-                _input.noOfClicks = 0;
+                noOfClicks = 0;
             }
 
 
@@ -77,33 +80,6 @@ namespace ForsakenLegacy
             {
                 isAttacking = false;
                 HandleWeapon();
-            }
-        }
-        
-        private void Attack() 
-        {
-            _input.noOfClicks = Mathf.Clamp(_input.noOfClicks, 0, 3);
-
-            if (_input.noOfClicks == 1 && _animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run"))
-            {
-                _animator.SetBool("Combo1", true);
-            }
-            
-            if (_input.noOfClicks >= 2 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End"))
-            {
-                _animator.SetBool("Combo1", false);
-                _animator.SetBool("Combo2", true);
-            }
-            
-            if (_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2"))
-            {
-                _animator.SetBool("Combo1", false);
-                _animator.SetBool("Combo2", false);
-                _animator.SetBool("Combo3", true);
-            }else if(_input.noOfClicks >= 3 && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End")){
-                _animator.SetBool("Combo1", false);
-                _animator.SetBool("Combo2", false);
-                _animator.SetBool("Combo3", true);
             }
         }
 
@@ -133,19 +109,14 @@ namespace ForsakenLegacy
             }
         }
 
+        // Methods calld in animation
         private void WeaponColliderOn()
         {
-            if(weapon)
-            {
-                weapon.GetComponent<Collider>().enabled = true;
-            }
+            weapon.GetComponent<Collider>().enabled = true;
         }
         private void WeaponColliderOff()
         {
-            if(weapon)
-            {
-                weapon.GetComponent<Collider>().enabled = false;
-            }
+            weapon.GetComponent<Collider>().enabled = false;
         }
     }
 }

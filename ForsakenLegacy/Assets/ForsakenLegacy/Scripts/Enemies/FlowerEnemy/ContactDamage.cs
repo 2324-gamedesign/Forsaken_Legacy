@@ -2,43 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContactDamage : MonoBehaviour
+namespace ForsakenLegacy
 {
-    public int damage;
-    public int damageDelay = 2;
-    public int areaLifetime = 8;
-    private GameObject player;
-
-    private void Start() {
-        StartCoroutine(DestroyAfterLife());
-        player = GameObject.Find("Edea");
-    }
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            InvokeRepeating("DealDamage", 0.1f, damageDelay);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            CancelInvoke();
-        }
-    }
-
-    private void DealDamage()
+    public class ContactDamage : MonoBehaviour
     {
-        player.GetComponent<HealthSystem>().TakeDamage(damage);
+        public int damage;
+        public int damageDelay = 2;
+        public int areaLifetime = 8;
+        private GameObject player;
+
+        private void Start() {
+            StartCoroutine(DestroyAfterLife());
+            player = GameObject.Find("Edea");
+        }
+        private void OnTriggerEnter(Collider other) {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                InvokeRepeating("DealDamage", 0.1f, damageDelay);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void OnTriggerExit(Collider other) {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                CancelInvoke();
+            }
+        }
+
+        private void DealDamage()
+        {
+            player.GetComponent<HealthSystem>().TakeDamage(damage);
+        }
+
+        private IEnumerator DestroyAfterLife()
+        {
+            yield return new WaitForSeconds(areaLifetime);
+            Destroy(gameObject);
+        }
     }
 
-    private IEnumerator DestroyAfterLife()
-    {
-        yield return new WaitForSeconds(areaLifetime);
-        Destroy(gameObject);
-    }
 }
