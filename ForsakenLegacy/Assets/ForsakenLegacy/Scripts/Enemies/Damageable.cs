@@ -12,7 +12,7 @@ namespace ForsakenLegacy
         private Collider _collider;
         private bool isInvulnerable;
         private float timeSinceLastHit;
-        private float invulnerabiltyTime = 0.2f;
+        private float invulnerabiltyTime = 0.1f;
 
         private float hitForwardRotation = 360.0f;
         private float hitAngle = 360.0f;
@@ -82,7 +82,7 @@ namespace ForsakenLegacy
             }
             else
             {
-            hitFeedback.PlayFeedbacks(); 
+                hitFeedback.PlayFeedbacks(); 
             }
         }
 
