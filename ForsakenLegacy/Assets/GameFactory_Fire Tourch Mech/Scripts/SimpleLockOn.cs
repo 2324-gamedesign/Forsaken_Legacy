@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleLockOn : MonoBehaviour
+public class HorizontalBillboard : MonoBehaviour
 {
-    [SerializeField] Transform target;
-    void OnEnable(){
-        if(target == null) target = Camera.main.transform;
-        StartCoroutine(LookAtTarget());
+    private Transform mainCameraTransform;
+
+    private void Start()
+    {
+        // Find the main camera transform
+        mainCameraTransform = Camera.main.transform;
     }
 
-    private IEnumerator LookAtTarget(){
-        while(this.gameObject.activeInHierarchy){
-            Vector3 _dir = target.position - transform.position;
-            //_dir.y = 0;
-            transform.rotation = Quaternion.LookRotation(_dir);
-            yield return null;
-        }
+    private void LateUpdate()
+    {
+        // Calculate the new rotation to face the camera horizontally
+        Vector3 lookAtPos = new Vector3(mainCameraTransform.position.x, transform.position.y, mainCameraTransform.position.z);
+        transform.LookAt(lookAtPos);
     }
 }

@@ -313,7 +313,7 @@
                 {
                     "name": "1D Axis",
                     "id": "642f7c1a-3ad4-4d3f-b087-a88b9a952fc5",
-                    "path": "1DAxis",
+                    "path": "1DAxis(whichSideWins=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon_Guardian
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_CROSS
   - _OUTLINE
@@ -25,6 +27,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -217,7 +220,7 @@ Material:
     - _OutlineEnabled: 1
     - _OutlineMode: 0
     - _OutlineScale: 1
-    - _OutlineWidth: 5
+    - _OutlineWidth: 3
     - _OverrideLightmapDir: 0
     - _OverrideShadowColor: 0
     - _Parallax: 0.02

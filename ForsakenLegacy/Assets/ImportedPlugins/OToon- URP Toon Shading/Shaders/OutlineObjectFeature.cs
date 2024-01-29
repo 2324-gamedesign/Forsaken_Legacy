@@ -47,7 +47,7 @@ namespace OToon
                 m_ProfilerTag = profilerTag;
                 m_ProfilingSampler = new ProfilingSampler(profilerTag);
                 renderPassEvent = evt;
-                m_FilteringSettings = new FilteringSettings(renderQueueRange, layerMask);
+                m_FilteringSettings = new FilteringSettings(renderQueueRange, ~0);
                 m_RenderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
             }
 
