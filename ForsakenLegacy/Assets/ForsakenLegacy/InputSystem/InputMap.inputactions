@@ -60,18 +60,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Cancel",
+                    "name": "Target",
                     "type": "Button",
-                    "id": "1993fe45-e775-4987-a77b-3ade4b3dba56",
+                    "id": "9fe88d2d-f213-43c0-b9a3-8a4d2311426a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Confirm",
+                    "name": "TargetScroll",
                     "type": "Button",
-                    "id": "9f39e35a-1353-44c7-b8c6-9e373f630137",
+                    "id": "1448d28b-c073-4a7b-aee1-f2d60a138c71",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -301,25 +301,47 @@
                 },
                 {
                     "name": "",
-                    "id": "a4d50b21-ff78-4d37-bde9-0a2b9dfaa9fe",
-                    "path": "<Mouse>/rightButton",
+                    "id": "ec326027-6201-48fb-884f-c3ce6e8d465b",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
+                    "groups": "KeyboardMouse",
+                    "action": "Target",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "1c7164ed-1897-4a27-80c2-4bff04b6ca69",
-                    "path": "<Mouse>/leftButton",
+                    "name": "1D Axis",
+                    "id": "642f7c1a-3ad4-4d3f-b087-a88b9a952fc5",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Confirm",
-                    "isComposite": false,
+                    "action": "TargetScroll",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "f39f2748-b1b1-44a9-a7da-bf9b9569c396",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "TargetScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "578b1a80-9cb5-40e0-8e58-35cb6d33f36a",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "TargetScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

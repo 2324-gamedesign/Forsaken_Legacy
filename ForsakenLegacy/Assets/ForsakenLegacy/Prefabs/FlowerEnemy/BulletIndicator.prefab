@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6694604872995861402}
   - component: {fileID: 2918074680310266561}
   - component: {fileID: 1665704443149057159}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: IndicatorImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 557679046539629348}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -91,7 +90,7 @@ GameObject:
   - component: {fileID: 3972749703867352435}
   - component: {fileID: 899772628290364471}
   - component: {fileID: 4979365320937650267}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BulletIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +111,6 @@ RectTransform:
   m_Children:
   - {fileID: 6694604872995861402}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -136,7 +134,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -188,9 +188,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6142030844027650263}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 4.6581154, y: 1, z: 5.2963257}
   m_Center: {x: 0.01725769, y: 0, z: -0.11371231}
 --- !u!114 &4979365320937650267

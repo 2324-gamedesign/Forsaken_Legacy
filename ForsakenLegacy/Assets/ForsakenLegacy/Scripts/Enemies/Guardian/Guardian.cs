@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 namespace ForsakenLegacy
 {
     public class Guardian : MonoBehaviour
     {
+        public enum Patrolling
+        {
+            Path,
+            Still
+        }
+
+        public Patrolling patrolling;
+        public Transform[] waypoints;
+        private Vector3[] path;
+        public PathType pathType;
+        public float duration;
+
         public float fieldOfViewAngle = 110f;
         public float fieldOfViewDistance = 10f;
         public Collider attackRange;
@@ -16,14 +29,16 @@ namespace ForsakenLegacy
         protected float timerSinceLostTarget = 0.0f;
         private float timeToLostTarget = 1.0f;
         private bool targetInSight = false;
-        private bool isPursuing = false;
-        private bool isAttacking = false;
+
+        public bool isPursuing = false;
+        public bool isAttacking = false;
+        public bool isReturning = false;
 
         public float idleSpeed = 0f;
         public float walkSpeed = 2f;
         public float runSpeed = 4f;
 
-        private float minDistanceToPlayer = 0.8f;
+        private float minDistanceToPlayer = 0.9f;
         private bool isInsideAttackRange = false;
 
         public GameObject _target = null;
@@ -36,9 +51,18 @@ namespace ForsakenLegacy
 
         void Start()
         {
+            path = new Vector3[waypoints.Length];
+            for (int i = 0; i < waypoints.Length; i++) 
+            {
+                path[i] = waypoints[i].position;
+            };
+
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             originalPosition = transform.position;
+
+            if(patrolling == Patrolling.Path){Patrol();}
+            if(patrolling == Patrolling.Still){_navMeshAgent.speed = idleSpeed;}
         }
 
         void Update()
@@ -63,6 +87,18 @@ namespace ForsakenLegacy
                 {
                     Vector3 newPosition = _target.transform.position - toPlayer.normalized * minDistanceToPlayer;
                     transform.position = newPosition;
+                }
+            }
+
+            if(IsPathComplete() && isReturning)
+            {
+                if(patrolling == Patrolling.Path)
+                {
+                    Patrol();
+                }
+                else if(patrolling == Patrolling.Still)
+                {
+                    _navMeshAgent.speed = idleSpeed;
                 }
             }
         }
@@ -108,26 +144,32 @@ namespace ForsakenLegacy
 
         void StartPursuit()
         {
+            HandleLookAhead(false);
+            DOTween.KillAll();
+            isReturning = false;
+
             // Start pursuing the player
             _navMeshAgent.SetDestination(_target.transform.position);
             _navMeshAgent.isStopped = false;
             _navMeshAgent.speed = runSpeed;
             isPursuing = true;
-
-            Debug.Log("Pursuing player");
         }
 
         void StopPursuit()
         {
+            isReturning = false;
             isPursuing = false;
             _navMeshAgent.ResetPath();
         }
 
         void ReturnToOriginalPosition()
         {
+            DOTween.KillAll();
+
             // Return to the original position if not pursuing
             if (!isPursuing)
             {
+                isReturning = true;
                 _navMeshAgent.SetDestination(originalPosition);
                 _navMeshAgent.speed = walkSpeed;
             }
@@ -139,6 +181,9 @@ namespace ForsakenLegacy
             {
                 if(other == attackRange)
                 {
+                    HandleLookAhead(false);
+                    DOTween.KillAll();
+                    isReturning = false;
                     Debug.Log("Attack");
                     isInsideAttackRange = true;
 
@@ -169,6 +214,38 @@ namespace ForsakenLegacy
             // Trigger the attack animation or perform attack logic here
             if(indexAttack == 0) _animator.SetTrigger("Attack");
             if(indexAttack == 1) _animator.SetTrigger("Combo");
+        }
+
+        protected bool IsPathComplete()
+        {
+            if (!_navMeshAgent.pathPending)
+            {
+                if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+                {
+                    if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        private void Patrol()
+        {
+            HandleLookAhead(true);
+            _navMeshAgent.speed = walkSpeed;
+            transform.DOPath(path, duration, pathType, PathMode.Ignore, 10, Color.red).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart).SetOptions(closePath: true);
+        }
+
+        private void HandleLookAhead(bool lookAhead)
+        {
+            if(GetComponent<LookAhead>())
+            {
+               GetComponent<LookAhead>().enabled = lookAhead; 
+            }   
         }
 
 
