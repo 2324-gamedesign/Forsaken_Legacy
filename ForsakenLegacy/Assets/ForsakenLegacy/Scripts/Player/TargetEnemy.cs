@@ -75,12 +75,12 @@ namespace ForsakenLegacy
             Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, targetScanRadius, targetLayers);
         
             // Filter the colliders to only include those with a CapsuleCollider
-            foreach (Collider collider in nearbyColliders)
+            foreach (Collider enemyNearby in nearbyColliders)
             {
-                CapsuleCollider capsuleCollider = collider.GetComponent<CapsuleCollider>();
+                CapsuleCollider capsuleCollider = enemyNearby.GetComponent<CapsuleCollider>();
                 if (capsuleCollider != null)
                 {
-                    detectedEnemies.Add(collider.transform);
+                    detectedEnemies.Add(enemyNearby.transform);
                 }
             }
         

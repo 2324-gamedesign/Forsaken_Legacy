@@ -28,9 +28,24 @@ public class GameManager : MonoBehaviour
     {
         stateMachine.Trigger("Dialogue");
     }
+
+    public void SetCutSceneState()
+    {
+        stateMachine.Trigger("CutScene");
+    }
     public void QuitGame()
     {
 
+    }
+    public void StopTime()
+    {
+        //Set Game Time to 0
+        Time.timeScale = 0;
+    }
+    public void StartTime()
+    {
+        //Set Game Time to 1
+        Time.timeScale = 1;
     }
 }
 

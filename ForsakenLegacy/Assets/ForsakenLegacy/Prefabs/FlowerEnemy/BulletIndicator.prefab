@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6694604872995861402}
   - component: {fileID: 2918074680310266561}
   - component: {fileID: 1665704443149057159}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: IndicatorImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3972749703867352435}
   - component: {fileID: 899772628290364471}
   - component: {fileID: 4979365320937650267}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: BulletIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

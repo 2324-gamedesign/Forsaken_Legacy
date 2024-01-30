@@ -184,7 +184,6 @@ namespace ForsakenLegacy
                     HandleLookAhead(false);
                     DOTween.KillAll();
                     isReturning = false;
-                    Debug.Log("Attack");
                     isInsideAttackRange = true;
 
                     _navMeshAgent.ResetPath();
