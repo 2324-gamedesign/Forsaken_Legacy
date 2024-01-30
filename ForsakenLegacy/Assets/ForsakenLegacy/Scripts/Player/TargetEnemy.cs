@@ -11,6 +11,8 @@ namespace ForsakenLegacy
         private InputAction targetAction;
         private InputAction targetScrollAction;
 
+        private float scrollValue;
+
         private Transform currentTarget;
         public GameObject lockOnCanvasPrefab; // Assign the lock-on canvas prefab in the Inspector
         private Canvas lockOnCanvasInstance;
@@ -27,10 +29,23 @@ namespace ForsakenLegacy
             _playerInput = GetComponent<PlayerInput>();
             targetAction = _playerInput.actions.FindAction("Target");
             targetScrollAction = _playerInput.actions.FindAction("TargetScroll");
+        
             targetAction.performed += OnTargetPerformed;
-            targetScrollAction.performed += OnTargetScroll;
+            targetScrollAction.performed += ctx => scrollValue = ctx.ReadValue<float>();
         }
 
+        private void Update() {
+            if (scrollValue > 0f)
+            {
+                // Scrolling up
+                SwitchTargetWithScroll(1f); // Pass a positive value
+            }
+            else if (scrollValue < 0f)
+            {
+                // Scrolling down
+                SwitchTargetWithScroll(-1f); // Pass a negative value
+            }
+        }
         void OnTargetPerformed(InputAction.CallbackContext context)
         {
             if (enemyLocked)
@@ -41,12 +56,6 @@ namespace ForsakenLegacy
             {
                 ScanNearBy();
             }
-        }
-
-        void OnTargetScroll(InputAction.CallbackContext context)
-        {
-            float scrollValue = context.ReadValue<float>();
-            SwitchTargetWithScroll(scrollValue);
         }
 
         void EnableTarget(Transform target)
@@ -70,6 +79,12 @@ namespace ForsakenLegacy
         private void ScanNearBy()
         {
             detectedEnemies.Clear();
+
+            // Check if the GameObject is active in the scene
+            if (!gameObject.activeInHierarchy)
+            {
+                return;
+            }
         
             // Detect enemies within the specified radius
             Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, targetScanRadius, targetLayers);
@@ -93,7 +108,6 @@ namespace ForsakenLegacy
 
         void SwitchTargetWithScroll(float scrollInput)
         {
-            Debug.Log(scrollInput);
             // Check if there are any detected enemies
             if (detectedEnemies.Count == 0)
             {
@@ -102,18 +116,18 @@ namespace ForsakenLegacy
                 return;
             }
 
-            // If scrolling up
-            if (scrollInput > 0f)
+            // Calculate the new target index based on the scroll input
+            currentTargetIndex = (currentTargetIndex + Mathf.RoundToInt(scrollInput)) % detectedEnemies.Count;
+            if (currentTargetIndex < 0)
             {
-                // Move to the previous target in the array
-                currentTargetIndex = (currentTargetIndex - 1 + detectedEnemies.Count) % detectedEnemies.Count;
+                currentTargetIndex = detectedEnemies.Count - 1;
             }
-            // If scrolling down
-            else if (scrollInput < 0f)
+
+            if (detectedEnemies.Count == 1)
             {
-                // Move to the next target in the array
-                currentTargetIndex = (currentTargetIndex + 1) % detectedEnemies.Count;
+                currentTargetIndex = 0; // Always target the single enemy
             }
+            Debug.Log(currentTargetIndex + "out of" + detectedEnemies.Count);
 
             // Lock onto the current target
             LockOntoTarget();
@@ -121,15 +135,15 @@ namespace ForsakenLegacy
 
         void LockOntoTarget()
         {
+            // Destroy the existing canvas (if any)
+            if (lockOnCanvasInstance != null)
+            {
+                Destroy(lockOnCanvasInstance.gameObject);
+            }
+
             // Check if there's a valid target index
             if (currentTargetIndex >= 0 && currentTargetIndex < detectedEnemies.Count)
             {
-                // Destroy the existing canvas (if any)
-                if (lockOnCanvasInstance != null)
-                {
-                    Destroy(lockOnCanvasInstance.gameObject);
-                }
-
                 // Get the current target's transform
                 Transform newTarget = detectedEnemies[currentTargetIndex];
 
