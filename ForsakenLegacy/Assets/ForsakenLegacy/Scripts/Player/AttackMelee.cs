@@ -29,6 +29,7 @@ namespace ForsakenLegacy
 
         // Feedbacks
         public MMFeedbacks activateWeapon;
+        public MMFeedbacks attack;
 
         private void Start()
         { 
@@ -89,7 +90,8 @@ namespace ForsakenLegacy
             {
                 isAttackingCheck = isAttacking;
                 weapon.gameObject.SetActive(isAttacking);
-                activateWeapon?.PlayFeedbacks();
+                activateWeapon.PlayFeedbacks();
+                attack.PlayFeedbacks();
                 if(isAttacking){
                     rigLayer.rig.weight = 1;
                 }

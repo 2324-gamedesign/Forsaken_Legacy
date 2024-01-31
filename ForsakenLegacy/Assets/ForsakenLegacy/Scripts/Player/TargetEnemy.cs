@@ -161,11 +161,18 @@ namespace ForsakenLegacy
             Vector3 canvasPosition = new Vector3(enemyPosition.x, enemyPosition.y + yOffset, enemyPosition.z);
 
             // Instantiate the lock-on canvas if it doesn't exist
-            if (lockOnCanvasInstance == null)
-            {
+ 
                 lockOnCanvasInstance = Instantiate(lockOnCanvasPrefab, currentTarget).GetComponent<Canvas>();
                 lockOnCanvasInstance.transform.position = canvasPosition;
                 lockOnCanvasInstance.enabled = true;
+            
+        }
+
+        public void LookAtTarget()
+        {
+            if(enemyLocked == true && currentTarget != null && currentTarget.gameObject.activeInHierarchy == true)
+            {
+                transform.LookAt(currentTarget);
             }
         }
     }
