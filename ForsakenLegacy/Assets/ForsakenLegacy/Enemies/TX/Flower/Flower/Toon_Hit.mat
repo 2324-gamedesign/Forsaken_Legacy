@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon_Hit
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_CROSS
   - _RIMLIGHTING_ON
@@ -24,6 +26,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -291,7 +294,7 @@ Material:
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineDistancFade: {r: -97.52067, g: 119.628075, b: 0, a: 0}
-    - _RimColor: {r: 0.754717, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 0.5566038, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpherizeNormalOrigin: {r: 0, g: 0, b: 0, a: 0}
