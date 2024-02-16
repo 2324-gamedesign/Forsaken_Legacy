@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    public Dialogue dialogue;
-
-    // private InputAction interactAction;
+    public bool canProceed = true;
+    public int nextDialogue = 0;
+    public Dialogue[] dialogues;
     private bool inInteractionArea = false;
    
     private void OnTriggerEnter(Collider other) {
@@ -25,7 +25,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (inInteractionArea && Keyboard.current.eKey.wasPressedThisFrame)
+        if (inInteractionArea && !DialogueManager.Instance.isInDialogue && Keyboard.current.eKey.wasPressedThisFrame)
         {
             TriggerDialogue();
         }
@@ -33,6 +33,11 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        DialogueManager.Instance.StartDialogue(dialogue);
+        if(canProceed && nextDialogue < dialogues.Length)
+        {
+           nextDialogue += 1;
+        }
+        
+        DialogueManager.Instance.StartDialogue(nextDialogue, dialogues);
     }
 }

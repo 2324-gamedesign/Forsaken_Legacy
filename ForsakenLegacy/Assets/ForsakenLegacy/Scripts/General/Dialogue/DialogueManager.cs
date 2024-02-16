@@ -9,6 +9,18 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
+    [System.Serializable]
+    public class CharacterProfile
+    {
+        public string name;
+        public Sprite profileImage;
+        public Color nameColor;
+    }
+
+    public List<CharacterProfile> characterProfiles;
+
+    private Dictionary<string, CharacterProfile> characterMap;
+
     private void Awake()
     {
         if (Instance == null)
@@ -20,36 +32,50 @@ public class DialogueManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // Initialize the character map
+        characterMap = new Dictionary<string, CharacterProfile>();
+        foreach (var profile in characterProfiles)
+        {
+            characterMap[profile.name] = profile;
+        }
     }
 
-    public Text nameText;
+    public TMP_Text nameText;
     public Text dialogueText;
     public RectTransform dialoguePanel;
     private Queue<string> sentences;
     private Queue<string> names;
-    private bool inDialogue;
 
-    private void Start() {
+    public bool isInDialogue;
+
+    public Image profileImage;
+
+    private void Start()
+    {
         sentences = new Queue<string>();
         names = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(int nextDialogue, Dialogue[] dialogues)
     {
         names.Clear();
         sentences.Clear();
 
-        foreach (string name in dialogue.names)
+        foreach (Dialogue dialogue in dialogues)
         {
-            names.Enqueue(name);
-        }
-        foreach (string sentence in dialogue.sentences)
-        {
-            sentences.Enqueue(sentence);
+            if(dialogue.dialogueNumber == nextDialogue)
+            {
+                foreach (DialogueLine line in dialogue.dialogueLines)
+                {
+                    names.Enqueue(line.name);
+                    sentences.Enqueue(line.sentence);
+                }
+            }
         }
 
         GameManager.Instance.SetDialogueState();
-        inDialogue = true;
+        isInDialogue = true;
 
         dialoguePanel.DOAnchorPos(Vector2.zero, 0.5f);
         DisplayNextSentence();
@@ -66,15 +92,26 @@ public class DialogueManager : MonoBehaviour
         string name = names.Dequeue();
         string sentence = sentences.Dequeue();
 
-        nameText.text = name;
+        HandleSpeaker(name);
         dialogueText.text = "";
         dialogueText.DOText(sentence, 0.5f);
+    }
+
+    public void HandleSpeaker(string name)
+    {
+        if (characterMap.ContainsKey(name))
+        {
+            CharacterProfile profile = characterMap[name];
+            nameText.text = profile.name;
+            nameText.color = profile.nameColor;
+            profileImage.sprite = profile.profileImage;
+        }
     }
 
     public void EndDialogue()
     {
         GameManager.Instance.SetNeutralState();
-        inDialogue = false;
+        isInDialogue = false;
 
         CloseBarkPanel();
     }
@@ -86,6 +123,7 @@ public class DialogueManager : MonoBehaviour
         {
             nameText.text = "";
             dialogueText.text = "";   // Clear the text
+            profileImage.enabled = true;
         });
     }
 }
