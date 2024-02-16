@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Environment
   - Bullet
+  - NPC
   layers:
   - Default
   - TransparentFX
