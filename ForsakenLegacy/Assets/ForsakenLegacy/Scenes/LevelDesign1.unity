@@ -3265,7 +3265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137cba140f5e4ed439b0b435ff6c5177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 13
+  height: 25
   distance: 10
   angle: 50
   smoothSpeed: 0
@@ -4596,6 +4596,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Edea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
+        type: 3}
+      propertyPath: Gravity
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
@@ -6159,8 +6164,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067477947}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.2948363, y: 0.42635193, z: -0.17959508, w: 0.8360868}
+  m_LocalPosition: {x: -22.79745, y: 10.480003, z: 18.508715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9484,8 +9489,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710078214}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.2948363, y: 0.42635193, z: -0.17959508, w: 0.8360868}
+  m_LocalPosition: {x: -22.79745, y: 10.480003, z: 18.508715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
