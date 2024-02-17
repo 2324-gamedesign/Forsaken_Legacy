@@ -6,7 +6,7 @@ public class CameraTopDown : MonoBehaviour
     public float height = 10f;
     public float distance = 20f;
     public float angle = 45f;
-    public float smoothSpeed = 0.1f;
+    public float smoothSpeed = 0f;
     public Transform player;
     private Vector3 refVelocity;
 
@@ -31,7 +31,11 @@ public class CameraTopDown : MonoBehaviour
             return;
         }
 
-        Vector3 worldPosition = (Vector3.forward * -distance) + (Vector3.up * height);
+        // Calculate the target height based on the player's position
+        float targetHeight = player.position.y + height;
+
+        // Calculate the world position of the camera
+        Vector3 worldPosition = (Vector3.forward * - distance) + (Vector3.up * targetHeight);
 
         Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * worldPosition;
 
@@ -40,15 +44,12 @@ public class CameraTopDown : MonoBehaviour
         Vector3 finalPos = flatPlayerPos + rotatedVector;
 
         // Set the target position with a delay
-        targetPosition = Vector3.Lerp(targetPosition, finalPos, Time.deltaTime / followDelay);
+        targetPosition = Vector3.Lerp(targetPosition, finalPos, Time.deltaTime /    followDelay);
 
         // Smoothly move towards the target position
-        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref refVelocity, smoothSpeed);
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPosition,   ref refVelocity, smoothSpeed);
 
         // Apply the smoothed position to the camera's transform
         transform.position = smoothedPosition;
-
-        // Keep the camera looking at the player without rotation
-        // transform.LookAt(player.position);
     }
 }
