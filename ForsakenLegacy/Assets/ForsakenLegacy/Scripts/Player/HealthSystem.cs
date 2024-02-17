@@ -5,7 +5,7 @@ using MoreMountains.Feedbacks;
 
 namespace ForsakenLegacy
 {
-    public class HealthSystem : MonoBehaviour
+    public class HealthSystem : MonoBehaviour, IDataPersistence
     {
         public int maxHealth = 100;
         [SerializeField] private int currentHealth;
@@ -38,6 +38,19 @@ namespace ForsakenLegacy
                 }
             }
         }
+
+
+        //Manage Save and Load of HealthPoints thoigh Data peristance interface
+        public void LoadData(GameData data)
+        {
+            this.currentHealth = data.currentHealth;
+        }
+        public void SaveData(ref GameData data)
+        {
+            data.currentHealth = this.currentHealth;
+        }
+
+
 
         public void TakeDamage(int damage)
         {

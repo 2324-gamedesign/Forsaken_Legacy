@@ -14,7 +14,7 @@ namespace ForsakenLegacy
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDataPersistence
     {
         [Header("Player")]
 
@@ -111,6 +111,14 @@ namespace ForsakenLegacy
             GroundedCheck();
         }
 
+        public void LoadData(GameData data)
+        {
+            this.transform.position = data.playerPosition;
+        }
+        public void SaveData(ref GameData data)
+        {
+            data.playerPosition = this.transform.position;
+        }
 
         private void GroundedCheck()
         {
@@ -221,7 +229,5 @@ namespace ForsakenLegacy
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
         }
-
-
     }
 }
