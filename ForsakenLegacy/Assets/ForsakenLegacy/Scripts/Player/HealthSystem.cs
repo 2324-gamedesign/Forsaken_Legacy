@@ -8,6 +8,7 @@ namespace ForsakenLegacy
     public class HealthSystem : MonoBehaviour, IDataPersistence
     {
         public int maxHealth = 100;
+        public bool isDead = false; // Flag to track if the player is dead.
         [SerializeField] private int currentHealth;
         private bool isInvulnerable = false;
         private float timeSinceLastHit = 0.0f;
@@ -44,6 +45,7 @@ namespace ForsakenLegacy
         public void LoadData(GameData data)
         {
             this.currentHealth = data.currentHealth;
+            UpdateHealthUI();
         }
         public void SaveData(ref GameData data)
         {
@@ -71,6 +73,7 @@ namespace ForsakenLegacy
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
+                isDead = true; // Set the flag to indicate the player is dead.
                 Die();
             }
             else
@@ -101,6 +104,10 @@ namespace ForsakenLegacy
 
         private void UpdateHealthUI()
         {
+            if(currentHealth > 0)
+            {
+                isDead = false;
+            }
             healthBarFill.fillAmount = (float)currentHealth / maxHealth;
             healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
         }

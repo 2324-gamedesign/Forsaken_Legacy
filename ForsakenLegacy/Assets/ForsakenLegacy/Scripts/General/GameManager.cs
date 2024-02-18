@@ -33,16 +33,27 @@ public class GameManager : MonoBehaviour
     {
         stateMachine.Trigger("CutScene");
     }
+
+    public void SetDeathState()
+    {
+        stateMachine.Trigger("Death");
+    }
+
+    public void SetMenuState()
+    {
+        stateMachine.Trigger("Menu");
+    }
+
     public void QuitGame()
     {
 
     }
-    public void StopTime()
+    public void PauseGame()
     {
         //Set Game Time to 0
         Time.timeScale = 0;
     }
-    public void StartTime()
+    public void ResumeGame()
     {
         //Set Game Time to 1
         Time.timeScale = 1;

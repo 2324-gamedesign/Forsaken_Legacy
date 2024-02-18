@@ -88,6 +88,7 @@ namespace ForsakenLegacy
 
         private void OnDeath()
         {
+            gameObject.GetComponent<Enemy>().OnDeath();
             hitFeedback.PlayFeedbacks(); 
             deathFeedback.PlayFeedbacks();
         }

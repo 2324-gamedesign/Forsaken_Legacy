@@ -18,13 +18,14 @@ public class Menu : MonoBehaviour
         menuAction.performed += OnMenuCalled;  
     }
 
-    // Update is called once per frame
     void OnMenuCalled(InputAction.CallbackContext context){
         if(menuIsOn){
+            GameManager.Instance.SetNeutralState();
             menu.enabled = false;
             menuIsOn = false;
         }
         else{
+            GameManager.Instance.SetMenuState();
             menu.enabled = true;
             menuIsOn = true;
         }
