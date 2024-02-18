@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -9,16 +10,21 @@ public class DialogueTrigger : MonoBehaviour
     public int nextDialogue = 0;
     public Dialogue[] dialogues;
     private bool inInteractionArea = false;
+
+    //UI Elements
+    public TMP_Text tutorial;
    
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player"))
         {
+
             inInteractionArea = true;
         }
     }
     private void OnTriggerExit(Collider other) {
         if(other.CompareTag("Player"))
         {
+            tutorial.text = "";
             inInteractionArea = false;
         }
     }
@@ -29,10 +35,16 @@ public class DialogueTrigger : MonoBehaviour
         {
             TriggerDialogue();
         }
+        
+        if(inInteractionArea && !DialogueManager.Instance.isInDialogue)
+        {
+            tutorial.text = "Press E to talk";
+        }
     }
 
     public void TriggerDialogue()
     {
+        tutorial.text = "";
         if(canProceed && nextDialogue < dialogues.Length)
         {
            nextDialogue += 1;
