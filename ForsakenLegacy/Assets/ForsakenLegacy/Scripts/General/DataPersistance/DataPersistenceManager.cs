@@ -37,12 +37,14 @@ public class DataPersistenceManager : MonoBehaviour
     public void NewGame()
     {
         this.gameData = new GameData();
+        Debug.Log("Starting New Game");
     }
 
     public void LoadGame()
     {
         //Load Saved data
         this.gameData = dataHandler.Load();
+        Debug.Log("Loading Game");
 
         //if no data start new game
         if (this.gameData == null)
@@ -68,6 +70,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         //save data to file with data handler
         dataHandler.Save(gameData);
+        Debug.Log("Saving Game");
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
