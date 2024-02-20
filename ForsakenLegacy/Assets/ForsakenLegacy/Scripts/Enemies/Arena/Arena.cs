@@ -8,12 +8,13 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class Arena : MonoBehaviour, IDataPersistence
 {
-    // public GameObject player;
     public GameObject[] doors;
     public Dictionary<string, bool> enemies;
-    private bool cleared = false;
+    public bool cleared = false;
+    public bool isInProgress = false;
 
     public string id;
+
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
@@ -34,6 +35,7 @@ public class Arena : MonoBehaviour, IDataPersistence
             foreach (Enemy enemy in GetComponentsInChildren<Enemy>())
             {
                 enemy.gameObject.SetActive(true);
+                enemy.OnRespawn();
             }
         }
     }
@@ -47,7 +49,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     }
 
 
-    private void Start() {
+    private void Awake() {
         //initialize enemy dictionary
         enemies = new Dictionary<string, bool>();
         
@@ -88,7 +90,8 @@ public class Arena : MonoBehaviour, IDataPersistence
 
     public void CloseDoors()
     {
-        Guardian[] guardians = GetComponentsInChildren<Guardian>();
+        isInProgress = true;
+
         //Close the doors
         foreach(GameObject door in doors)
         {
@@ -96,7 +99,7 @@ public class Arena : MonoBehaviour, IDataPersistence
         }
 
         //Enemies start attacking
-        foreach(Guardian guardian in guardians)
+        foreach (GuardianArena guardian in GetComponentsInChildren<GuardianArena>())
         {
             guardian.StartPursuit();
         }
@@ -104,6 +107,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     private void OpenDoors()
     {
         cleared = true;
+        isInProgress = false;
         gameObject.SetActive(false);
        
         //Open the doors

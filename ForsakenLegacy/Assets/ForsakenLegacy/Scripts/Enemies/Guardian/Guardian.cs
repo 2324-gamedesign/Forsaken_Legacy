@@ -9,13 +9,13 @@ namespace ForsakenLegacy
 {
     public class Guardian : MonoBehaviour
     {
-        public enum Patrolling
+        public enum Behavior
         {
             Path,
             Still
         }
 
-        public Patrolling patrolling;
+        public Behavior behavior;
         public Transform[] waypoints;
         private Vector3[] path;
         public PathType pathType;
@@ -61,22 +61,22 @@ namespace ForsakenLegacy
             _animator = GetComponent<Animator>();
             originalPosition = transform.position;
 
-            if(patrolling == Patrolling.Path){Patrol();}
-            if(patrolling == Patrolling.Still){_navMeshAgent.speed = idleSpeed;}
+            if(behavior == Behavior.Path){Patrol();}
+            if(behavior == Behavior.Still){_navMeshAgent.speed = idleSpeed;}
         }
 
         void Update()
         {
             _animator.SetFloat("Speed", _navMeshAgent.speed);
-            // if (_target && !_target.GetComponent<HealthSystem>().isDead)
-            // {
-            //     // if(!isAttacking) CheckForPlayerInSight();
-            //     // if (targetInSight && !isAttacking)
-            //     // {
-            //     //     // Start pursuing the player
-            //     //     StartPursuit();
-            //     // }
-            // }
+            if (_target && !_target.GetComponent<HealthSystem>().isDead)
+            {
+                if(!isAttacking) CheckForPlayerInSight();
+                if (targetInSight && !isAttacking)
+                {
+                    // Start pursuing the player
+                    StartPursuit();
+                }
+            }
 
             //If it's in attack, avoid enemy penetrating into player
             if (isAttacking)
@@ -91,58 +91,58 @@ namespace ForsakenLegacy
                 }
             }
 
-            // //if the enemy returned to position start patrolling again
-            // if(IsPathComplete() && isReturning)
-            // {
-            //     if(patrolling == Patrolling.Path)
-            //     {
-            //         Patrol();
-            //     }
-            //     else if(patrolling == Patrolling.Still)
-            //     {
-            //         _navMeshAgent.speed = idleSpeed;
-            //     }
-            // }
+            //if the enemy returned to position start patrolling again
+            if(IsPathComplete() && isReturning)
+            {
+                if(behavior == Behavior.Path)
+                {
+                    Patrol();
+                }
+                else if(behavior == Behavior.Still)
+                {
+                    _navMeshAgent.speed = idleSpeed;
+                }
+            }
         }
 
-        // void CheckForPlayerInSight()
-        // {
-        //     Vector3 toPlayer = _target.transform.position - transform.position;
-        //     float angle = Vector3.Angle(transform.forward, toPlayer);
+        void CheckForPlayerInSight()
+        {
+            Vector3 toPlayer = _target.transform.position - transform.position;
+            float angle = Vector3.Angle(transform.forward, toPlayer);
 
-        //     if (angle < fieldOfViewAngle * 0.5f)
-        //     {
-        //         RaycastHit hit;
+            if (angle < fieldOfViewAngle * 0.5f)
+            {
+                RaycastHit hit;
 
-        //         if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, fieldOfViewDistance))
-        //         {
-        //             if (hit.collider.gameObject.CompareTag("Player"))
-        //             {
-        //                 // Player is in sight
-        //                 targetInSight = true;
-        //                 timerSinceLostTarget = 0f;
-        //             }
-        //             else
-        //             {
-        //                 // Player is not in sight
-        //                 targetInSight = false;
-        //             }
-        //         }
-        //     }
+                if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, fieldOfViewDistance))
+                {
+                    if (hit.collider.gameObject.CompareTag("Player"))
+                    {
+                        // Player is in sight
+                        targetInSight = true;
+                        timerSinceLostTarget = 0f;
+                    }
+                    else
+                    {
+                        // Player is not in sight
+                        targetInSight = false;
+                    }
+                }
+            }
 
-        //     // If the player is not in sight, start counting time since lost target
-        //     if (!targetInSight && isPursuing)
-        //     {
-        //         timerSinceLostTarget += Time.deltaTime;
+            // If the player is not in sight, start counting time since lost target
+            if (!targetInSight && isPursuing)
+            {
+                timerSinceLostTarget += Time.deltaTime;
 
-        //         // If enough time has passed, return to position
-        //         if (timerSinceLostTarget >= timeToLostTarget)
-        //         {
-        //             StopPursuit();
-        //             ReturnToOriginalPosition();
-        //         }
-        //     }
-        // }
+                // If enough time has passed, return to position
+                if (timerSinceLostTarget >= timeToLostTarget)
+                {
+                    StopPursuit();
+                    ReturnToOriginalPosition();
+                }
+            }
+        }
 
 
         //Method that handles initial patrolling
@@ -157,7 +157,7 @@ namespace ForsakenLegacy
         {
             HandleLookAhead(false);
             DOTween.KillAll();
-            // isReturning = false;
+            isReturning = false;
 
             // Start pursuing the player
             _navMeshAgent.SetDestination(_target.transform.position);
@@ -173,18 +173,18 @@ namespace ForsakenLegacy
             _navMeshAgent.ResetPath();
         }
 
-        // void ReturnToOriginalPosition()
-        // {
-        //     DOTween.KillAll();
+        void ReturnToOriginalPosition()
+        {
+            DOTween.KillAll();
 
-        //     // Return to the original position if not pursuing
-        //     if (!isPursuing)
-        //     {
-        //         isReturning = true;
-        //         _navMeshAgent.SetDestination(originalPosition);
-        //         _navMeshAgent.speed = walkSpeed;
-        //     }
-        // }
+            // Return to the original position if not pursuing
+            if (!isPursuing)
+            {
+                isReturning = true;
+                _navMeshAgent.SetDestination(originalPosition);
+                _navMeshAgent.speed = walkSpeed;
+            }
+        }
 
 
         private void OnTriggerEnter(Collider other) {
@@ -233,22 +233,22 @@ namespace ForsakenLegacy
             }
         }
 
-        // protected bool IsPathComplete()
-        // {
-        //     if (!_navMeshAgent.pathPending)
-        //     {
-        //         if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
-        //         {
-        //             if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
-        //             {
-        //                 return true;
-        //             }
-        //             else return false;
-        //         }
-        //         else return false;
-        //     }
-        //     else return false;
-        // }
+        protected bool IsPathComplete()
+        {
+            if (!_navMeshAgent.pathPending)
+            {
+                if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+                {
+                    if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
 
 
         private void HandleLookAhead(bool lookAhead)
