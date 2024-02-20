@@ -66,7 +66,7 @@ namespace ForsakenLegacy
             Vector3 bulletPos = transform.position;
             bulletPos.y += 0.5f;
             bullet = Instantiate(bulletPrefab, bulletPos, transform.rotation);
-            // bullet.transform.SetParent(transform);
+            bullet.transform.SetParent(transform);
         }
 
         private void Shoot()
@@ -101,9 +101,10 @@ namespace ForsakenLegacy
         private void SpawnIndicator(Vector3 landingPosition)
         {
             landingPosition.y = player.transform.position.y - 0.3f;
+            
             // Instantiate the indicator at the landing position
             indicator = Instantiate(indicatorPrefab, landingPosition, Quaternion.identity);
-            // indicator.transform.SetParent(transform);
+            indicator.transform.SetParent(transform);
         }
 
         public void DestroyIndicatorBullet()

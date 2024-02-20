@@ -14,7 +14,6 @@ namespace ForsakenLegacy{
                 {
                     attack.PlayFeedbacks();
                     other.gameObject.GetComponent<Damageable>().TakeDamage(10, gameObject.transform);
-                    Debug.Log("Hit Enemy");
                 }
                 else return;
             }
