@@ -49,7 +49,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     }
 
 
-    private void Awake() {
+    private void Start() {
         //initialize enemy dictionary
         enemies = new Dictionary<string, bool>();
         
@@ -99,7 +99,7 @@ public class Arena : MonoBehaviour, IDataPersistence
         }
 
         //Enemies start attacking
-        foreach (GuardianArena guardian in GetComponentsInChildren<GuardianArena>())
+        foreach (Guardian guardian in GetComponentsInChildren<Guardian>())
         {
             guardian.StartPursuit();
         }

@@ -21,7 +21,7 @@ namespace ForsakenLegacy
         public bool canMove = true;
         public float MoveSpeed = 2.0f;
         public float SprintSpeed = 5.335f;
-        private bool isInAbility;
+        public bool isInAbility;
 
         private float RotationSmoothTime = 0.12f;
         private float SpeedChangeRate = 10.0f;
@@ -49,6 +49,7 @@ namespace ForsakenLegacy
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
         private float _fallTimeoutDelta;
+    
 
         // Animation Parameters
         private int _animIDSpeed;
@@ -100,13 +101,13 @@ namespace ForsakenLegacy
         }
         private void Update()
         {
-            bool isDashing = gameObject.GetComponent<DashAbility>().isDashing;
+            // bool isDashing = gameObject.GetComponent<DashAbility>().isInAbility;
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
             canMove = !isAttacking;
 
-            if (canMove && !isDashing) {Move();}
+            if (canMove && !isInAbility) {Move();}
             HandleGravity();
             GroundedCheck();
         }

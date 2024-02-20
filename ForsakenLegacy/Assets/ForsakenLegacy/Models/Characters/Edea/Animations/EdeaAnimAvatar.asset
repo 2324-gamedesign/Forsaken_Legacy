@@ -6,7 +6,7 @@ Avatar:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EdeaNewAnimAvatar
+  m_Name: EdeaAnimAvatar
   m_AvatarSize: 21284
   m_Avatar:
     serializedVersion: 3

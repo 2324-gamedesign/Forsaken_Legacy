@@ -82,7 +82,7 @@ namespace ForsakenLegacy
             }
             else
             {
-                hitFeedback.PlayFeedbacks(); 
+                hitFeedback.PlayFeedbacks();
             }
         }
 
