@@ -22,10 +22,9 @@ namespace ForsakenLegacy
         private float maxComboDelay = 1f;
         public GameObject weapon;
         public AudioClip[] FootstepAudioClips;
-        public RigLayer rigLayer;
+        public Rig rigLayer;
         
         public Animator _animator;
-        private CharacterController _controller;
 
         // Feedbacks
         public MMFeedbacks activateWeapon;
@@ -33,8 +32,8 @@ namespace ForsakenLegacy
 
         private void Start()
         { 
-            _controller = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
+            rigLayer = GetComponentInChildren<Rig>();
 
             attackAction = _playerInput.actions.FindAction("Attack");
             attackAction.performed += OnAttackPerformed;
@@ -42,12 +41,11 @@ namespace ForsakenLegacy
 
         private void Update()
         {
-            bool isDashing = gameObject.GetComponent<DashAbility>().isDashing;
             noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
             _animator.SetInteger("noOfClicks", noOfClicks);
 
             HandleAttackAnim();
-            SetRootMotion();
+            // SetRootMotion();
         }
 
         void OnAttackPerformed(InputAction.CallbackContext context)
@@ -65,12 +63,20 @@ namespace ForsakenLegacy
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3"))
             {
                 noOfClicks = 0;
+                rigLayer.weight = 0f;
             }
 
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1"))
+            {
+                rigLayer.weight = 1f;
 
-            if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f && _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3")) {
-                rigLayer.rig.weight = 0; 
             }
+
+            // //if the combo3 animation is playing and it is at 20% of its length set the rig weight to 0
+            // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.2f)
+            // {
+            //     rigLayer.weight = 0f;
+            // }
 
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
             {
@@ -79,6 +85,7 @@ namespace ForsakenLegacy
             }
             else
             {
+                rigLayer.weight = 0f;
                 isAttacking = false;
                 HandleWeapon();
             }
@@ -92,26 +99,20 @@ namespace ForsakenLegacy
                 weapon.gameObject.SetActive(isAttacking);
                 activateWeapon.PlayFeedbacks();
                 attack.PlayFeedbacks();
-                if(isAttacking){
-                    rigLayer.rig.weight = 1;
-                }
-                else{
-                    rigLayer.rig.weight = 0; 
-                }
             }
         }
 
-        private void SetRootMotion(){
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
-                _animator.applyRootMotion = false;
-            }
-            else
-            {
-                _animator.applyRootMotion = true;
-            }
-        }
+        // private void SetRootMotion(){
+        //     if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
+        //         _animator.applyRootMotion = false;
+        //     }
+        //     else
+        //     {
+        //         _animator.applyRootMotion = true;
+        //     }
+        // }
 
-        // Methods calld in animation
+        // Methods called in animation
         private void WeaponColliderOn()
         {
             weapon.GetComponent<Collider>().enabled = true;
@@ -119,6 +120,19 @@ namespace ForsakenLegacy
         private void WeaponColliderOff()
         {
             weapon.GetComponent<Collider>().enabled = false;
+        }
+        private void HoldWeapon()
+        {
+            // rigLayer.weight = 1f;
+            weapon.gameObject.SetActive(true);
+            activateWeapon.PlayFeedbacks();
+        }
+
+        private void ReleaseWeapon()
+        {
+            // rigLayer.weight = 0f;
+            weapon.gameObject.SetActive(false);
+            activateWeapon.PlayFeedbacks();
         }
     }
 }

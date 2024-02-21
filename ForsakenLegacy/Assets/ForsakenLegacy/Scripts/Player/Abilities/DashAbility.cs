@@ -16,7 +16,6 @@ namespace ForsakenLegacy
         private InputAction dashAction;
         public float dashDistance = 5.0f;
         private float dashDuration = 0.2f;
-        public bool isDashing = false;
         private bool canDash = true;
         private Vector3 dashDirection;
     
@@ -43,7 +42,7 @@ namespace ForsakenLegacy
         {
             bool isAttacking = GetComponent<AttackMelee>().isAttacking;
             
-            if (!isDashing && canDash && !isAttacking)
+            if (!GetComponent<PlayerController>().isInAbility && canDash && !isAttacking)
             {
                 StartCoroutine(PerformDash());
             }
@@ -54,11 +53,11 @@ namespace ForsakenLegacy
         }
         private IEnumerator PerformDash()
         {
-            isDashing = true;
+            GetComponent<PlayerController>().isInAbility = true;
             canDash = false;
     
             _animator.Play("Dash");
-            FadeOut();
+            // FadeOut();
     
             trail.SetActive(true);
             dashParticles.PlayFeedbacks();
@@ -70,10 +69,10 @@ namespace ForsakenLegacy
             dashDirection = transform.forward;
             _controller.enabled = false;
     
-            // Perform a sphere cast in the dash direction
-            if (Physics.SphereCast(startPosition, _controller.radius, dashDirection, out RaycastHit hit,    dashDistance, LayerMask.GetMask("Ground", "Environment")))
+            // Perform a sphere cast in the dash direction to check if there is any obstacle
+            if (Physics.SphereCast(startPosition, _controller.radius, dashDirection, out RaycastHit hit, dashDistance, LayerMask.GetMask("Ground", "Environment")))
             {
-                // Adjust the player's position to the point of contact with the obstacle
+                // Adjust the player's position to the point of contact with the obstacle to avoid compenetration
                 transform.position = hit.point - dashDirection * _controller.radius;
             }
             else
@@ -87,10 +86,10 @@ namespace ForsakenLegacy
             transform.position = new Vector3(transform.position.x, startY, transform.position.z);
             _controller.enabled = true;
     
-            FadeIn();
+            // FadeIn();
             dashCooldownImage.fillAmount = 1;
     
-            isDashing = false;
+            GetComponent<PlayerController>().isInAbility = false;
             StartCoroutine(DashCooldown());
     
             yield return new WaitForSeconds(dashDuration);

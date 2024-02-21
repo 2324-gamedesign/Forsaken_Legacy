@@ -1,82 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
-using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using MoreMountains.Feedbacks;
+using Unity.VisualScripting;
+
 
 namespace ForsakenLegacy
 {
     public class Guardian : MonoBehaviour
     {
-        public enum Behavior
-        {
-            Path,
-            Still
-        }
-
-        public Behavior behavior;
-        public Transform[] waypoints;
-        private Vector3[] path;
-        public PathType pathType;
-        public float duration;
-
-        public float fieldOfViewAngle = 110f;
-        public float fieldOfViewDistance = 10f;
+        public GameObject _target = null;
         public Collider attackRange;
 
-        private Vector3 originalPosition;
-        protected float timerSinceLostTarget = 0.0f;
-        private float timeToLostTarget = 1.0f;
-        private bool targetInSight = false;
+        private NavMeshAgent _navMeshAgent;
+        private Animator _animator;
 
-        public bool isPursuing = false;
-        public bool isAttacking = false;
-        public bool isReturning = false;
-
-        public float idleSpeed = 0f;
-        public float walkSpeed = 2f;
-        public float runSpeed = 4f;
+        //floats to handle speed and animator
+        private float idleSpeed = 0f;
+        private float walkSpeed = 2f;
+        private float runSpeed = 4f;
 
         private float minDistanceToPlayer = 0.9f;
         private bool isInsideAttackRange = false;
 
-        public GameObject _target = null;
-        private NavMeshAgent _navMeshAgent;
-        private Animator _animator;
         public Collider weaponCollider;
+        private bool isAttacking = false;
+
+        //Patrolling
+        private Vector3 originalPosition;
+        public Transform[] waypoints;
+        private Vector3[] path;
+        public PathType pathType;
+        public float duration;
+        public bool isPatrolling;
+
+        public bool isStunned = false;
 
         public MMFeedbacks feedbackAttack;
+        public MMFeedbacks feedbackStun;
 
-
-        void Start()
+        private void Awake() 
         {
-            path = new Vector3[waypoints.Length];
-            for (int i = 0; i < waypoints.Length; i++) 
-            {
-                path[i] = waypoints[i].position;
-            };
-
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             originalPosition = transform.position;
-
-            if(behavior == Behavior.Path){Patrol();}
-            if(behavior == Behavior.Still){_navMeshAgent.speed = idleSpeed;}
+            
+            Patrol();
         }
 
+        // Update is called once per frame
         void Update()
         {
             _animator.SetFloat("Speed", _navMeshAgent.speed);
-            if (_target && !_target.GetComponent<HealthSystem>().isDead)
-            {
-                if(!isAttacking) CheckForPlayerInSight();
-                if (targetInSight && !isAttacking)
-                {
-                    // Start pursuing the player
-                    StartPursuit();
-                }
-            }
 
             //If it's in attack, avoid enemy penetrating into player
             if (isAttacking)
@@ -91,131 +68,80 @@ namespace ForsakenLegacy
                 }
             }
 
-            //if the enemy returned to position start patrolling again
-            if(IsPathComplete() && isReturning)
+            //If the enemy is active and the parent arena is not in progress and it is not already patrolling, handle the patroll behavior
+            if(!GetComponentInParent<Arena>().isInProgress && !isPatrolling)
             {
-                if(behavior == Behavior.Path)
-                {
-                    Patrol();
-                }
-                else if(behavior == Behavior.Still)
-                {
-                    _navMeshAgent.speed = idleSpeed;
-                }
+                Patrol();
             }
-        }
-
-        void CheckForPlayerInSight()
-        {
-            Vector3 toPlayer = _target.transform.position - transform.position;
-            float angle = Vector3.Angle(transform.forward, toPlayer);
-
-            if (angle < fieldOfViewAngle * 0.5f)
-            {
-                RaycastHit hit;
-
-                if (Physics.Raycast(transform.position, toPlayer.normalized, out hit, fieldOfViewDistance))
-                {
-                    if (hit.collider.gameObject.CompareTag("Player"))
-                    {
-                        // Player is in sight
-                        targetInSight = true;
-                        timerSinceLostTarget = 0f;
-                    }
-                    else
-                    {
-                        // Player is not in sight
-                        targetInSight = false;
-                    }
-                }
-            }
-
-            // If the player is not in sight, start counting time since lost target
-            if (!targetInSight && isPursuing)
-            {
-                timerSinceLostTarget += Time.deltaTime;
-
-                // If enough time has passed, return to position
-                if (timerSinceLostTarget >= timeToLostTarget)
-                {
-                    StopPursuit();
-                    ReturnToOriginalPosition();
-                }
-            }
-        }
-
-
-        //Method that handles initial patrolling
-        private void Patrol()
-        {
-            HandleLookAhead(true);
-            _navMeshAgent.speed = walkSpeed;
-            transform.DOPath(path, duration, pathType, PathMode.Ignore, 10, Color.red).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart).SetOptions(closePath: true);
         }
 
         public void StartPursuit()
         {
-            HandleLookAhead(false);
-            DOTween.KillAll();
-            isReturning = false;
-
-            // Start pursuing the player
-            _navMeshAgent.SetDestination(_target.transform.position);
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.speed = runSpeed;
-            isPursuing = true;
-        }
-
-        void StopPursuit()
-        {
-            isReturning = false;
-            isPursuing = false;
-            _navMeshAgent.ResetPath();
-        }
-
-        void ReturnToOriginalPosition()
-        {
+            isPatrolling = false;
             DOTween.KillAll();
 
-            // Return to the original position if not pursuing
-            if (!isPursuing)
+            if(!isStunned)
             {
-                isReturning = true;
-                _navMeshAgent.SetDestination(originalPosition);
-                _navMeshAgent.speed = walkSpeed;
+                //if it is still attacking wait for attack animation to stop and then call this again
+                if(isAttacking)
+                {
+                    Invoke("StartPursuit", 1f);
+                    return;
+                }
+                HandleLookAhead(false);
+
+                // Start pursuing the player
+                InvokeRepeating("SetDestination", 0.1f, 0.5f);
+
+                _navMeshAgent.isStopped = false;
+                _navMeshAgent.speed = runSpeed;
             }
         }
 
+        private void StopPursuit()
+        {
+            _navMeshAgent.ResetPath();
+            _navMeshAgent.isStopped = true;
+        }
 
-        private void OnTriggerEnter(Collider other) {
+        private void SetDestination()
+        {
+            _navMeshAgent.SetDestination(_target.transform.position);
+        }
+
+        private void OnTriggerEnter(Collider other) 
+        {
             if(attackRange)
             {
                 if(other == attackRange && !_target.GetComponent<HealthSystem>().isDead)
                 {
+                    CancelInvoke();
+
                     HandleLookAhead(false);
                     DOTween.KillAll();
+
                     StopPursuit();
 
-                    InvokeRepeating("TriggerAttack", 0.1f, 2f);
-                    _navMeshAgent.isStopped = true;
+                    InvokeRepeating("TriggerAttack", 0.1f, 5f);
                 }
             }
             else return;
         }
 
-        private void OnTriggerExit(Collider other) {
+        private void OnTriggerExit(Collider other) 
+        {
             if(other == attackRange)
             {
-                CancelInvoke();
-                _animator.Play("Idle-Walk-Run");
-                StartPursuit();
                 isInsideAttackRange = false;
+
+                CancelInvoke();
+                StartPursuit();
             }
         }
 
         void TriggerAttack()
         {
-            if(!_target.GetComponent<HealthSystem>().isDead)
+            if(!_target.GetComponent<HealthSystem>().isDead && !isStunned)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
@@ -224,32 +150,49 @@ namespace ForsakenLegacy
 
                 // Trigger the attack animation or perform attack logic here
                 if(indexAttack == 0) _animator.SetTrigger("Attack");
-                if(indexAttack == 1) _animator.SetTrigger("Combo"); 
+                else if(indexAttack == 1) _animator.SetTrigger("Combo");
             }
-            else 
+            else
             {
                 CancelInvoke();
-                _animator.Play("Idle-Walk-Run");
+                _navMeshAgent.speed = idleSpeed;
+
+                StopPursuit();
             }
         }
 
-        protected bool IsPathComplete()
-        {
-            if (!_navMeshAgent.pathPending)
+        //Method that handles the start of patrolling
+        private void Patrol()
+        {  
+            isPatrolling = true;
+            if(transform.position != originalPosition)
             {
-                if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
-                {
-                    if (!_navMeshAgent.hasPath || _navMeshAgent.velocity.sqrMagnitude == 0f)
-                    {
-                        return true;
-                    }
-                    else return false;
-                }
-                else return false;
+                ReturnToOriginalPosition();
+                return;
             }
-            else return false;
+            //Initialize path
+            path = new Vector3[waypoints.Length];
+            for (int i = 0; i < waypoints.Length; i++) 
+            {
+                path[i] = waypoints[i].position;
+            }
+
+            HandleLookAhead(true);
+
+            // _navMeshAgent.isStopped = true;
+            _navMeshAgent.speed = walkSpeed;
+            transform.DOPath(path, duration, pathType, PathMode.Ignore, 10, Color.red).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart).SetOptions(closePath: true);
+
         }
 
+        void ReturnToOriginalPosition()
+        {
+            DOTween.KillAll();
+
+            _navMeshAgent.SetDestination(originalPosition);
+            _navMeshAgent.speed = walkSpeed;
+            Patrol();
+        }
 
         private void HandleLookAhead(bool lookAhead)
         {
@@ -259,8 +202,33 @@ namespace ForsakenLegacy
             }   
         }
 
+        public void Stun(float duration)
+        {
+            // Implement your stun logic here, for example, disabling enemy movement
+            StartCoroutine(StunCoroutine(duration));
+        }
+    
+        IEnumerator StunCoroutine(float duration)
+        {
+            isStunned = true;
+            StopPursuit();
+            _animator.SetTrigger("Stun");
+            feedbackStun.PlayFeedbacks();
+    
+            yield return new WaitForSeconds(duration);
 
-        // Methods Triggered in Animations
+            StunEnd();
+        }
+
+        public void StunEnd()
+        {
+            _animator.SetTrigger("StunEnd");
+            feedbackStun.StopFeedbacks();
+            isStunned = false;
+            StartPursuit();
+        }
+
+        //Methods called in animation
         void SetStop()
         {
             isAttacking = true;
@@ -273,7 +241,6 @@ namespace ForsakenLegacy
                 isAttacking = false;
             }
         }
-
         void SetRootMotion()
         {
             _animator.applyRootMotion = true;
@@ -282,7 +249,6 @@ namespace ForsakenLegacy
         {
             _animator.applyRootMotion = false;
         }
-
         void ColliderWeaponOn()
         {
             weaponCollider.enabled = true;
@@ -293,3 +259,4 @@ namespace ForsakenLegacy
         }
     }
 }
+
