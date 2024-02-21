@@ -11,12 +11,6 @@ namespace ForsakenLegacy
         public MMFeedbacks feedbackStunStart;
         public MMFeedbacks feedbackStunEnd;
 
-        public void Stun()
-        {
-            // Implement your stun logic here, for example, disabling enemy movement
-            StartCoroutine(StunCoroutine(1));
-        }
-
         public void Stun(float duration)
         {
             // Implement your stun logic here, for example, disabling enemy movement
@@ -25,12 +19,15 @@ namespace ForsakenLegacy
 
         IEnumerator StunCoroutine(float duration)
         {
-            isStunned = true;
             feedbackStunStart.PlayFeedbacks();
+            isStunned = true;
 
             yield return new WaitForSeconds(duration);
 
-            StunEnd();
+            if(feedbackStunEnd != null)
+            {
+                StunEnd();
+            }
         }
         public void StunEnd()
         {
