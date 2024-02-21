@@ -39,7 +39,6 @@ namespace ForsakenLegacy
         public bool isStunned = false;
 
         public MMFeedbacks feedbackAttack;
-        public MMFeedbacks feedbackStun;
 
         private void Awake() 
         {
@@ -79,8 +78,9 @@ namespace ForsakenLegacy
         {
             isPatrolling = false;
             DOTween.KillAll();
+            CancelInvoke("TriggerAttack");
 
-            if(!isStunned)
+            if(!GetComponent<Stunnable>().isStunned)
             {
                 //if it is still attacking wait for attack animation to stop and then call this again
                 if(isAttacking)
@@ -88,6 +88,7 @@ namespace ForsakenLegacy
                     Invoke("StartPursuit", 1f);
                     return;
                 }
+
                 HandleLookAhead(false);
 
                 // Start pursuing the player
@@ -98,8 +99,9 @@ namespace ForsakenLegacy
             }
         }
 
-        private void StopPursuit()
+        public void StopPursuit()
         {
+            CancelInvoke();
             _navMeshAgent.ResetPath();
             _navMeshAgent.isStopped = true;
         }
@@ -115,7 +117,7 @@ namespace ForsakenLegacy
             {
                 if(other == attackRange && !_target.GetComponent<HealthSystem>().isDead)
                 {
-                    CancelInvoke();
+                    CancelInvoke("SetDestination");
 
                     HandleLookAhead(false);
                     DOTween.KillAll();
@@ -134,14 +136,14 @@ namespace ForsakenLegacy
             {
                 isInsideAttackRange = false;
 
-                CancelInvoke();
+                CancelInvoke("TriggerAttack");
                 StartPursuit();
             }
         }
 
         void TriggerAttack()
         {
-            if(!_target.GetComponent<HealthSystem>().isDead && !isStunned)
+            if(!_target.GetComponent<HealthSystem>().isDead && !GetComponent<Stunnable>().isStunned)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
@@ -154,10 +156,8 @@ namespace ForsakenLegacy
             }
             else
             {
-                CancelInvoke();
+                CancelInvoke("TriggerAttack");
                 _navMeshAgent.speed = idleSpeed;
-
-                StopPursuit();
             }
         }
 
@@ -202,31 +202,31 @@ namespace ForsakenLegacy
             }   
         }
 
-        public void Stun(float duration)
-        {
-            // Implement your stun logic here, for example, disabling enemy movement
-            StartCoroutine(StunCoroutine(duration));
-        }
+        // public void Stun(float duration)
+        // {
+        //     // Implement your stun logic here, for example, disabling enemy movement
+        //     StartCoroutine(StunCoroutine(duration));
+        // }
     
-        IEnumerator StunCoroutine(float duration)
-        {
-            isStunned = true;
-            StopPursuit();
-            _animator.SetTrigger("Stun");
-            feedbackStun.PlayFeedbacks();
+        // IEnumerator StunCoroutine(float duration)
+        // {
+        //     isStunned = true;
+        //     StopPursuit();
+        //     _animator.SetTrigger("Stun");
+        //     feedbackStun.PlayFeedbacks();
     
-            yield return new WaitForSeconds(duration);
+        //     yield return new WaitForSeconds(duration);
 
-            StunEnd();
-        }
+        //     StunEnd();
+        // }
 
-        public void StunEnd()
-        {
-            _animator.SetTrigger("StunEnd");
-            feedbackStun.StopFeedbacks();
-            isStunned = false;
-            StartPursuit();
-        }
+        // public void StunEnd()
+        // {
+        //     _animator.SetTrigger("StunEnd");
+        //     feedbackStun.StopFeedbacks();
+        //     isStunned = false;
+        //     StartPursuit();
+        // }
 
         //Methods called in animation
         void SetStop()

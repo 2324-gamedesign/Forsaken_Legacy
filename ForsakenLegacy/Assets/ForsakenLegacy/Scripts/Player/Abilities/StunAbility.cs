@@ -55,10 +55,10 @@ namespace ForsakenLegacy
             // Apply the stun effect to each enemy
             foreach (Collider collider in colliders)
             {
-                Guardian guardian = collider.GetComponent<Guardian>();
-                if (guardian != null)
+                Stunnable stunnable = collider.GetComponent<Stunnable>();
+                if (stunnable != null)
                 {
-                    guardian.Stun(stunDuration);
+                    stunnable.Stun(stunDuration);
                 }
             }
 

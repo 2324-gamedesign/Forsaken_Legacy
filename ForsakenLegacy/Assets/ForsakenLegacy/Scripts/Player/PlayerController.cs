@@ -26,13 +26,12 @@ namespace ForsakenLegacy
         private float RotationSmoothTime = 0.12f;
         private float SpeedChangeRate = 10.0f;
 
+        //Footsteps and Land
+        public AudioClip LandingAudioClip;
+        public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
-   
         public float Gravity = -15.0f;
-
         public float FallTimeout = 0.15f;
-
-
         private bool Grounded = true;
         public float GroundedOffset = -0.14f;
         private float GroundedRadius = 0.28f;
@@ -55,6 +54,7 @@ namespace ForsakenLegacy
         private int _animIDSpeed;
         private int _animIDGrounded;
         private int _animIDMotionSpeed;
+        private int _animIDFall;
 
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -98,6 +98,7 @@ namespace ForsakenLegacy
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDFall = Animator.StringToHash("Fall");
         }
         private void Update()
         {
@@ -105,9 +106,7 @@ namespace ForsakenLegacy
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
-            canMove = !isAttacking;
-
-            if (canMove && !isInAbility) {Move();}
+            if (canMove && !isInAbility && !isAttacking) {Move();}
             HandleGravity();
             GroundedCheck();
         }
@@ -121,18 +120,6 @@ namespace ForsakenLegacy
             data.playerPosition = this.transform.position;
         }
 
-        private void GroundedCheck()
-        {
-            // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-
-            // update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDGrounded, Grounded);
-            }
-        }
 
         private void Move()
         {
@@ -202,6 +189,19 @@ namespace ForsakenLegacy
             }
         }
 
+        private void GroundedCheck()
+        {
+            // set sphere position, with offset
+            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+
+            // update animator if using character
+            if (_hasAnimator)
+            {
+                _animator.SetBool(_animIDGrounded, Grounded);
+            }
+        }
+
         private void HandleGravity()
         {
             if (Grounded)
@@ -209,14 +209,44 @@ namespace ForsakenLegacy
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
+                // update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDFall, false);
+                }
+
                 // stop our velocity dropping infinitely when grounded
                 if (_verticalVelocity < 0.0f)
                 {
                     _verticalVelocity = -2f;
                 }
+
+                //if we are still playing the fall end animation don't move
+                if (_animator.GetCurrentAnimatorStateInfo(0).IsName("FallEnd"))
+                {
+                    canMove = false;
+                }
+                else
+                {
+                    canMove = true;
+				}
             }
             else
             {
+                // fall timeout
+                if (_fallTimeoutDelta >= 0.0f)
+                {
+                    _fallTimeoutDelta -= Time.deltaTime;
+                }
+                else
+                {
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDFall, true);
+                    }
+                }
+
                 // fall timeout
                 if (_fallTimeoutDelta >= 0.0f)
                 {
@@ -228,6 +258,28 @@ namespace ForsakenLegacy
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
+            }
+        }
+
+
+        //Events called in animation
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                if (FootstepAudioClips.Length > 0)
+                {
+                    var index = Random.Range(0, FootstepAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                }
+            }
+        }
+
+        private void OnLand(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
         }
     }

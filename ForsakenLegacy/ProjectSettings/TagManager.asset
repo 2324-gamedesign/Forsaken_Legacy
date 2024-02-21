@@ -14,7 +14,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Post-Process
+  - 
   - Water
   - UI
   - CanvasOnTop
@@ -22,7 +22,7 @@ TagManager:
   - Enemy
   - Environment
   - Ground
-  - 
+  - Post-Process
   - 
   - 
   - 
