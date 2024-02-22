@@ -3983,17 +3983,17 @@ PrefabInstance:
     - target: {fileID: 8287200929652727781, guid: 3cad91c062ea0604999989269a8c6889,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.222477
+      value: 196.43
       objectReference: {fileID: 0}
     - target: {fileID: 8287200929652727781, guid: 3cad91c062ea0604999989269a8c6889,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1406126
+      value: 12.64
       objectReference: {fileID: 0}
     - target: {fileID: 8287200929652727781, guid: 3cad91c062ea0604999989269a8c6889,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.81744
+      value: 144.01
       objectReference: {fileID: 0}
     - target: {fileID: 8287200929652727781, guid: 3cad91c062ea0604999989269a8c6889,
         type: 3}
@@ -6639,80 +6639,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 408242266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1299849969455246696
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1856254591825909258, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3666929012730756900, guid: 91777abd4c418a0409c88e749a4d836d,
-        type: 3}
-      propertyPath: m_Name
-      value: FogWall
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 91777abd4c418a0409c88e749a4d836d, type: 3}
---- !u!1 &4505451500813925314 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3666929012730756900, guid: 91777abd4c418a0409c88e749a4d836d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1299849969455246696}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7281247267751764926
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6725,7 +6651,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shieldedObjects.Array.data[0]
       value: 
-      objectReference: {fileID: 4505451500813925314}
+      objectReference: {fileID: 0}
     - target: {fileID: 5068063371248467524, guid: 8e57749a566305148bfbfb06fbaf9b7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6876,4 +6802,3 @@ SceneRoots:
   - {fileID: 1397392854}
   - {fileID: 7281247267751764926}
   - {fileID: 7429706243885550945}
-  - {fileID: 1299849969455246696}
