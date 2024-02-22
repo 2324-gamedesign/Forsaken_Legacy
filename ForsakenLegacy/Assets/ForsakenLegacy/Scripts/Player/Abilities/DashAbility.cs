@@ -63,7 +63,7 @@ namespace ForsakenLegacy
             dashParticles.PlayFeedbacks();
     
             // Store the current position, rotation, and y-coordinate
-            Vector3 startPosition = transform.position;
+            Vector3 startPosition = transform.position + Vector3.up * 1f; // Offset the starting position upward
             float startY = transform.position.y;
     
             dashDirection = transform.forward;

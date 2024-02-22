@@ -163,7 +163,7 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BrushLowerCut: 0.118
-    - _BrushSize: 0.68
+    - _BrushSize: 0.066
     - _BumpScale: 1
     - _CameraDistanceImpact: 0
     - _CelExtraEnabled: 0
@@ -214,7 +214,7 @@ Material:
     - _HairSpecularSize: 0.8
     - _HairSpecularSmoothness: 0.1
     - _HalfToneDiffuseStep: -0.3
-    - _HalfToneEnabled: 1
+    - _HalfToneEnabled: 0
     - _HalfToneIncludeReceivedShadow: 0
     - _HalfToneShape: 2
     - _HalfToneUvMode: 1

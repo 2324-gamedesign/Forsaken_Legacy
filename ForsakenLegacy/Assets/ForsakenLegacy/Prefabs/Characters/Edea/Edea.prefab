@@ -16268,8 +16268,10 @@ MonoBehaviour:
   isDead: 0
   currentHealth: 0
   invulnerabiltyTime: 1
+  healingPotions: 0
+  healingAmount: 10
   healthBarFill: {fileID: 0}
-  healthText: {fileID: 0}
+  potionNumberText: {fileID: 0}
   hitFeedback: {fileID: 6823360114733629190}
   deathFeedback: {fileID: 3656388959748563208}
 --- !u!65 &9030371432313701126

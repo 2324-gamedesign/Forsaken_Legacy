@@ -33,8 +33,9 @@ public class HealingStone : MonoBehaviour
 
     private void OnTriggerExit(Collider other) 
     {
-        if(other.gameObject.CompareTag("Player") && isActive)
+        if(other.gameObject.CompareTag("Player"))
         {
+            inInteractionArea = false;
             tutorial.text = "";
         }
     }
