@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ForsakenLegacy
 {
@@ -39,7 +40,9 @@ namespace ForsakenLegacy
         private PlayerInput _playerInput;
         private InputAction stunAction;
 
-        private AbilityManager abilityManager;
+        public float stunCooldown = 7f;
+        public Image stunCooldownImage; 
+        private bool canstun = true;
 
         public MMFeedbacks stunFeedback;
     
@@ -62,7 +65,7 @@ namespace ForsakenLegacy
             // {
                 bool isAttacking = GetComponent<AttackMelee>().isAttacking;
 
-                if (!GetComponent<PlayerController>().isInAbility && !isAttacking)
+                if (!GetComponent<PlayerController>().isInAbility && !isAttacking && canstun)
                 {
                     StartCoroutine("PerformStun");
                 }
@@ -72,6 +75,7 @@ namespace ForsakenLegacy
 
         private IEnumerator PerformStun()
         {
+            canstun = false;
             GetComponent<PlayerController>().isInAbility = true;
 
             // Play the stun feedback
@@ -93,6 +97,26 @@ namespace ForsakenLegacy
             }
 
             GetComponent<PlayerController>().isInAbility = false;
+            StartCoroutine(StunCooldown());
+        }
+
+        private IEnumerator StunCooldown()
+        {
+            float elapsedTime = 0f;
+    
+            while (elapsedTime < stunCooldown)
+            {
+                // Calculate the fill amount based on the remaining cooldown time
+                float fillAmount = 1 - (elapsedTime / stunCooldown);
+                // Update the UI image's fill amount
+                stunCooldownImage.fillAmount = fillAmount;
+                // Increment the elapsed time
+                elapsedTime += Time.deltaTime;
+                // Wait for the next frame
+                yield return null;
+            }
+            // Allow stunning again after the cooldown
+            canstun = true;
         }
     }
 }
