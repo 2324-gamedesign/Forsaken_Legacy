@@ -13,14 +13,30 @@ namespace ForsakenLegacy
         private void Start() {
             if(isEnemy)
             {
-                GetComponentInParent<Damageable>().enabled = false;
+                if(GetComponentInParent<Damageable>() != null)
+                {
+                    GetComponentInParent<Damageable>().enabled = false;
+                }
+
+                if(GetComponentInParent<Stunnable>() != null)
+                {
+                    GetComponentInParent<Stunnable>().isStunnable = false;
+                }
             }
         }
         public void DisableShield()
         {
             if(isEnemy)
             {
-                GetComponentInParent<Damageable>().enabled = true;
+                if(GetComponentInParent<Damageable>() != null)
+                {
+                    GetComponentInParent<Damageable>().enabled = true;
+                }
+
+                if(GetComponentInParent<Stunnable>() != null)
+                {
+                    GetComponentInParent<Stunnable>().isStunnable = true;
+                }
             }
 
             gameObject.SetActive(false);

@@ -56,17 +56,17 @@ namespace ForsakenLegacy
 
         private void OnStunPerformed(InputAction.CallbackContext context)
         {
-            Ability stunAbility = AbilityManager.Instance.GetAbilityByType(type);
+            // Ability stunAbility = AbilityManager.Instance.GetAbilityByType(type);
 
-            if (stunAbility != null && stunAbility.IsUnlocked())
-            {
+            // if (stunAbility != null && stunAbility.IsUnlocked())
+            // {
                 bool isAttacking = GetComponent<AttackMelee>().isAttacking;
 
                 if (!GetComponent<PlayerController>().isInAbility && !isAttacking)
                 {
                     StartCoroutine("PerformStun");
                 }
-            }
+            // }
         }
 
 
