@@ -17,7 +17,7 @@ public class GameData
     {
         this.currentHealth = 100;
         this.healingPotions = 0;
-        playerPosition = new Vector3(0, 1.5f, 0);
+        playerPosition = new Vector3(70, 18, 33);
         abilities = new SerializableDictionary<string, bool>();
         clearedArenas = new SerializableDictionary<string, bool>();
     }

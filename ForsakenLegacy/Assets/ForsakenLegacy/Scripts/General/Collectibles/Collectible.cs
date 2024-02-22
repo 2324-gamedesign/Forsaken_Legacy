@@ -22,7 +22,7 @@ public class Collectible : MonoBehaviour
     {
         if (inInteractionArea && isActive && Keyboard.current.eKey.wasPressedThisFrame)
         {
-            AbilityManager.Instance.UnlockStunAbility();
+            // AbilityManager.Instance.UnlockStunAbility();
 
             isActive = false;
             gameObject.SetActive(false);
