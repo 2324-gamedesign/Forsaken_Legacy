@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using ForsakenLegacy;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using ForsakenLegacy;
 
-public class HealingStone : MonoBehaviour
+public class Collectible : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject blood;
     private bool inInteractionArea;
     public bool isActive = true;
 
@@ -24,9 +22,10 @@ public class HealingStone : MonoBehaviour
     {
         if (inInteractionArea && isActive && Keyboard.current.eKey.wasPressedThisFrame)
         {
-            player.GetComponent<HealthSystem>().IncreasePotions(2);
+            AbilityManager.Instance.UnlockStunAbility();
+
             isActive = false;
-            blood.SetActive(false);
+            gameObject.SetActive(false);
             DialogueManager.Instance.EditTutorialText("");
         }
     }
@@ -40,3 +39,4 @@ public class HealingStone : MonoBehaviour
         }
     }
 }
+

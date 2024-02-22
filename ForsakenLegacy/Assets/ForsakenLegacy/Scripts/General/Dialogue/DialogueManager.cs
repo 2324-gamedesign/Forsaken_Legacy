@@ -18,8 +18,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     public List<CharacterProfile> characterProfiles;
-
     private Dictionary<string, CharacterProfile> characterMap;
+
+    public TMP_Text tutorial;
 
     private void Awake()
     {
@@ -125,5 +126,10 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text = "";   // Clear the text
             profileImage.enabled = true;
         });
+    }
+
+    public void EditTutorialText(string text)
+    {
+        tutorial.text = text;
     }
 }
