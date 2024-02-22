@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using MoreMountains.Feedbacks;
+using UnityEngine.InputSystem;
 
 namespace ForsakenLegacy
 {
@@ -15,6 +16,9 @@ namespace ForsakenLegacy
         public float invulnerabiltyTime = 1.0f; // The time in seconds the player is invulnerable after taking damage.
 
         public int healingPotions;
+        public int healingAmount = 10;
+        private InputAction healAction;
+        private PlayerInput _playerInput;
         
         // References to UI elements
         public Image healthBarFill; // Assign this in the inspector
@@ -26,9 +30,14 @@ namespace ForsakenLegacy
 
         void Start()
         {
+            _playerInput = GetComponent<PlayerInput>();
+            healAction = _playerInput.actions["Heal"];
+            healAction.performed += Heal;
+
             currentHealth = maxHealth; // Set current health to max at the start.
             UpdateHealthUI();
         }
+    
         private void Update()
         {
             if (isInvulnerable)
@@ -86,9 +95,9 @@ namespace ForsakenLegacy
             UpdateHealthUI();
         }
 
-        public void Heal(int healingAmount)
+        public void Heal(InputAction.CallbackContext context) 
         {
-            if(healingPotions <= 0)
+            if(healingPotions <= 0 || currentHealth == maxHealth)
             {
                 return;
             }

@@ -119,7 +119,7 @@ public class DialogueManager : MonoBehaviour
     public void CloseBarkPanel()
     {
         // Animate the panel to move off-screen
-        dialoguePanel.DOAnchorPos(new Vector2(0, -600), .2f).OnComplete(() =>
+        dialoguePanel.DOAnchorPos(new Vector2(100, -600), .2f).OnComplete(() =>
         {
             nameText.text = "";
             dialogueText.text = "";   // Clear the text
