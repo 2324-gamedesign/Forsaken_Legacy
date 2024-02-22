@@ -108,7 +108,6 @@ public class Arena : MonoBehaviour, IDataPersistence
     {
         cleared = true;
         isInProgress = false;
-        gameObject.SetActive(false);
        
         //Open the doors
         foreach(GameObject door in doors)

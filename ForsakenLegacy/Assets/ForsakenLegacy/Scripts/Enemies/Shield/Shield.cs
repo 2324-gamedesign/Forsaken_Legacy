@@ -15,14 +15,9 @@ namespace ForsakenLegacy
             {
                 GetComponentInParent<Damageable>().enabled = false;
             }
-            else
-            {
-
-            }
         }
         public void DisableShield()
         {
-            Debug.Log("Disabling shield");
             if(isEnemy)
             {
                 GetComponentInParent<Damageable>().enabled = true;

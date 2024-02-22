@@ -13,10 +13,12 @@ namespace ForsakenLegacy
         private bool isInvulnerable = false;
         private float timeSinceLastHit = 0.0f;
         public float invulnerabiltyTime = 1.0f; // The time in seconds the player is invulnerable after taking damage.
+
+        public int healingPotions;
         
         // References to UI elements
         public Image healthBarFill; // Assign this in the inspector
-        public TMP_Text healthText; // Assign this in the inspector
+        public TMP_Text potionNumberText; // Assign this in the inspector
 
         //Feedbacks
         public MMFeedbacks hitFeedback; // Assign this in the inspector
@@ -86,6 +88,12 @@ namespace ForsakenLegacy
 
         public void Heal(int healingAmount)
         {
+            if(healingPotions <= 0)
+            {
+                return;
+            }
+
+            healingPotions -= 1; // Decrement the number of healing potions by 1.
             currentHealth += healingAmount;
             if (currentHealth > maxHealth)
             {
@@ -93,6 +101,13 @@ namespace ForsakenLegacy
             }
             
             UpdateHealthUI();
+            UpdatePotionUI();
+        }
+
+        public void IncreasePotions(int potions)
+        {
+            healingPotions += potions;
+            UpdatePotionUI(); // Update the UI to reflect the new number of healing potions.
         }
 
         private void Die()
@@ -100,6 +115,10 @@ namespace ForsakenLegacy
             Debug.Log("Player Died");
             deathFeedback.PlayFeedbacks();
             // Implement what happens when the player dies.
+        }
+        public void UpdatePotionUI()
+        {
+            potionNumberText.text = healingPotions.ToString(); // Update the UI text with the new number of healing potions.
         }
 
         private void UpdateHealthUI()
@@ -109,7 +128,6 @@ namespace ForsakenLegacy
                 isDead = false;
             }
             healthBarFill.fillAmount = (float)currentHealth / maxHealth;
-            healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
         }
         public int GetCurrentHealth()
         {
