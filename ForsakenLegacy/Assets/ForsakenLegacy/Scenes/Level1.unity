@@ -18712,6 +18712,11 @@ PrefabInstance:
       propertyPath: healthBarFill
       value: 
       objectReference: {fileID: 544386054}
+    - target: {fileID: 2399336354237088839, guid: 54992b41001d68943af812dcbe13a051,
+        type: 3}
+      propertyPath: potionNumberText
+      value: 
+      objectReference: {fileID: 1068575170}
     - target: {fileID: 3656388959748563208, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: managedReferences[8477860693817950213].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -22905,6 +22910,84 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.020898864, y: 0.027294127, z: 0.030770862}
   m_Center: {x: -0.0014872723, y: 0.00311008, z: 0.013943662}
+--- !u!1001 &7429706243885550945
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7031843164221821189, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_Name
+      value: HealingStone
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.180626
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 28.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.86690557
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.49847248
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -59.798
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984402913457603713, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1983939317}
+    - target: {fileID: 8984402913457603713, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
+        type: 3}
+      propertyPath: tutorial
+      value: 
+      objectReference: {fileID: 933978598}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 092b4b4a6230d814f83f6d5b84b65c6f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -22920,3 +23003,4 @@ SceneRoots:
   - {fileID: 1219732968359122271}
   - {fileID: 4550593396434084649}
   - {fileID: 2032911828}
+  - {fileID: 7429706243885550945}
