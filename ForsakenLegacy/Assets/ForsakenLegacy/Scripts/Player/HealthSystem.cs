@@ -56,11 +56,14 @@ namespace ForsakenLegacy
         public void LoadData(GameData data)
         {
             this.currentHealth = data.currentHealth;
+            this.healingPotions = data.healingPotions;
+            UpdatePotionUI();
             UpdateHealthUI();
         }
         public void SaveData(ref GameData data)
         {
             data.currentHealth = this.currentHealth;
+            data.healingPotions = this.healingPotions;
         }
 
 

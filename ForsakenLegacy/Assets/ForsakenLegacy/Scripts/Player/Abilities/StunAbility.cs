@@ -9,29 +9,13 @@ namespace ForsakenLegacy
 {
     public class Ability
     {
-        public AbilityType type;
+        public string type;
         public bool unlocked;
-
-        // Method to unlock the ability
-        public void UnlockAbility()
-        {
-            unlocked = true;
-            Debug.Log("Unlocked ability: " + type);
-            
-            // Invoke the event when the ability is unlocked
-            // OnAbilityUnlocked?.Invoke(type);
-        }
-
-        // Method to check if the ability is unlocked
-        public bool IsUnlocked()
-        {
-            return unlocked;
-        }
     }
 
     public class StunAbility : MonoBehaviour
     {
-        public AbilityType type = AbilityType.Stun;
+        public Ability Ability = new Ability();
         public float stunDuration = 3f;
         public float stunRadius = 5f;
 
@@ -50,28 +34,31 @@ namespace ForsakenLegacy
         {
             // Set the layer mask to the enemy layer
             enemyLayer = LayerMask.GetMask("Enemy");
+            Ability.type = "Stun";
+            Ability.unlocked = false;
 
             // Initialize the input system to check for the key
             _playerInput = GetComponent<PlayerInput>();
             stunAction = _playerInput.actions.FindAction("Stun");
             stunAction.performed += OnStunPerformed;
         }
+        public void UnlockAbility()
+        {
+            Ability.unlocked = true;
+        }
 
         private void OnStunPerformed(InputAction.CallbackContext context)
         {
-            // Ability stunAbility = AbilityManager.Instance.GetAbilityByType(type);
-
-            // if (stunAbility != null && stunAbility.IsUnlocked())
-            // {
+            if (Ability.unlocked)
+            {
                 bool isAttacking = GetComponent<AttackMelee>().isAttacking;
 
                 if (!GetComponent<PlayerController>().isInAbility && !isAttacking && canstun)
                 {
                     StartCoroutine("PerformStun");
                 }
-            // }
+            }
         }
-
 
         private IEnumerator PerformStun()
         {
