@@ -6,26 +6,35 @@ namespace ForsakenLegacy
 {
     public class ShieldProvider : MonoBehaviour
     {
-        public GameObject shieldedObject; // The object protected by the Shield
-        public float shieldDuration = 5f; // Duration of the barrier in seconds
-    
-        public Shield shield;
+        public GameObject[] shieldedObjects; // The object protected by the Shield
+        // public float shieldDuration = 5f; // Duration of the barrier in seconds
+        [SerializeField] private List<Shield> shields = new List<Shield>(); // Use a list instead of an array
     
         void Start()
         {
             // Get the Shield component from the shielded object
-            if(shieldedObject != null)
+            if(shieldedObjects != null)
             {
-                shield = shieldedObject.GetComponentInChildren<Shield>();
+                foreach (GameObject shieldedObject in shieldedObjects)
+                {
+                    Shield shield = shieldedObject.GetComponentInChildren<Shield>();
+                    if (shield != null)
+                    {
+                        shields.Add(shield); // Add the shield component to the list
+                    }
+                } 
             }
         }
     
         // Function to stun the flower
         public void Stun()
         {
-            if (!GetComponent<Stunnable>().isStunned && shield != null)
+            if (!GetComponent<Stunnable>().isStunned && shields != null)
             {
-                shield.DisableShield(); // Disable the Shield when the flower is stunned
+                foreach (Shield shield in shields)
+                {
+                    shield.DisableShield(); // disable the Shield when the flower is stunned
+                }
             }
         }
     }

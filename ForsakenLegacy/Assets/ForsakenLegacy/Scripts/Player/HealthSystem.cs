@@ -16,7 +16,6 @@ namespace ForsakenLegacy
         
         // References to UI elements
         public Image healthBarFill; // Assign this in the inspector
-        public TMP_Text healthText; // Assign this in the inspector
 
         //Feedbacks
         public MMFeedbacks hitFeedback; // Assign this in the inspector
@@ -109,7 +108,6 @@ namespace ForsakenLegacy
                 isDead = false;
             }
             healthBarFill.fillAmount = (float)currentHealth / maxHealth;
-            healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
         }
         public int GetCurrentHealth()
         {
