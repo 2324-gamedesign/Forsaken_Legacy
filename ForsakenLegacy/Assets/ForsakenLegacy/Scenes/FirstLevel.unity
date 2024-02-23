@@ -17471,6 +17471,126 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 428164cc7d5e4904485f369c2a31ed22, type: 3}
+--- !u!1 &576328967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 576328968}
+  - component: {fileID: 576328972}
+  - component: {fileID: 576328971}
+  - component: {fileID: 576328969}
+  - component: {fileID: 576328973}
+  m_Layer: 0
+  m_Name: AbilityUnlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &576328968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576328967}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 55.08, y: 260.4578, z: -37.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1992825273}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &576328969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576328967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428e4b86e761874cb4f79c0af0a9351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1786721779}
+  isActive: 1
+--- !u!23 &576328971
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576328967}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &576328972
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576328967}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!135 &576328973
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576328967}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2.172606
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &578723202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9142394429061228802, guid: 934f8e6f7aff32d45ad782a810a763f6,
@@ -20307,7 +20427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680837044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -36901,6 +37021,11 @@ PrefabInstance:
       objectReference: {fileID: 2061135375}
     - target: {fileID: 7971716268587466377, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
+      propertyPath: stunImage
+      value: 
+      objectReference: {fileID: 1454614077}
+    - target: {fileID: 7971716268587466377, guid: 54992b41001d68943af812dcbe13a051,
+        type: 3}
       propertyPath: stunCooldown
       value: 5
       objectReference: {fileID: 0}
@@ -36932,7 +37057,7 @@ PrefabInstance:
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
@@ -36942,22 +37067,22 @@ PrefabInstance:
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.94015694
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.34074175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
@@ -40998,7 +41123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454614075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -42553,6 +42678,82 @@ PrefabInstance:
       propertyPath: tutorial
       value: 
       objectReference: {fileID: 1771637773}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[2].dialogueNumber
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].dialogueLines.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[2].dialogueLines.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].dialogueLines.Array.data[1].name
+      value: Lilika
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[2].dialogueLines.Array.data[0].name
+      value: Lilika
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].dialogueLines.Array.data[0].sentence
+      value: Who dares intrude my temple? Speak, mortal, and state thy purpose.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].dialogueLines.Array.data[1].sentence
+      value: Forgive my intrusion, My Goddess, but I am but a humble servant, bound
+        by duty to thee.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].dialogueLines.Array.data[2].sentence
+      value: My allegiance to thee shall endure beyond the fading of the stars.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].dialogueLines.Array.data[3].sentence
+      value: My worshippers have long forsaken me, their faith dwindling like dying
+        embers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].dialogueLines.Array.data[4].sentence
+      value: All that I am, all that I possess, I pledge unto thee, Me Goddess. Even
+        in death, when the last vestige of faith fades into oblivion, my soul shall
+        remain at thy side.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].dialogueLines.Array.data[0].sentence
+      value: Legends whisper of a relic ensconced within a talisman of lunar majesty,
+        bound to thee, My Goddess. You must find it
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].dialogueLines.Array.data[1].sentence
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999621639009098160, guid: 3cad91c062ea0604999989269a8c6889,
+        type: 3}
+      propertyPath: dialogues.Array.data[2].dialogueLines.Array.data[0].sentence
+      value: Legends whisper of a relic ensconced within a talisman of lunar majesty,
+        bound to thee, My Goddess
+      objectReference: {fileID: 0}
     - target: {fileID: 8287200929652727781, guid: 3cad91c062ea0604999989269a8c6889,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -57397,6 +57598,7 @@ Transform:
   - {fileID: 1279016493}
   - {fileID: 498745029}
   - {fileID: 1272132028}
+  - {fileID: 576328968}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1994289775 stripped

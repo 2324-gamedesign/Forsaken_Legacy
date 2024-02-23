@@ -7,6 +7,7 @@ using ForsakenLegacy;
 
 public class Collectible : MonoBehaviour
 {
+    public GameObject player;
     private bool inInteractionArea;
     public bool isActive = true;
 
@@ -22,7 +23,7 @@ public class Collectible : MonoBehaviour
     {
         if (inInteractionArea && isActive && Keyboard.current.eKey.wasPressedThisFrame)
         {
-            // AbilityManager.Instance.UnlockStunAbility();
+            player.GetComponent<StunAbility>().Ability.unlocked = true;
 
             isActive = false;
             gameObject.SetActive(false);

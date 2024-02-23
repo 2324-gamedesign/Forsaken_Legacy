@@ -67,7 +67,6 @@ namespace ForsakenLegacy
         }
 
 
-
         public void TakeDamage(int damage)
         {
             // Return Conditions
