@@ -789,6 +789,9 @@ MonoBehaviour:
   - name: Lilika
     profileImage: {fileID: 21300000, guid: c75ad91b5e47c9d4caad42f942ce4bb3, type: 3}
     nameColor: {r: 0.9150943, g: 0.5222944, b: 0.5222944, a: 1}
+  - name: Villager
+    profileImage: {fileID: 0}
+    nameColor: {r: 0.9245283, g: 0.5329768, b: 0.2747419, a: 1}
   tutorial: {fileID: 1771637773}
   nameText: {fileID: 1861896586}
   dialogueText: {fileID: 2043868123}
@@ -40546,6 +40549,166 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54992b41001d68943af812dcbe13a051, type: 3}
+--- !u!1001 &1295361530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 143.03447
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.20583
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 270.17538
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.426679
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.90440315
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -230.514
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3321919801592875672, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.06719461
+      objectReference: {fileID: 0}
+    - target: {fileID: -3321919801592875672, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.079134874
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_Name
+      value: NPC1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ab34f41c5bd558d4f908fbd6a35966b8, type: 2}
+    - target: {fileID: 6664440072367525439, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c8e45418c3399ad4a9fb57f47b38483c, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1295361532}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ccd837d5796b18441a7cdd34a66dddd6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1295361533}
+  m_SourcePrefab: {fileID: 100100000, guid: ccd837d5796b18441a7cdd34a66dddd6, type: 3}
+--- !u!1 &1295361531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ccd837d5796b18441a7cdd34a66dddd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1295361530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1295361532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295361531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a8f8f016a3b314690f52b94def34d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canProceed: 1
+  nextDialogue: 0
+  dialogues:
+  - dialogueNumber: 1
+    dialogueLines:
+    - name: Villager
+      sentence: Good eve, traveler. What brings thee to our humble abode?
+    - name: Edea
+      sentence: I seek passage through this land.
+    - name: Villager
+      sentence: Aye, there be a path indeed. But tread carefully, milady, for the
+        forest harbors secrets best left undisturbed.
+    - name: Edea
+      sentence: Secrets, you say? Pray, enlighten me.
+    - name: Villager
+      sentence: Some say the Nature Goddess herself seeks to conceal something deep
+        within its bowels, we shall prohibit it to fall into the wrong hands.
+    - name: Edea
+      sentence: I see. Fear not, good villager, your goddess's wishes shall be respected.
+  - dialogueNumber: 2
+    dialogueLines:
+    - name: Villager
+      sentence: '''Tis a comfort to know that even in these troubled times, our goddess
+        watches over us.'
+  tutorial: {fileID: 1771637773}
+--- !u!135 &1295361533
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295361531}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1295792642
 GameObject:
   m_ObjectHideFlags: 0
@@ -69803,6 +69966,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1295361530}
   - {fileID: 501438406}
   - {fileID: 526977951}
   - {fileID: 2042697780}
