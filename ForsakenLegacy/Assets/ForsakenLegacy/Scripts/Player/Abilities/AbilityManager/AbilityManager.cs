@@ -8,7 +8,7 @@ namespace ForsakenLegacy
     {
         public static AbilityManager Instance { get; private set; }
 
-        private void Awake() 
+        private void Awake()
         {
             if (Instance == null)
             {

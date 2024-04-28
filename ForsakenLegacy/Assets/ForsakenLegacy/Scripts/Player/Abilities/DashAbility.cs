@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using MoreMountains.Feedbacks;
 using ForsakenLegacy;
+using UnityEngine.VFX;
 
 namespace ForsakenLegacy
 {
     public class DashAbility : MonoBehaviour
     {
         private PlayerInput _playerInput;
-        private CharacterController _controller;
+        private CapsuleCollider _capsuleCollider;
     
         private InputAction dashAction;
         public float dashDistance = 5.0f;
@@ -22,17 +23,18 @@ namespace ForsakenLegacy
         public float dashCooldown = 5f;
         public Image dashCooldownImage; 
     
-        public GameObject trail;
-        public MMFeedbacks dashParticles;
+        public VisualEffect trail;
+        public MMFeedbacks dashFeedback;
         private Animator _animator;
     
         // Start is called before the first frame update
         void Start()
         {
             _playerInput = GetComponent<PlayerInput>();
-            _controller = GetComponent<CharacterController>();
+            _capsuleCollider = GetComponent<CapsuleCollider>();
             dashAction = _playerInput.actions.FindAction("Dash");
             dashAction.performed += OnDashPerformed;
+            // trail.Stop();
     
             _animator = GetComponent<Animator>();
     
@@ -53,47 +55,65 @@ namespace ForsakenLegacy
         }
         private IEnumerator PerformDash()
         {
-            GetComponent<PlayerController>().isInAbility = true;
+            // GameManager.Instance.SetAbilityState();
             canDash = false;
-    
+        
             _animator.Play("Dash");
-            // FadeOut();
-    
-            trail.SetActive(true);
-            dashParticles.PlayFeedbacks();
-    
-            // Store the current position, rotation, and y-coordinate
-            Vector3 startPosition = transform.position + Vector3.up * 1f; // Offset the starting position upward
-            float startY = transform.position.y;
-    
-            dashDirection = transform.forward;
-            _controller.enabled = false;
-    
-            // Perform a sphere cast in the dash direction to check if there is any obstacle
-            if (Physics.SphereCast(startPosition, _controller.radius, dashDirection, out RaycastHit hit, dashDistance, LayerMask.GetMask("Ground", "Environment")))
+            dashFeedback.PlayFeedbacks();
+        
+            trail.Play();
+        
+            Vector3 dashDirection = transform.forward;
+        
+            // Calculate the dash destination
+            Vector3 dashDestination = transform.position + dashDirection * dashDistance;
+        
+            // Store the initial position
+            Vector3 initialPosition = transform.position;
+        
+            // Time elapsed
+            float elapsedTime = 0f;
+        
+            // Maximum distance to cover during each iteration
+            float maxDistancePerIteration = dashDistance / (dashDuration / Time.deltaTime);
+        
+            while (elapsedTime < dashDuration)
             {
-                // Adjust the player's position to the point of contact with the obstacle to avoid compenetration
-                transform.position = hit.point - dashDirection * _controller.radius;
+                // Calculate the current position based on lerping between initial and dash         destinations
+                Vector3 currentPosition = Vector3.Lerp(initialPosition, dashDestination,        elapsedTime / dashDuration);
+        
+                // Calculate the movement vector
+                Vector3 movement = currentPosition - transform.position;
+        
+                // Perform sphere cast for collisions
+                RaycastHit hit;
+                if (Physics.SphereCast(transform.position, _capsuleCollider.radius, dashDirection, out hit, maxDistancePerIteration, LayerMask.GetMask("Ground","Environment")))
+                {
+                    // Calculate the offset position slightly before the point of contact with the obstacle
+                    Vector3 newPosition = hit.point - movement.normalized * 0.2f;
+        
+                    // Set the player's position to the offset position to avoid penetration
+                    transform.position = newPosition;
+        
+                    // Exit the loop if a collision is detected
+                    break;
+                }
+        
+                // Use the PlayerController's MovePlayer method to handle slopes and remaining movement
+                transform.position = GetComponent<PlayerController>().MovePlayer(movement);
+        
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
-            else
-            {
-                // If no obstacle, move the player instantly in the dash direction
-                transform.position += dashDirection * dashDistance;
-            }
-    
-            yield return new WaitForSeconds(dashDuration);
-    
-            transform.position = new Vector3(transform.position.x, startY, transform.position.z);
-            _controller.enabled = true;
-    
-            // FadeIn();
+        
+            // Ensure the player reaches the exact dash destination
+            transform.position = dashDestination;
+        
             dashCooldownImage.fillAmount = 1;
-    
-            GetComponent<PlayerController>().isInAbility = false;
+            trail.Stop();
+        
+            // GameManager.Instance.SetMoveState();
             StartCoroutine(DashCooldown());
-    
-            yield return new WaitForSeconds(dashDuration);
-            trail.SetActive(false);
         }
         private IEnumerator DashCooldown()
         {

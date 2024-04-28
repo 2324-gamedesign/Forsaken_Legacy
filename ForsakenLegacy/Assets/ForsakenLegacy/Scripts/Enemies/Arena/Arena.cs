@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using ForsakenLegacy;
+using MoreMountains.Feedbacks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
@@ -14,6 +15,8 @@ public class Arena : MonoBehaviour, IDataPersistence
     public bool isInProgress = false;
 
     public string id;
+    public MMFeedbacks doorOpenFeedback;
+    public MMFeedbacks doorCloseFeedback;
 
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
@@ -101,7 +104,7 @@ public class Arena : MonoBehaviour, IDataPersistence
         //Enemies start attacking
         foreach (Guardian guardian in GetComponentsInChildren<Guardian>())
         {
-            guardian.StartPursuit();
+            guardian.Spawn();
         }
     }
     private void OpenDoors()

@@ -11,7 +11,7 @@ namespace ForsakenLegacy
 {
     public class Guardian : MonoBehaviour
     {
-        public GameObject _target = null;
+        public Transform target;
         public Collider attackRange;
 
         private NavMeshAgent _navMeshAgent;
@@ -30,21 +30,21 @@ namespace ForsakenLegacy
 
         //Patrolling
         private Vector3 originalPosition;
-        public Transform[] waypoints;
-        private Vector3[] path;
-        public PathType pathType;
-        public float duration;
         public bool isPatrolling;
 
         public bool isStunned = false;
 
         public MMFeedbacks feedbackAttack;
+        public MMFeedbacks feedbackSpawn;
 
         private void Awake() 
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             originalPosition = transform.position;
+            //find player by name Edea
+            target = GameObject.Find("Edea").transform;
+            attackRange = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>();
             
             Patrol();
         }
@@ -57,12 +57,12 @@ namespace ForsakenLegacy
             //If it's in attack, avoid enemy penetrating into player
             if (isAttacking)
             {
-                Vector3 toPlayer = _target.transform.position - transform.position;
+                Vector3 toPlayer = target.transform.position - transform.position;
                 float distanceToPlayer = toPlayer.magnitude;
 
                 if (distanceToPlayer < minDistanceToPlayer)
                 {
-                    Vector3 newPosition = _target.transform.position - toPlayer.normalized * minDistanceToPlayer;
+                    Vector3 newPosition = target.transform.position - toPlayer.normalized * minDistanceToPlayer;
                     transform.position = newPosition;
                 }
             }
@@ -74,6 +74,10 @@ namespace ForsakenLegacy
             }
         }
 
+        public void Spawn()
+        {
+            feedbackSpawn.PlayFeedbacks();
+        }
         public void StartPursuit()
         {
             isPatrolling = false;
@@ -108,14 +112,14 @@ namespace ForsakenLegacy
 
         private void SetDestination()
         {
-            _navMeshAgent.SetDestination(_target.transform.position);
+            _navMeshAgent.SetDestination(target.transform.position);
         }
 
         private void OnTriggerEnter(Collider other) 
         {
             if(attackRange)
             {
-                if(other == attackRange && !_target.GetComponent<HealthSystem>().isDead)
+                if(other == attackRange && !target.GetComponent<HealthSystem>().isDead)
                 {
                     CancelInvoke("SetDestination");
 
@@ -143,7 +147,7 @@ namespace ForsakenLegacy
 
         void TriggerAttack()
         {
-            if(!_target.GetComponent<HealthSystem>().isDead && !GetComponent<Stunnable>().isStunned)
+            if(!target.GetComponent<HealthSystem>().isDead && !GetComponent<Stunnable>().isStunned)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
@@ -170,19 +174,6 @@ namespace ForsakenLegacy
                 ReturnToOriginalPosition();
                 return;
             }
-            //Initialize path
-            path = new Vector3[waypoints.Length];
-            for (int i = 0; i < waypoints.Length; i++) 
-            {
-                path[i] = waypoints[i].position;
-            }
-
-            HandleLookAhead(true);
-
-            // _navMeshAgent.isStopped = true;
-            _navMeshAgent.speed = walkSpeed;
-            transform.DOPath(path, duration, pathType, PathMode.Ignore, 10, Color.red).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart).SetOptions(closePath: true);
-
         }
 
         void ReturnToOriginalPosition()

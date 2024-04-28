@@ -4,7 +4,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public StateMachine stateMachine;
+    public StateMachine globalStateMachine;
+    public StateMachine playerStateMachine;
 
     private void Awake()
     {
@@ -21,33 +22,24 @@ public class GameManager : MonoBehaviour
     
     public void SetNeutralState()
     {
-        stateMachine.Trigger("Neutral");
+        globalStateMachine.Trigger("Neutral");
     }
 
     public void SetDialogueState()
     {
-        stateMachine.Trigger("Dialogue");
+        globalStateMachine.Trigger("Dialogue");
     }
 
     public void SetCutSceneState()
     {
-        stateMachine.Trigger("CutScene");
-    }
-
-    public void SetDeathState()
-    {
-        stateMachine.Trigger("Death");
+        globalStateMachine.Trigger("CutScene");
     }
 
     public void SetMenuState()
     {
-        stateMachine.Trigger("Menu");
+        globalStateMachine.Trigger("Menu");
     }
 
-    public void QuitGame()
-    {
-
-    }
     public void PauseGame()
     {
         //Set Game Time to 0
@@ -57,6 +49,27 @@ public class GameManager : MonoBehaviour
     {
         //Set Game Time to 1
         Time.timeScale = 1;
+    }
+
+    //PlayerStateMachine
+    public void SetMoveState()
+    {
+        playerStateMachine.Trigger("Move");
+    }
+
+    public void SetAttackState()
+    {
+        playerStateMachine.Trigger("Attack");
+    }
+
+    public void SetAbilityState()
+    {
+        playerStateMachine.Trigger("Ability");
+    }
+    
+    public void SetDeathState()
+    {
+        playerStateMachine.Trigger("Death");
     }
 }
 

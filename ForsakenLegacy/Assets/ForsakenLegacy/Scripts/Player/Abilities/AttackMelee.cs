@@ -45,7 +45,7 @@ namespace ForsakenLegacy
             _animator.SetInteger("noOfClicks", noOfClicks);
 
             HandleAttackAnim();
-            // SetRootMotion();
+            SetRootMotion();
         }
 
         void OnAttackPerformed(InputAction.CallbackContext context)
@@ -95,22 +95,33 @@ namespace ForsakenLegacy
         {
             if (isAttackingCheck != isAttacking)
             {
-                isAttackingCheck = isAttacking;
+                if(isAttacking)
+                {
+                    GameManager.Instance.SetAttackState();
+                }
+                else
+                {
+                    GameManager.Instance.SetMoveState();
+                }
                 weapon.gameObject.SetActive(isAttacking);
                 activateWeapon.PlayFeedbacks();
                 attack.PlayFeedbacks();
+                isAttackingCheck = isAttacking;
             }
         }
 
-        // private void SetRootMotion(){
-        //     if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
-        //         _animator.applyRootMotion = false;
-        //     }
-        //     else
-        //     {
-        //         _animator.applyRootMotion = true;
-        //     }
-        // }
+        private void SetRootMotion()
+        {
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash")){
+                _animator.applyRootMotion = false;
+                GetComponent<PlayerController>().enabled = true; // Enable the PlayerController when not in attack animation
+            }
+            else
+            {
+                _animator.applyRootMotion = true;
+                GetComponent<PlayerController>().enabled = false; // Disable the PlayerController during attack animations
+            }
+        }
 
         // Methods called in animation
         private void WeaponColliderOn()

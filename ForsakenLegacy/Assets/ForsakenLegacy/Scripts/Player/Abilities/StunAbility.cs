@@ -27,7 +27,7 @@ namespace ForsakenLegacy
         public float stunCooldown = 7f;
         public Image stunCooldownImage; 
         public Image stunImage;
-        private bool canstun = true;
+        [SerializeField] private bool canstun = true;
 
         public MMFeedbacks stunFeedback;
     
@@ -35,6 +35,7 @@ namespace ForsakenLegacy
         {
             // Set the layer mask to the enemy layer
             enemyLayer = LayerMask.GetMask("Enemy");
+            
             // Ability.type = "Stun";
             Ability.unlocked = false;
 
