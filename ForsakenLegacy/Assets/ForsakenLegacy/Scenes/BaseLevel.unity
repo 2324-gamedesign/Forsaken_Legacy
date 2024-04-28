@@ -18822,81 +18822,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1694930633}
     m_Modifications:
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: FeedbacksList.Array.data[0]
-      value: 6739000713763356673
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: FeedbacksList.Array.data[1]
-      value: 6739000713763356675
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: FeedbacksList.Array.data[2]
-      value: 6739000713763356674
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: FeedbacksList.Array.data[3]
-      value: 6739000713763356677
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: FeedbacksList.Array.data[4]
-      value: 6739000713763356676
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356676].TransitionDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356677].TransitionDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356673].InterpolateTransition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356675].InterpolateTransition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356676].InterpolateTransition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356677].InterpolateTransition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356673].RendererMaterialIndexes.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356676].RendererMaterialIndexes.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356673].RendererMaterialIndexes.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229081750578780401, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[6739000713763356676].RendererMaterialIndexes.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2399336354237088839, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: healthBarFill
@@ -18932,11 +18857,6 @@ PrefabInstance:
       propertyPath: managedReferences[8304442496998703127].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1628189907}
-    - target: {fileID: 8527181233804523070, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8536553095858804757, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_Name

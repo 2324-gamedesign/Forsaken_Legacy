@@ -17272,8 +17272,8 @@ MonoBehaviour:
   - rid: 6739000713763356673
   - rid: 6739000713763356675
   - rid: 6739000713763356674
-  - rid: 6739000713763356676
   - rid: 6739000713763356677
+  - rid: 6739000713763356676
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -17350,14 +17350,14 @@ MonoBehaviour:
         Owner: {fileID: 1229081750578780401}
         DebugActive: 0
         TargetRenderer: {fileID: 7845288908490456220}
-        RendererMaterialIndexes: 
+        RendererMaterialIndexes: 0000000001000000
         Method: 0
         Loop: 0
         AlwaysNewMaterial: 1
         InitialIndex: 0
         Materials:
         - {fileID: 2100000, guid: b8cdaf02c6ab8b0458ddc7c51b65acb7, type: 2}
-        InterpolateTransition: 0
+        InterpolateTransition: 1
         TransitionDuration: 1
         TransitionCurve:
           serializedVersion: 2
@@ -17535,7 +17535,7 @@ MonoBehaviour:
         InitialIndex: 0
         Materials:
         - {fileID: 2100000, guid: b8cdaf02c6ab8b0458ddc7c51b65acb7, type: 2}
-        InterpolateTransition: 0
+        InterpolateTransition: 1
         TransitionDuration: 1
         TransitionCurve:
           serializedVersion: 2
@@ -17630,15 +17630,15 @@ MonoBehaviour:
         Owner: {fileID: 1229081750578780401}
         DebugActive: 0
         TargetRenderer: {fileID: 7845288908490456220}
-        RendererMaterialIndexes: 
+        RendererMaterialIndexes: 0000000001000000
         Method: 0
         Loop: 0
         AlwaysNewMaterial: 1
         InitialIndex: 0
         Materials:
         - {fileID: 2100000, guid: ab36acc7eafe30846a4efa9f73cd69d1, type: 2}
-        InterpolateTransition: 0
-        TransitionDuration: 1
+        InterpolateTransition: 1
+        TransitionDuration: 0.5
         TransitionCurve:
           serializedVersion: 2
           m_Curve:
@@ -17739,8 +17739,8 @@ MonoBehaviour:
         InitialIndex: 0
         Materials:
         - {fileID: 2100000, guid: d768941bceab21742bbc97d6a8e4a309, type: 2}
-        InterpolateTransition: 0
-        TransitionDuration: 1
+        InterpolateTransition: 1
+        TransitionDuration: 0.5
         TransitionCurve:
           serializedVersion: 2
           m_Curve:
