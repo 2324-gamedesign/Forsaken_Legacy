@@ -37,7 +37,7 @@ namespace ForsakenLegacy
             enemyLayer = LayerMask.GetMask("Enemy");
             
             // Ability.type = "Stun";
-            Ability.unlocked = false;
+            Ability.unlocked = true;
 
             // Initialize the input system to check for the key
             _playerInput = GetComponent<PlayerInput>();

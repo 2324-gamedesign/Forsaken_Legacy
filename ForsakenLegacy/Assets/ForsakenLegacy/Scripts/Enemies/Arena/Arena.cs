@@ -11,6 +11,7 @@ public class Arena : MonoBehaviour, IDataPersistence
 {
     public GameObject[] doors;
     public Dictionary<string, bool> enemies;
+    private Collider playerCollider;
     public bool cleared = false;
     public bool isInProgress = false;
 
@@ -55,18 +56,18 @@ public class Arena : MonoBehaviour, IDataPersistence
     private void Start() {
         //initialize enemy dictionary
         enemies = new Dictionary<string, bool>();
+        playerCollider = GameObject.Find("Edea").GetComponent<Collider>();
         
         //Populate the enemies dictionary
         Enemy[] enemyArray = GetComponentsInChildren<Enemy>();
         foreach (Enemy enemy in enemyArray)
         {
             enemies.Add(enemy.GetID(), enemy.isDead);
-            Debug.Log("Added enemy " + enemy.GetID() + " to the dictionary");
         }
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.CompareTag("Player"))
+        if(other == playerCollider)
         {
             CloseDoors();
         }
