@@ -53,6 +53,7 @@ namespace ForsakenLegacy
         public float rotateSpeed = 90f;
         public int maxBounces = 5;
         public float anglePower = 0.5f;
+        private float playerY;
 
         //Player Components
         private PlayerInput _playerInput;
@@ -85,6 +86,15 @@ namespace ForsakenLegacy
             }
         }
 
+        public void LoadData(GameData data)
+        {
+            this.transform.position = data.playerPosition;
+        }
+        public void SaveData(ref GameData data)
+        {
+            data.playerPosition = this.transform.position;
+        }
+
         private void Start()
         { 
             _hasAnimator = TryGetComponent(out _animator);
@@ -98,6 +108,17 @@ namespace ForsakenLegacy
             AssignAnimationHash();
         }
 
+        private void OnDisable() 
+        {
+            playerY = transform.position.y;
+        }
+        private void OnEnable() 
+        {
+
+            transform.position = new Vector3(transform.position.x, playerY, transform.position.z); 
+        }
+
+
         private void AssignAnimationHash()
         {
             SpeedZHash = Animator.StringToHash("SpeedZ");
@@ -110,20 +131,10 @@ namespace ForsakenLegacy
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
-            if (canMove && !isInAbility && !isAttacking) {Move();}
+            if (canMove && !isInAbility && !isAttacking) {MoveInput();}
         }
         
-
-        public void LoadData(GameData data)
-        {
-            this.transform.position = data.playerPosition;
-        }
-        public void SaveData(ref GameData data)
-        {
-            data.playerPosition = this.transform.position;
-        }
-
-        private void Move()
+        private void MoveInput()
         {
             // Get movement input from InputController
             Vector2 moveInput = _input.move;
@@ -344,8 +355,7 @@ namespace ForsakenLegacy
 
             while (bounces < maxBounces && remaining.magnitude > minSlopeAngle)
             {
-                // Do a cast of the collider to see if an object is hit during this
-                // movement bounce
+                // Do a cast of the collider to see if an object is hit during this movement bounce
                 float distance = remaining.magnitude;
                 if (!CastSelf(position, transform.rotation, remaining.normalized, distance, out RaycastHit hit))
                 {
@@ -385,12 +395,10 @@ namespace ForsakenLegacy
                 // Reduce the remaining movement by the remaining movement that ocurred
                 remaining *= Mathf.Pow(1 - normalizedAngle, anglePower) * 0.9f + 0.1f;
 
-                // Rotate the remaining movement to be projected along the plane 
-                // of the surface hit (emulate pushing against the object)
+                // Rotate the remaining movement to be projected along the plane of the surface hit (emulate pushing against the object)
                 Vector3 projected = Vector3.ProjectOnPlane(remaining, planeNormal).normalized * remaining.magnitude;
 
-                // If projected remaining movement is less than original remaining movement (so if the projection broke
-                // due to float operations), then change this to just project along the vertical.
+                // If projected remaining movement is less than original remaining movement (so if the projection broke due to float operations), then change this to just project along the vertical.
                 if (projected.magnitude + minSlopeAngle < remaining.magnitude)
                 {
                     remaining = Vector3.ProjectOnPlane(remaining, Vector3.up).normalized * remaining.magnitude;
