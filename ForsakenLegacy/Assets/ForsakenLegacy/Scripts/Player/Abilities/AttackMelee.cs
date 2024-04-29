@@ -112,14 +112,13 @@ namespace ForsakenLegacy
 
         private void SetRootMotion()
         {
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash")){
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
+            {
                 _animator.applyRootMotion = false;
-                // GetComponent<PlayerController>().enabled = true; // Enable the PlayerController when not in attack animation
             }
             else
             {
                 _animator.applyRootMotion = true;
-                // GetComponent<PlayerController>().enabled = false; // Disable the PlayerController during attack animations
             }
         }
 

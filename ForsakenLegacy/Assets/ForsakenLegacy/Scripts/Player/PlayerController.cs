@@ -28,7 +28,7 @@ namespace ForsakenLegacy
 
         //Footsteps and Gravity
         private Vector3 gravity = new Vector3(0, -20f, 0);
-        private float maxSlopeAngle = 60f;
+        public float maxSlopeAngle = 60f;
         private float minSlopeAngle = 0.001f;
         private float groundDist = 0.01f;
         public LayerMask groundLayer;
@@ -152,7 +152,7 @@ namespace ForsakenLegacy
             }
 
             // Calculate movement direction based on camera orientation
-            Vector3 moveDirection = mainCamera.forward * moveInput.y + mainCamera.right * moveInput.x;
+            Vector3 moveDirection = Vector3.forward * moveInput.y + Vector3.right * moveInput.x;
             moveDirection.y = 0f; // Ensure movement is only in the horizontal plane
             moveDirection.Normalize(); // Normalize the movement direction to ensure    consistent speed in all directions
 
