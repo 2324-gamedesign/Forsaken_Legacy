@@ -45,7 +45,7 @@ namespace ForsakenLegacy
             _animator.SetInteger("noOfClicks", noOfClicks);
 
             HandleAttackAnim();
-            // SetRootMotion();
+            SetRootMotion();
         }
 
         void OnAttackPerformed(InputAction.CallbackContext context)
@@ -78,7 +78,7 @@ namespace ForsakenLegacy
             //     rigLayer.weight = 0f;
             // }
 
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stun"))
             {
                 isAttacking = true;
                 HandleWeapon();
@@ -95,22 +95,32 @@ namespace ForsakenLegacy
         {
             if (isAttackingCheck != isAttacking)
             {
-                isAttackingCheck = isAttacking;
+                if(isAttacking)
+                {
+                    GameManager.Instance.SetAttackState();
+                }
+                else
+                {
+                    GameManager.Instance.SetMoveState();
+                }
                 weapon.gameObject.SetActive(isAttacking);
                 activateWeapon.PlayFeedbacks();
                 attack.PlayFeedbacks();
+                isAttackingCheck = isAttacking;
             }
         }
 
-        // private void SetRootMotion(){
-        //     if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run")){
-        //         _animator.applyRootMotion = false;
-        //     }
-        //     else
-        //     {
-        //         _animator.applyRootMotion = true;
-        //     }
-        // }
+        private void SetRootMotion()
+        {
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
+            {
+                _animator.applyRootMotion = false;
+            }
+            else
+            {
+                _animator.applyRootMotion = true;
+            }
+        }
 
         // Methods called in animation
         private void WeaponColliderOn()

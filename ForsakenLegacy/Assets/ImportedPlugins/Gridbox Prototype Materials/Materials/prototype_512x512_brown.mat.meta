@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ForsakenLegacy/Assets/ImportedPlugins/Frank_RPG_2Handed.meta
+guid: a45c24184e1c3ee47a5647ec7a37c29f
+folderAsset: yes
+DefaultImporter:
+========
 guid: 6a1d9c114b26be94a9b5b122f2b7cddc
 NativeFormatImporter:
+>>>>>>>> 36b81f41f610d8bee35659720ba15228f4f72ae1:ForsakenLegacy/Assets/ImportedPlugins/Gridbox Prototype Materials/Materials/prototype_512x512_brown.mat.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

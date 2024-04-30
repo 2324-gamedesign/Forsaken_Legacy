@@ -20,7 +20,7 @@ namespace OToon
         private int m_index = 0;
         private int m_camIndex = 0;
         private bool m_lightsOn = true;
-        private bool m_isfirstTimeSwitch = true;
+        // private bool m_isfirstTimeSwitch = true;
         private bool[] m_hintsOpened;
         private void Start()
         {

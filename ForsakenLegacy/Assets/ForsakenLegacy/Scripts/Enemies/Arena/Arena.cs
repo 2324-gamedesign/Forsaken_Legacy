@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using ForsakenLegacy;
+using MoreMountains.Feedbacks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
@@ -10,10 +11,13 @@ public class Arena : MonoBehaviour, IDataPersistence
 {
     public GameObject[] doors;
     public Dictionary<string, bool> enemies;
+    private Collider playerCollider;
     public bool cleared = false;
     public bool isInProgress = false;
 
     public string id;
+    public MMFeedbacks doorOpenFeedback;
+    public MMFeedbacks doorCloseFeedback;
 
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
@@ -52,18 +56,18 @@ public class Arena : MonoBehaviour, IDataPersistence
     private void Start() {
         //initialize enemy dictionary
         enemies = new Dictionary<string, bool>();
+        playerCollider = GameObject.Find("Edea").GetComponent<Collider>();
         
         //Populate the enemies dictionary
         Enemy[] enemyArray = GetComponentsInChildren<Enemy>();
         foreach (Enemy enemy in enemyArray)
         {
             enemies.Add(enemy.GetID(), enemy.isDead);
-            Debug.Log("Added enemy " + enemy.GetID() + " to the dictionary");
         }
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.CompareTag("Player"))
+        if(other == playerCollider)
         {
             CloseDoors();
         }
@@ -101,7 +105,7 @@ public class Arena : MonoBehaviour, IDataPersistence
         //Enemies start attacking
         foreach (Guardian guardian in GetComponentsInChildren<Guardian>())
         {
-            guardian.StartPursuit();
+            guardian.Spawn();
         }
     }
     private void OpenDoors()

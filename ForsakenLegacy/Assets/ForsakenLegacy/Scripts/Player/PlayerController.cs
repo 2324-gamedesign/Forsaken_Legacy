@@ -3,6 +3,9 @@ using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
+
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -10,7 +13,6 @@ using UnityEngine.InputSystem;
 
 namespace ForsakenLegacy
 {
-    [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
     [RequireComponent(typeof(PlayerInput))]
 #endif
@@ -18,53 +20,57 @@ namespace ForsakenLegacy
     {
         [Header("Player")]
 
-        public bool canMove = true;
-        public float MoveSpeed = 2.0f;
-        public float SprintSpeed = 5.335f;
-        public bool isInAbility;
+        [SerializeField] private bool canMove = true;
+        private float moveSpeed = 2.0f;
+        public bool isInAbility = false;
+        private float walkSpeed = 2.0f;
+        private float sprintSpeed = 5.5f;
 
-        private float RotationSmoothTime = 0.12f;
-        private float SpeedChangeRate = 10.0f;
-
-        //Footsteps and Land
+        //Footsteps and Gravity
+        private Vector3 gravity = new Vector3(0, -20f, 0);
+        public float maxSlopeAngle = 60f;
+        private float minSlopeAngle = 0.001f;
+        private float groundDist = 0.01f;
+        public LayerMask groundLayer;
+        // private bool isFalling;
+        // private float FallTimeout = 0.15f;
+        // private float GroundedRadius = 0.28f;
+        // private Transform groundCheck;
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
-        public float Gravity = -15.0f;
-        public float FallTimeout = 0.15f;
-        private bool Grounded = true;
-        public float GroundedOffset = -0.14f;
-        private float GroundedRadius = 0.28f;
-        public LayerMask GroundLayers;
         
         //Camera
-        public Camera _mainCamera;
+        public Transform mainCamera;
 
         // Player
-        private float _speed;
-        private float _animationBlend;
-        private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
-        private float _verticalVelocity;
-        private float _terminalVelocity = 53.0f;
-        private float _fallTimeoutDelta;
-    
+        private float speedZ;
+        private float speedX;
+        private float acceleration = 5f;
+        private float deceleration = 5f;
+        private float maxWalkSpeed = 0.5f;
+        private float maxSprintSpeed = 2.0f;
+        public float rotateSpeed = 90f;
+        public int maxBounces = 5;
+        public float anglePower = 0.5f;
+        private float playerY;
 
-        // Animation Parameters
-        private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDMotionSpeed;
-        private int _animIDFall;
-
-
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+        //Player Components
         private PlayerInput _playerInput;
-#endif
         public Animator _animator;
-        private CharacterController _controller;
+        private Rigidbody _rb;
+        // private CharacterController _controller;
         private InputController _input;
+        private CapsuleCollider _capsuleCollider;
 
-        private const float _threshold = 0.01f;
+        //new vars
+        public float maxWalkingAngle = 60f;
+        private Vector3 velocity;
+
+        //Animations Hash
+        private int SpeedZHash;
+        private int SpeedXHash;
+        private int FallHash;
 
         private bool _hasAnimator;
 
@@ -80,37 +86,6 @@ namespace ForsakenLegacy
             }
         }
 
-        private void Start()
-        { 
-            _hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<InputController>();
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-            _playerInput = GetComponent<PlayerInput>();
-#endif
-            AssignAnimationIDs();
-        
-            _fallTimeoutDelta = FallTimeout;
-        }
-
-        private void AssignAnimationIDs()
-        {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDFall = Animator.StringToHash("Fall");
-        }
-        private void Update()
-        {
-            // bool isDashing = gameObject.GetComponent<DashAbility>().isInAbility;
-            bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
-            _hasAnimator = TryGetComponent(out _animator);
-
-            if (canMove && !isInAbility && !isAttacking) {Move();}
-            HandleGravity();
-            GroundedCheck();
-        }
-
         public void LoadData(GameData data)
         {
             this.transform.position = data.playerPosition;
@@ -120,146 +95,419 @@ namespace ForsakenLegacy
             data.playerPosition = this.transform.position;
         }
 
+        private void Start()
+        { 
+            _hasAnimator = TryGetComponent(out _animator);
+            // _controller = GetComponent<CharacterController>();
+            _input = GetComponent<InputController>();
+            _rb = GetComponent<Rigidbody>();
+            _playerInput = GetComponent<PlayerInput>();
+            _capsuleCollider = GetComponent<CapsuleCollider>();
 
-        private void Move()
+            _rb.isKinematic = true;
+            AssignAnimationHash();
+        }
+
+        private void OnDisable() 
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            playerY = transform.position.y;
+        }
+        private void OnEnable() 
+        {
 
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+            transform.position = new Vector3(transform.position.x, playerY, transform.position.z); 
+        }
 
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-            // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+        private void AssignAnimationHash()
+        {
+            SpeedZHash = Animator.StringToHash("SpeedZ");
+            SpeedXHash = Animator.StringToHash("SpeedX");
+            FallHash = Animator.StringToHash("Fall");
+        }
 
-            float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+        private void FixedUpdate()
+        {
+            bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
+            _hasAnimator = TryGetComponent(out _animator);
 
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                currentHorizontalSpeed > targetSpeed + speedOffset)
+            if (canMove && !isInAbility && !isAttacking) {MoveInput();}
+        }
+        
+        private void MoveInput()
+        {
+            // Get movement input from InputController
+            Vector2 moveInput = _input.move;
+            bool sprint = _input.sprint;
+
+            bool falling = !isGrounded(out RaycastHit groundHit);
+            // If falling, increase falling speed, otherwise stop falling.
+            if (falling)
             {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
-
-                // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
+                velocity += Physics.gravity * Time.deltaTime;
             }
             else
             {
-                _speed = targetSpeed;
+                velocity = Vector3.zero;
             }
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+            // Calculate movement direction based on camera orientation
+            Vector3 moveDirection = Vector3.forward * moveInput.y + Vector3.right * moveInput.x;
+            moveDirection.y = 0f; // Ensure movement is only in the horizontal plane
+            moveDirection.Normalize(); // Normalize the movement direction to ensure    consistent speed in all directions
 
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+            Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;
 
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
+            // If the player is standing on the ground, project their movement onto that plane
+            // This allows for walking down slopes smoothly.
+            if (!falling)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                movement = Vector3.ProjectOnPlane(movement, groundHit.normal);
             }
 
+            // Attempt to move the player based on player movement
+            transform.position = MovePlayer(movement);
 
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            // Move player based on falling speed
+            transform.position = MovePlayer(velocity * Time.deltaTime);
 
-            // move the player
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            //Set current maxSpeed
+            float currentMaxSpeed = sprint ? maxSprintSpeed : maxWalkSpeed;
 
-            // update animator if using character
-            if (_hasAnimator)
+            if (sprint)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
-        }
-
-        private void GroundedCheck()
-        {
-            // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-
-            // update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDGrounded, Grounded);
-            }
-        }
-
-        private void HandleGravity()
-        {
-            if (Grounded)
-            {
-                // reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDFall, false);
-                }
-
-                // stop our velocity dropping infinitely when grounded
-                if (_verticalVelocity < 0.0f)
-                {
-                    _verticalVelocity = -2f;
-                }
-
-                //if we are still playing the fall end animation don't move
-                if (_animator.GetCurrentAnimatorStateInfo(0).IsName("FallEnd"))
-                {
-                    canMove = false;
-                }
-                else
-                {
-                    canMove = true;
-				}
+                moveSpeed = sprintSpeed;
             }
             else
             {
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
+                moveSpeed = walkSpeed;
+            }
+            
+            // Rotate towards the movement direction
+            if (moveDirection.magnitude >= 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+                // Reduce rotation speed for smoother rotation
+                float rotationSpeed = 5f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+
+            // handle change in speed for animations
+            changeSpeed(moveInput, sprint, currentMaxSpeed);
+            lockOrResetSpeed(moveInput, sprint, currentMaxSpeed);
+
+            //set animation parameters
+            if (_hasAnimator)
+            {
+               _animator.SetFloat(SpeedXHash, speedX);
+               _animator.SetFloat(SpeedZHash, speedZ); 
+               _animator.SetBool(FallHash, false);
+            }
+        }
+
+        //handles acceleration and decelaration
+        private void changeSpeed(Vector2 moveInput, bool sprint, float currentMaxSpeed)
+        {
+            // Increase speed based on movement input
+            if (moveInput.y > 0 && speedZ < currentMaxSpeed)
+            {
+                speedZ += acceleration * Time.deltaTime;
+            }
+            if (moveInput.y < 0 && speedZ > -currentMaxSpeed)
+            {
+                speedZ -= acceleration * Time.deltaTime;
+            }
+            if (moveInput.x < 0 && speedX > -currentMaxSpeed)
+            {
+                speedX -= acceleration * Time.deltaTime;
+            }
+            if (moveInput.x > 0 && speedX < currentMaxSpeed)
+            {
+                speedX += acceleration * Time.deltaTime;
+            }
+
+            //decrease speed
+            if (moveInput.y == 0 && speedZ > 0f)
+            {
+                speedZ -= deceleration * Time.deltaTime;
+            }
+
+            // increase speed X if left not pressed
+            if (moveInput.x >= 0 && speedX < 0f)
+            {
+                speedX += deceleration * Time.deltaTime;
+            }
+
+            //decrease speed X if right not pressed
+            if (moveInput.x <= 0 && speedX > 0f)
+            {
+                speedX -= deceleration * Time.deltaTime;
+            }
+        }
+
+        //handles reset and lock of speed
+        private void lockOrResetSpeed(Vector2 moveInput, bool sprint, float currentMaxSpeed)
+        {
+            //reset velocity
+            if (moveInput.y == 0 && speedZ < 0f)
+            {
+                speedZ = 0f;
+            }
+
+            //reset speedx
+            if(moveInput.x == 0 && speedX != 0f && (speedX < 0.05f && speedX > -0.05f))
+            {
+                speedX = 0f;
+            }
+
+            //lockForward
+            if (moveInput.y > 0 && sprint && speedZ > currentMaxSpeed)
+            {
+                speedZ = currentMaxSpeed;
+            }
+            //decelerate to max walk velocity
+            else if (moveInput.y > 0 && speedZ > currentMaxSpeed)
+            {
+                speedZ -= deceleration * Time.deltaTime;
+                //round to currentMaxSpeed if within offset
+                if (speedZ > currentMaxSpeed && speedZ < (currentMaxSpeed + 0.05f))
                 {
-                    _fallTimeoutDelta -= Time.deltaTime;
+                    speedZ = currentMaxSpeed;
+                }
+            }
+            // round to the currentMaxSpeed if within offset
+            else if (moveInput.y > 0 && speedZ < currentMaxSpeed && speedZ > (currentMaxSpeed - 0.05f))
+            {
+                speedZ = currentMaxSpeed;
+            }
+
+            //lock Backward
+            if (moveInput.y < 0 && sprint && speedZ < -currentMaxSpeed)
+            {
+                speedZ = -currentMaxSpeed;
+            }
+            //decelerate to max walk velocity
+            else if (moveInput.y < 0 && speedZ < -currentMaxSpeed)
+            {
+                speedZ += deceleration * Time.deltaTime;
+                //round to currentMaxSpeed if within offset
+                if (speedZ < -currentMaxSpeed && speedZ > (-currentMaxSpeed - 0.05f))
+                {
+                    speedZ = -currentMaxSpeed;
+                }
+            }
+            // round to the currentMaxSpeed if within offset
+            else if (moveInput.y < 0 && speedZ > -currentMaxSpeed && speedZ < (-currentMaxSpeed + 0.05f))
+            {
+                speedZ = -currentMaxSpeed;
+            }
+
+            //lock left
+            if (moveInput.x < 0 && sprint && speedX < -currentMaxSpeed)
+            {
+                speedX = -currentMaxSpeed;
+            }
+            //decelerate to max walk velocity
+            else if (moveInput.x < 0 && speedX < -currentMaxSpeed)
+            {
+                speedX += deceleration * Time.deltaTime;
+                //round to currentMaxSpeed if within offset
+                if (speedX < -currentMaxSpeed && speedX > (-currentMaxSpeed - 0.05f))
+                {
+                    speedX = -currentMaxSpeed;
+                }
+            }
+            // round to the currentMaxSpeed if within offset
+            else if (moveInput.x < 0 && speedX > -currentMaxSpeed && speedX < (-currentMaxSpeed + 0.05f))
+            {
+                speedX = -currentMaxSpeed;
+            }
+
+            //lock right
+            if (moveInput.x > 0 && sprint && speedX > currentMaxSpeed)
+            {
+                speedX = currentMaxSpeed;
+            }
+            //decelerate to max walk velocity
+            else if (moveInput.x > 0 && speedX > currentMaxSpeed)
+            {
+                speedX -= deceleration * Time.deltaTime;
+                //round to currentMaxSpeed if within offset
+                if (speedX > currentMaxSpeed && speedX < (currentMaxSpeed + 0.05f))
+                {
+                    speedX = currentMaxSpeed;
+                }
+            }
+            // round to the currentMaxSpeed if within offset
+            else if (moveInput.x > 0 && speedX < currentMaxSpeed && speedX > (currentMaxSpeed - 0.05f))
+            {
+                speedX = currentMaxSpeed;
+            }
+        }
+
+        public Vector3 MovePlayer(Vector3 movement)
+        {
+            Vector3 position = transform.position;
+
+            Vector3 remaining = movement;
+
+            int bounces = 0;
+
+            while (bounces < maxBounces && remaining.magnitude > minSlopeAngle)
+            {
+                // Do a cast of the collider to see if an object is hit during this movement bounce
+                float distance = remaining.magnitude;
+                if (!CastSelf(position, transform.rotation, remaining.normalized, distance, out RaycastHit hit))
+                {
+                    // If there is no hit, move to desired position
+                    position += remaining;
+
+                    // Exit as we are done bouncing
+                    break;
+                }
+
+                // If we are overlapping with something, just exit.
+                if (hit.distance == 0)
+                {
+                    break;
+                }
+
+                float fraction = hit.distance / distance;
+                // Set the fraction of remaining movement (minus some small value)
+                position += remaining * (fraction);
+                // Push slightly along normal to stop from getting caught in walls
+                position += hit.normal * minSlopeAngle * 2;
+                // Decrease remaining movement by fraction of movement remaining
+                remaining *= (1 - fraction);
+
+                // Plane to project rest of movement onto
+                Vector3 planeNormal = hit.normal;
+
+                // Only apply angular change if hitting something
+                // Get angle between surface normal and remaining movement
+                float angleBetween = Vector3.Angle(hit.normal, remaining) - 90.0f;
+
+                // Normalize angle between to be between 0 and 1
+                // 0 means no angle, 1 means 90 degree angle
+                angleBetween = Mathf.Min(maxSlopeAngle, Mathf.Abs(angleBetween));
+                float normalizedAngle = angleBetween / maxSlopeAngle;
+
+                // Reduce the remaining movement by the remaining movement that ocurred
+                remaining *= Mathf.Pow(1 - normalizedAngle, anglePower) * 0.9f + 0.1f;
+
+                // Rotate the remaining movement to be projected along the plane of the surface hit (emulate pushing against the object)
+                Vector3 projected = Vector3.ProjectOnPlane(remaining, planeNormal).normalized * remaining.magnitude;
+
+                // If projected remaining movement is less than original remaining movement (so if the projection broke due to float operations), then change this to just project along the vertical.
+                if (projected.magnitude + minSlopeAngle < remaining.magnitude)
+                {
+                    remaining = Vector3.ProjectOnPlane(remaining, Vector3.up).normalized * remaining.magnitude;
                 }
                 else
                 {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFall, true);
-                    }
+                    remaining = projected;
                 }
 
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
-                {
-                    _fallTimeoutDelta -= Time.deltaTime;
-                }
+                // Track number of times the character has bounced
+                bounces++;
             }
 
-            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
-            {
-                _verticalVelocity += Gravity * Time.deltaTime;
-            }
+            // We're done, player was moved as part of the loop
+            return position;
         }
+
+        public bool CastSelf(Vector3 pos, Quaternion rot, Vector3 dir, float dist, out RaycastHit hit)
+        {
+            // Get Parameters associated with the KCC
+            Vector3 center = rot * _capsuleCollider.center + pos;
+            float radius = _capsuleCollider.radius;
+            float height = _capsuleCollider.height;
+
+            // Get top and bottom points of collider
+            Vector3 bottom = center + rot * Vector3.down * (height / 2 - radius);
+            Vector3 top = center + rot * Vector3.up * (height / 2 - radius);
+
+            // Check what objects this collider will hit when cast with this configuration excluding itself
+            IEnumerable<RaycastHit> hits = Physics.CapsuleCastAll(top, bottom, radius, dir, dist, ~0, QueryTriggerInteraction.Ignore).Where(hit => hit.collider.transform != transform);
+            bool didHit = hits.Count() > 0;
+
+            // Find the closest objects hit
+            float closestDist = didHit ? Enumerable.Min(hits.Select(hit => hit.distance)) : 0;
+            IEnumerable<RaycastHit> closestHit = hits.Where(hit => hit.distance == closestDist);
+
+            // Get the first hit object out of the things the player collides with
+            hit = closestHit.FirstOrDefault();
+
+            // Return if any objects were hit
+            return didHit;
+        }
+
+
+        private bool isGrounded(out RaycastHit groundHit)
+        {
+            bool onGround = CastSelf(transform.position, transform.rotation, Vector3.down, groundDist, out groundHit);
+            float angle = Vector3.Angle(groundHit.normal, Vector3.up);
+            return onGround && angle < maxWalkingAngle;
+        }
+
+        // private void HandleGravity()
+        // {
+        //     if (Grounded)
+        //     {
+        //         // reset the fall timeout timer
+        //         _fallTimeoutDelta = FallTimeout;
+
+        //         // update animator if using character
+        //         if (_hasAnimator)
+        //         {
+        //             _animator.SetBool(_animIDFall, false);
+        //         }
+
+        //         // stop our velocity dropping infinitely when grounded
+        //         if (_verticalVelocity < 0.0f)
+        //         {
+        //             _verticalVelocity = -2f;
+        //         }
+
+        //         //if we are still playing the fall end animation don't move
+        //         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("FallEnd"))
+        //         {
+        //             canMove = false;
+        //         }
+        //         else
+        //         {
+        //             canMove = true;
+		// 		}
+        //     }
+        //     else
+        //     {
+        //         // fall timeout
+        //         if (_fallTimeoutDelta >= 0.0f)
+        //         {
+        //             _fallTimeoutDelta -= Time.deltaTime;
+        //         }
+        //         else
+        //         {
+        //             // update animator if using character
+        //             if (_hasAnimator)
+        //             {
+        //                 _animator.SetBool(_animIDFall, true);
+        //             }
+        //         }
+
+        //         // fall timeout
+        //         if (_fallTimeoutDelta >= 0.0f)
+        //         {
+        //             _fallTimeoutDelta -= Time.deltaTime;
+        //         }
+        //     }
+
+        //     // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+        //     if (_verticalVelocity < _terminalVelocity)
+        //     {
+        //         _verticalVelocity += gravity * Time.deltaTime;
+        //     }
+        // }
 
 
         //Events called in animation
@@ -270,7 +518,7 @@ namespace ForsakenLegacy
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.position, FootstepAudioVolume);
                 }
             }
         }
@@ -279,7 +527,7 @@ namespace ForsakenLegacy
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.transform.position, FootstepAudioVolume);
             }
         }
     }

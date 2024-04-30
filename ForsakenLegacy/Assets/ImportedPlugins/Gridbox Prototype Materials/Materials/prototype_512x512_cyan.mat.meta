@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ForsakenLegacy/Assets/ForsakenLegacy/Shaders/Dash.meta
+guid: 63b84968139e5a441b0174c4a4e0b5c7
+folderAsset: yes
+DefaultImporter:
+========
 guid: 8b4c63d2fbae1db4db167daa2270cc89
 NativeFormatImporter:
+>>>>>>>> 36b81f41f610d8bee35659720ba15228f4f72ae1:ForsakenLegacy/Assets/ImportedPlugins/Gridbox Prototype Materials/Materials/prototype_512x512_cyan.mat.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

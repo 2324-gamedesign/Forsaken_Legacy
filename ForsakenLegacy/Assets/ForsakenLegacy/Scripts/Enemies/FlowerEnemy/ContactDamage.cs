@@ -16,7 +16,7 @@ namespace ForsakenLegacy
             player = GameObject.Find("Edea");
         }
         private void OnTriggerEnter(Collider other) {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject == player)
             {
                 InvokeRepeating("DealDamage", 0.1f, damageDelay);
             }
