@@ -171,19 +171,19 @@ namespace ForsakenLegacy
             isPatrolling = true;
             if(transform.position != originalPosition)
             {
-                ReturnToOriginalPosition();
+                // ReturnToOriginalPosition();
                 return;
             }
         }
 
-        void ReturnToOriginalPosition()
-        {
-            DOTween.KillAll();
+        // void ReturnToOriginalPosition()
+        // {
+        //     DOTween.KillAll();
 
-            _navMeshAgent.SetDestination(originalPosition);
-            _navMeshAgent.speed = walkSpeed;
-            Patrol();
-        }
+        //     _navMeshAgent.SetDestination(originalPosition);
+        //     _navMeshAgent.speed = walkSpeed;
+        //     Patrol();
+        // }
 
         private void HandleLookAhead(bool lookAhead)
         {
