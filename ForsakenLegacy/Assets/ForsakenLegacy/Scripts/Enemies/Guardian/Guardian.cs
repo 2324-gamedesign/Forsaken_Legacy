@@ -13,6 +13,7 @@ namespace ForsakenLegacy
     {
         public Transform target;
         public Collider attackRange;
+        private Vector3 randomTargetOffset;
 
         private NavMeshAgent _navMeshAgent;
         private Animator _animator;
@@ -25,7 +26,7 @@ namespace ForsakenLegacy
         private float minDistanceToPlayer = 0.9f;
         private bool isInsideAttackRange = false;
 
-        public Collider weaponCollider;
+        public SphereCollider weaponCollider;
         private bool isAttacking = false;
 
         //Patrolling
@@ -44,7 +45,9 @@ namespace ForsakenLegacy
             originalPosition = transform.position;
             //find player by name Edea
             target = GameObject.Find("Edea").transform;
-            attackRange = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>();
+            attackRange = GameObject.FindGameObjectWithTag("Player").GetComponent<SphereCollider>();
+
+            randomTargetOffset = Random.insideUnitCircle * (attackRange.bounds.extents.x * 0.8f);
             
             Patrol();
         }
@@ -88,7 +91,7 @@ namespace ForsakenLegacy
                 //if it is still attacking wait for attack animation to stop and then call this again
                 if(isAttacking)
                 {
-                    Invoke("StartPursuit", 1f);
+                    Invoke("StartPursuit", 0.5f);
                     return;
                 }
 
@@ -111,15 +114,18 @@ namespace ForsakenLegacy
 
         private void SetDestination()
         {
-            _navMeshAgent.SetDestination(target.transform.position);
+            _navMeshAgent.SetDestination(target.transform.position + randomTargetOffset);
         }
 
         private void OnTriggerEnter(Collider other) 
         {
-            if(attackRange)
+            if(attackRange && !isInsideAttackRange)
             {
                 if(other == attackRange && !target.GetComponent<HealthSystem>().isDead)
                 {
+                    isInsideAttackRange = true;
+                    Debug.Log("Enter Attack Range");
+
                     CancelInvoke("SetDestination");
 
                     HandleLookAhead(false);
@@ -137,6 +143,7 @@ namespace ForsakenLegacy
         {
             if(other == attackRange)
             {
+                Debug.Log("Exit Attack Range");
                 isInsideAttackRange = false;
 
                 CancelInvoke("TriggerAttack");
@@ -188,7 +195,7 @@ namespace ForsakenLegacy
         {
             if(GetComponent<LookAhead>())
             {
-               GetComponent<LookAhead>().enabled = lookAhead; 
+               GetComponent<LookAhead>().enabled = lookAhead;
             }   
         }
 

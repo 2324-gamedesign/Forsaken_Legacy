@@ -30,7 +30,7 @@ namespace ForsakenLegacy
         private Vector3 gravity = new Vector3(0, -20f, 0);
         public float maxSlopeAngle = 60f;
         private float minSlopeAngle = 0.001f;
-        private float groundDist = 0.01f;
+        private float groundDist = 0.5f;
         public LayerMask groundLayer;
         // private bool isFalling;
         // private float FallTimeout = 0.15f;
@@ -38,7 +38,7 @@ namespace ForsakenLegacy
         // private Transform groundCheck;
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        [Range(0, 1)] public float FootstepAudioVolume = 0.2f;
         
         //Camera
         public Transform mainCamera;
@@ -111,12 +111,12 @@ namespace ForsakenLegacy
         private void OnDisable()
         {
             playerY = transform.position.y;
+            Debug.Log("New Y:" + playerY);
         }
         private void OnEnable()
         {
-
             transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
-            Debug.Log("Reset Y");
+            Debug.Log("Reset Y:" + playerY);
         }
 
 
