@@ -108,14 +108,15 @@ namespace ForsakenLegacy
             AssignAnimationHash();
         }
 
-        private void OnDisable() 
+        private void OnDisable()
         {
             playerY = transform.position.y;
         }
-        private void OnEnable() 
+        private void OnEnable()
         {
 
-            transform.position = new Vector3(transform.position.x, playerY, transform.position.z); 
+            transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
+            Debug.Log("Reset Y");
         }
 
 

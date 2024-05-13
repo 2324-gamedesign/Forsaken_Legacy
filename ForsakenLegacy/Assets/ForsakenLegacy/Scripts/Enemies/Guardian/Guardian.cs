@@ -81,7 +81,6 @@ namespace ForsakenLegacy
         public void StartPursuit()
         {
             isPatrolling = false;
-            DOTween.KillAll();
             CancelInvoke("TriggerAttack");
 
             if(!GetComponent<Stunnable>().isStunned)
