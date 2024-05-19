@@ -24,13 +24,12 @@ namespace ForsakenLegacy
         private float moveSpeed = 2.0f;
         public bool isInAbility = false;
         private float walkSpeed = 2.0f;
-        private float sprintSpeed = 5.5f;
+        private float sprintSpeed = 7f;
 
         //Footsteps and Gravity
-        private Vector3 gravity = new Vector3(0, -20f, 0);
         public float maxSlopeAngle = 60f;
         private float minSlopeAngle = 0.001f;
-        private float groundDist = 0.5f;
+        private float groundDist = 0.1f;
         public LayerMask groundLayer;
         // private bool isFalling;
         // private float FallTimeout = 0.15f;
@@ -44,16 +43,16 @@ namespace ForsakenLegacy
         public Transform mainCamera;
 
         // Player
-        private float speedZ;
-        private float speedX;
-        private float acceleration = 5f;
-        private float deceleration = 5f;
+        private float speed;
+        private float acceleration = 3f;
+        private float deceleration = 3f;
         private float maxWalkSpeed = 0.5f;
         private float maxSprintSpeed = 2.0f;
         public float rotateSpeed = 90f;
         public int maxBounces = 5;
         public float anglePower = 0.5f;
         private float playerY;
+        private bool isStopping;
 
         //Player Components
         private PlayerInput _playerInput;
@@ -68,9 +67,9 @@ namespace ForsakenLegacy
         private Vector3 velocity;
 
         //Animations Hash
-        private int SpeedZHash;
-        private int SpeedXHash;
-        private int FallHash;
+        private readonly int SpeedHash = Animator.StringToHash("Speed");
+        private readonly int FallHash = Animator.StringToHash("Fall");
+        private readonly int IsStoppingHash = Animator.StringToHash("isStopping");
 
         private bool _hasAnimator;
 
@@ -103,29 +102,27 @@ namespace ForsakenLegacy
             _rb = GetComponent<Rigidbody>();
             _playerInput = GetComponent<PlayerInput>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
-
+            
             _rb.isKinematic = true;
-            AssignAnimationHash();
+            // AssignAnimationHash();
         }
 
-        private void OnDisable()
-        {
-            playerY = transform.position.y;
-            Debug.Log("New Y:" + playerY);
-        }
-        private void OnEnable()
-        {
-            transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
-            Debug.Log("Reset Y:" + playerY);
-        }
+        // private void OnDisable()
+        // {
+        //     playerY = transform.position.y;
+        // }
+        // private void OnEnable()
+        // {
+        //     transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
+        // }
 
 
-        private void AssignAnimationHash()
-        {
-            SpeedZHash = Animator.StringToHash("SpeedZ");
-            SpeedXHash = Animator.StringToHash("SpeedX");
-            FallHash = Animator.StringToHash("Fall");
-        }
+        // private void AssignAnimationHash()
+        // {
+        //     SpeedHash = Animator.StringToHash("Speed");
+        //     FallHash = Animator.StringToHash("Fall");
+            
+        // }
 
         private void FixedUpdate()
         {
@@ -133,8 +130,38 @@ namespace ForsakenLegacy
             _hasAnimator = TryGetComponent(out _animator);
 
             if (canMove && !isInAbility && !isAttacking) {MoveInput();}
+            PushOutIfPenetrating();
         }
+
+        private void PushOutIfPenetrating()
+        {
+            //Check for overlapping colliders
+            Collider[] colliders = Physics.OverlapCapsule(
+                transform.position + Vector3.up * 0.25f,
+                transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
+                _capsuleCollider.radius,
+                groundLayer);
         
+            //Loop through the detected colliders
+            foreach (Collider collider in colliders)
+            {
+                if (collider != _capsuleCollider)
+                {
+                    // Calculate the direction and distance to push the player out
+                    Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
+                    float distance = _capsuleCollider.radius - direction.magnitude;
+                    // Apply the push out
+                    transform.position += direction.normalized * distance;
+                }
+            }
+
+            //Check if the player is too close to the ground and adjust position upwards if necessary
+            if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, groundLayer))
+            {
+                transform.position += Vector3.up * (1 - hit.distance);
+            }
+        }
+
         private void MoveInput()
         {
             // Get movement input from InputController
@@ -175,14 +202,8 @@ namespace ForsakenLegacy
             //Set current maxSpeed
             float currentMaxSpeed = sprint ? maxSprintSpeed : maxWalkSpeed;
 
-            if (sprint)
-            {
-                moveSpeed = sprintSpeed;
-            }
-            else
-            {
-                moveSpeed = walkSpeed;
-            }
+            // Update moveSpeed based on sprinting
+            moveSpeed = sprint ? sprintSpeed : walkSpeed;
             
             // Rotate towards the movement direction
             if (moveDirection.magnitude >= 0.1f)
@@ -194,155 +215,51 @@ namespace ForsakenLegacy
             }
 
             // handle change in speed for animations
-            changeSpeed(moveInput, sprint, currentMaxSpeed);
-            lockOrResetSpeed(moveInput, sprint, currentMaxSpeed);
+            ChangeSpeedAnimation(moveInput, currentMaxSpeed);
+
+            // Detect sudden stop and set isStopping flag
+            DetectSuddenStop();
 
             //set animation parameters
             if (_hasAnimator)
             {
-               _animator.SetFloat(SpeedXHash, speedX);
-               _animator.SetFloat(SpeedZHash, speedZ); 
+               _animator.SetFloat(SpeedHash, speed);
                _animator.SetBool(FallHash, false);
+               _animator.SetBool(IsStoppingHash, isStopping);
             }
         }
 
-        //handles acceleration and decelaration
-        private void changeSpeed(Vector2 moveInput, bool sprint, float currentMaxSpeed)
+        // Handles acceleration and deceleration
+        private void ChangeSpeedAnimation(Vector2 moveInput, float currentMaxSpeed)
         {
+            // Ensure moveInput magnitude does not exceed 1
+            moveInput = moveInput.normalized;
+
             // Increase speed based on movement input
-            if (moveInput.y > 0 && speedZ < currentMaxSpeed)
-            {
-                speedZ += acceleration * Time.deltaTime;
-            }
-            if (moveInput.y < 0 && speedZ > -currentMaxSpeed)
-            {
-                speedZ -= acceleration * Time.deltaTime;
-            }
-            if (moveInput.x < 0 && speedX > -currentMaxSpeed)
-            {
-                speedX -= acceleration * Time.deltaTime;
-            }
-            if (moveInput.x > 0 && speedX < currentMaxSpeed)
-            {
-                speedX += acceleration * Time.deltaTime;
-            }
+            float targetSpeed = moveInput.magnitude * currentMaxSpeed;
+            speed = Mathf.MoveTowards(speed, targetSpeed, acceleration * Time.deltaTime);
 
-            //decrease speed
-            if (moveInput.y == 0 && speedZ > 0f)
+            // Decrease speed when there is no input
+            if (moveInput == Vector2.zero)
             {
-                speedZ -= deceleration * Time.deltaTime;
-            }
-
-            // increase speed X if left not pressed
-            if (moveInput.x >= 0 && speedX < 0f)
-            {
-                speedX += deceleration * Time.deltaTime;
-            }
-
-            //decrease speed X if right not pressed
-            if (moveInput.x <= 0 && speedX > 0f)
-            {
-                speedX -= deceleration * Time.deltaTime;
+                speed = Mathf.MoveTowards(speed, 0f, deceleration * Time.deltaTime);
             }
         }
 
-        //handles reset and lock of speed
-        private void lockOrResetSpeed(Vector2 moveInput, bool sprint, float currentMaxSpeed)
+        // Detects sudden stop and sets the isStopping flag
+        private void DetectSuddenStop()
         {
-            //reset velocity
-            if (moveInput.y == 0 && speedZ < 0f)
-            {
-                speedZ = 0f;
-            }
+            float previousSpeed = speed;
+            bool wasRunning = previousSpeed > 1.5f;
+            bool isNowIdle = Mathf.Approximately(speed, 0f);
 
-            //reset speedx
-            if(moveInput.x == 0 && speedX != 0f && (speedX < 0.05f && speedX > -0.05f))
+            if (wasRunning && isNowIdle)
             {
-                speedX = 0f;
+                isStopping = true;
             }
-
-            //lockForward
-            if (moveInput.y > 0 && sprint && speedZ > currentMaxSpeed)
+            else
             {
-                speedZ = currentMaxSpeed;
-            }
-            //decelerate to max walk velocity
-            else if (moveInput.y > 0 && speedZ > currentMaxSpeed)
-            {
-                speedZ -= deceleration * Time.deltaTime;
-                //round to currentMaxSpeed if within offset
-                if (speedZ > currentMaxSpeed && speedZ < (currentMaxSpeed + 0.05f))
-                {
-                    speedZ = currentMaxSpeed;
-                }
-            }
-            // round to the currentMaxSpeed if within offset
-            else if (moveInput.y > 0 && speedZ < currentMaxSpeed && speedZ > (currentMaxSpeed - 0.05f))
-            {
-                speedZ = currentMaxSpeed;
-            }
-
-            //lock Backward
-            if (moveInput.y < 0 && sprint && speedZ < -currentMaxSpeed)
-            {
-                speedZ = -currentMaxSpeed;
-            }
-            //decelerate to max walk velocity
-            else if (moveInput.y < 0 && speedZ < -currentMaxSpeed)
-            {
-                speedZ += deceleration * Time.deltaTime;
-                //round to currentMaxSpeed if within offset
-                if (speedZ < -currentMaxSpeed && speedZ > (-currentMaxSpeed - 0.05f))
-                {
-                    speedZ = -currentMaxSpeed;
-                }
-            }
-            // round to the currentMaxSpeed if within offset
-            else if (moveInput.y < 0 && speedZ > -currentMaxSpeed && speedZ < (-currentMaxSpeed + 0.05f))
-            {
-                speedZ = -currentMaxSpeed;
-            }
-
-            //lock left
-            if (moveInput.x < 0 && sprint && speedX < -currentMaxSpeed)
-            {
-                speedX = -currentMaxSpeed;
-            }
-            //decelerate to max walk velocity
-            else if (moveInput.x < 0 && speedX < -currentMaxSpeed)
-            {
-                speedX += deceleration * Time.deltaTime;
-                //round to currentMaxSpeed if within offset
-                if (speedX < -currentMaxSpeed && speedX > (-currentMaxSpeed - 0.05f))
-                {
-                    speedX = -currentMaxSpeed;
-                }
-            }
-            // round to the currentMaxSpeed if within offset
-            else if (moveInput.x < 0 && speedX > -currentMaxSpeed && speedX < (-currentMaxSpeed + 0.05f))
-            {
-                speedX = -currentMaxSpeed;
-            }
-
-            //lock right
-            if (moveInput.x > 0 && sprint && speedX > currentMaxSpeed)
-            {
-                speedX = currentMaxSpeed;
-            }
-            //decelerate to max walk velocity
-            else if (moveInput.x > 0 && speedX > currentMaxSpeed)
-            {
-                speedX -= deceleration * Time.deltaTime;
-                //round to currentMaxSpeed if within offset
-                if (speedX > currentMaxSpeed && speedX < (currentMaxSpeed + 0.05f))
-                {
-                    speedX = currentMaxSpeed;
-                }
-            }
-            // round to the currentMaxSpeed if within offset
-            else if (moveInput.x > 0 && speedX < currentMaxSpeed && speedX > (currentMaxSpeed - 0.05f))
-            {
-                speedX = currentMaxSpeed;
+                isStopping = false;
             }
         }
 

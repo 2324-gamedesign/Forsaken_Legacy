@@ -1015,12 +1015,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2956736}
   m_LocalEulerAnglesHint: {x: -84.052, y: 204.127, z: -151.344}
---- !u!1 &9080259 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4731159357442614739, guid: 54992b41001d68943af812dcbe13a051,
-    type: 3}
-  m_PrefabInstance: {fileID: 1787373870}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &16314742
 GameObject:
   m_ObjectHideFlags: 0
@@ -16789,7 +16783,7 @@ MonoBehaviour:
               m_IntArgument: 0
               m_FloatArgument: 0
               m_StringArgument: 
-              m_BoolArgument: 0
+              m_BoolArgument: 1
             m_CallState: 2
       onExitTransition:
         m_PersistentCalls:
@@ -16834,9 +16828,9 @@ MonoBehaviour:
       timeMode: 0
     preferences:
       zoomSettings:
-        zoomFactor: 0.95
+        zoomFactor: 1
       dragSettings:
-        dragOffset: {x: 45.473698, y: -172.2106}
+        dragOffset: {x: -18.73682, y: 102.5263}
       gridSettings:
         isEnabled: 1
       labelSettings:
@@ -18878,81 +18872,6 @@ PrefabInstance:
       propertyPath: potionNumberText
       value: 
       objectReference: {fileID: 1068575170}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860767236358151].PlayEvents.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860767236358151].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860767236358151].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 9080259}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 9080259}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860767236358151].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860767236358151].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2695979851835247512, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: managedReferences[8477860787155107841].PlayEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 3160420520397199573, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: m_WarningMessage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3160420520397199573, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3656388959748563208, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: managedReferences[8477860693817950213].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18990,19 +18909,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
-      propertyPath: canMove
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 118607260}
-    - target: {fileID: 8842400182999384689, guid: 54992b41001d68943af812dcbe13a051,
-        type: 3}
-      propertyPath: maxSlopeAngle
-      value: 95
-      objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -34,7 +34,6 @@ namespace ForsakenLegacy
             _capsuleCollider = GetComponent<CapsuleCollider>();
             dashAction = _playerInput.actions.FindAction("Dash");
             dashAction.performed += OnDashPerformed;
-            // trail.Stop();
     
             _animator = GetComponent<Animator>();
     
@@ -105,9 +104,6 @@ namespace ForsakenLegacy
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-        
-            // Ensure the player reaches the exact dash destination
-            transform.position = dashDestination;
         
             dashCooldownImage.fillAmount = 1;
             trail.Stop();

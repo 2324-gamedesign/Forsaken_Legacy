@@ -102,8 +102,9 @@ namespace ForsakenLegacy
                 else
                 {
                     GameManager.Instance.SetMoveState();
+                    WeaponColliderOff();
                 }
-                weapon.gameObject.SetActive(isAttacking);
+                // weapon.gameObject.SetActive(isAttacking);
                 activateWeapon.PlayFeedbacks();
                 attack.PlayFeedbacks();
                 isAttackingCheck = isAttacking;
