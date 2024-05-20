@@ -72,12 +72,6 @@ namespace ForsakenLegacy
 
             }
 
-            // //if the combo3 animation is playing and it is at 20% of its length set the rig weight to 0
-            // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.2f)
-            // {
-            //     rigLayer.weight = 0f;
-            // }
-
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stun"))
             {
                 isAttacking = true;

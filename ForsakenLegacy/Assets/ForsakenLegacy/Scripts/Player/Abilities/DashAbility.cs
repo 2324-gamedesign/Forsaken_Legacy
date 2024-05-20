@@ -41,15 +41,18 @@ namespace ForsakenLegacy
     
         void OnDashPerformed(InputAction.CallbackContext context)
         {
-            bool isAttacking = GetComponent<AttackMelee>().isAttacking;
-            
-            if (!GetComponent<PlayerController>().isInAbility && canDash && !isAttacking)
+            if (this != null)
             {
-                StartCoroutine(PerformDash());
-            }
-            else
-            {
-                return;
+                bool isAttacking = GetComponent<AttackMelee>().isAttacking;
+                
+                if (canDash && !isAttacking)
+                {
+                    StartCoroutine(PerformDash());
+                }
+                else
+                {
+                    return;
+                }
             }
         }
         private IEnumerator PerformDash()
@@ -129,19 +132,5 @@ namespace ForsakenLegacy
             // Allow dashing again after the cooldown
             canDash = true;
         }
-    
-        // public void FadeOut() {
-        //     Renderer[] renderer = GetComponentsInChildren<Renderer>();
-    
-        //     foreach(Renderer i in renderer)
-        //     i.enabled = false;
-        // }
-    
-        // public void FadeIn() {
-        //     Renderer[] renderer = GetComponentsInChildren<Renderer>();
-    
-        //     foreach(Renderer i in renderer)
-        //     i.enabled = true;
-        // }
     }
 }
