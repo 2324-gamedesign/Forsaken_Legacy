@@ -34,7 +34,6 @@ namespace ForsakenLegacy
             _capsuleCollider = GetComponent<CapsuleCollider>();
             dashAction = _playerInput.actions.FindAction("Dash");
             dashAction.performed += OnDashPerformed;
-            // trail.Stop();
     
             _animator = GetComponent<Animator>();
     
@@ -79,8 +78,8 @@ namespace ForsakenLegacy
         
             while (elapsedTime < dashDuration)
             {
-                // Calculate the current position based on lerping between initial and dash         destinations
-                Vector3 currentPosition = Vector3.Lerp(initialPosition, dashDestination,        elapsedTime / dashDuration);
+                // Calculate the current position based on lerping between initial and dash destinations
+                Vector3 currentPosition = Vector3.Lerp(initialPosition, dashDestination, elapsedTime / dashDuration);
         
                 // Calculate the movement vector
                 Vector3 movement = currentPosition - transform.position;
@@ -105,9 +104,6 @@ namespace ForsakenLegacy
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-        
-            // Ensure the player reaches the exact dash destination
-            transform.position = dashDestination;
         
             dashCooldownImage.fillAmount = 1;
             trail.Stop();
@@ -134,18 +130,18 @@ namespace ForsakenLegacy
             canDash = true;
         }
     
-        public void FadeOut() {
-            Renderer[] renderer = GetComponentsInChildren<Renderer>();
+        // public void FadeOut() {
+        //     Renderer[] renderer = GetComponentsInChildren<Renderer>();
     
-            foreach(Renderer i in renderer)
-            i.enabled = false;
-        }
+        //     foreach(Renderer i in renderer)
+        //     i.enabled = false;
+        // }
     
-        public void FadeIn() {
-            Renderer[] renderer = GetComponentsInChildren<Renderer>();
+        // public void FadeIn() {
+        //     Renderer[] renderer = GetComponentsInChildren<Renderer>();
     
-            foreach(Renderer i in renderer)
-            i.enabled = true;
-        }
+        //     foreach(Renderer i in renderer)
+        //     i.enabled = true;
+        // }
     }
 }

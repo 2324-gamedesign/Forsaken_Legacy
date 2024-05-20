@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_CROSS
+  - _RECEIVE_SHADOWS_OFF
   - _RIMLIGHTING_ON
   - _SPECULARHIGHLIGHTS_OFF
   - _SPECULAR_SETUP
@@ -225,7 +226,7 @@ Material:
     - _OverrideShadowColor: 0
     - _Parallax: 0.02
     - _QueueOffset: 50
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _RemapInputMax: 1
     - _RemapInputMin: 0
     - _RemapOutputMax: 0.95
@@ -276,7 +277,7 @@ Material:
     - _ZWrite: 0
     - _brushScale: 8
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.69411767}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.34901962}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorDim: {r: 0.5660378, g: 0.258989, b: 0.258989, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
