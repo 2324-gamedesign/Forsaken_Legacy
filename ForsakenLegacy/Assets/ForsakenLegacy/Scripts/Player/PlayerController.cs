@@ -25,6 +25,7 @@ namespace ForsakenLegacy
         public bool isInAbility = false;
         private float walkSpeed = 2.0f;
         private float sprintSpeed = 7f;
+        private bool movementPressed;
 
         //Footsteps and Gravity
         public float maxSlopeAngle = 60f;
@@ -104,7 +105,6 @@ namespace ForsakenLegacy
             _capsuleCollider = GetComponent<CapsuleCollider>();
             
             _rb.isKinematic = true;
-            // AssignAnimationHash();
         }
 
         // private void OnDisable()
@@ -116,51 +116,42 @@ namespace ForsakenLegacy
         //     transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
         // }
 
-
-        // private void AssignAnimationHash()
-        // {
-        //     SpeedHash = Animator.StringToHash("Speed");
-        //     FallHash = Animator.StringToHash("Fall");
-            
-        // }
-
         private void FixedUpdate()
         {
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
             if (canMove && !isInAbility && !isAttacking) {MoveInput();}
-            PushOutIfPenetrating();
+            // PushOutIfPenetrating();
         }
 
-        private void PushOutIfPenetrating()
-        {
-            //Check for overlapping colliders
-            Collider[] colliders = Physics.OverlapCapsule(
-                transform.position + Vector3.up * 0.25f,
-                transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
-                _capsuleCollider.radius,
-                groundLayer);
-        
-            //Loop through the detected colliders
-            foreach (Collider collider in colliders)
-            {
-                if (collider != _capsuleCollider)
-                {
-                    // Calculate the direction and distance to push the player out
-                    Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
-                    float distance = _capsuleCollider.radius - direction.magnitude;
-                    // Apply the push out
-                    transform.position += direction.normalized * distance;
-                }
-            }
-
-            //Check if the player is too close to the ground and adjust position upwards if necessary
-            if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, groundLayer))
-            {
-                transform.position += Vector3.up * (1 - hit.distance);
-            }
-        }
+        // private void PushOutIfPenetrating()
+        // {
+        //     //Check for overlapping colliders
+        //     Collider[] colliders = Physics.OverlapCapsule(
+        //         transform.position + Vector3.up * 0.25f,
+        //         transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
+        //         _capsuleCollider.radius,
+        //         groundLayer);
+        //     //Loop through the detected colliders
+        //     foreach (Collider collider in colliders)
+        //     {
+        //         if (collider != _capsuleCollider)
+        //         {
+        //             // Calculate the direction and distance to push the player out
+        //             Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
+        //             float distance = _capsuleCollider.radius - direction.magnitude;
+        //             // Apply the push out
+        //             transform.position += direction.normalized * distance;
+        //         }
+        //     }
+           
+        //     //Check if the player is too close to the ground and adjust position upwards if necessary
+        //     if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, groundLayer))
+        //     {
+        //         transform.position += Vector3.up * (1 - hit.distance);
+        //     }
+        // }
 
         private void MoveInput()
         {
@@ -225,25 +216,32 @@ namespace ForsakenLegacy
             {
                _animator.SetFloat(SpeedHash, speed);
                _animator.SetBool(FallHash, false);
-               _animator.SetBool(IsStoppingHash, isStopping);
             }
         }
 
         // Handles acceleration and deceleration
         private void ChangeSpeedAnimation(Vector2 moveInput, float currentMaxSpeed)
         {
-            // Ensure moveInput magnitude does not exceed 1
-            moveInput = moveInput.normalized;
-
-            // Increase speed based on movement input
-            float targetSpeed = moveInput.magnitude * currentMaxSpeed;
-            speed = Mathf.MoveTowards(speed, targetSpeed, acceleration * Time.deltaTime);
+            float targetSpeed;
 
             // Decrease speed when there is no input
             if (moveInput == Vector2.zero)
             {
-                speed = Mathf.MoveTowards(speed, 0f, deceleration * Time.deltaTime);
+                targetSpeed = 0f;
+                if(movementPressed)
+                {
+                    movementPressed = false;
+                    _animator.SetTrigger(IsStoppingHash);
+                }
             }
+            else
+            {
+                targetSpeed = currentMaxSpeed;
+                movementPressed = true;
+                _animator.ResetTrigger(IsStoppingHash);
+            }
+            
+            speed = Mathf.MoveTowards(speed, targetSpeed, acceleration * Time.deltaTime);
         }
 
         // Detects sudden stop and sets the isStopping flag
