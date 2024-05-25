@@ -7,19 +7,22 @@ namespace ForsakenLegacy
 {
     public class FlowerEnemy : MonoBehaviour
     {
-        public GameObject player;
-
-        public Collider areaOfAttack;
+        private GameObject _player;
         private Animator _animator;
 
-        private bool canSee;
-        public GameObject bulletPrefab;
-        private GameObject bullet;
-        public GameObject indicatorPrefab;
-        private GameObject indicator;
+        public Collider AreaOfAttack;
+        private Vector3 minBounds;
+        private Vector3 maxBounds;
 
-        public float bulletSpeed = 5f;
-        public float curveForce = 20f;
+        private bool canSee;
+        public GameObject BulletPrefab;
+        private GameObject _bullet;
+
+        public GameObject IndicatorPrefab;
+        private GameObject _indicator;
+
+        private readonly float _bulletSpeed = 5f;
+        private readonly float _curveForce = 20f;
 
         public MMFeedbacks chargeFeedback;
 
@@ -27,6 +30,11 @@ namespace ForsakenLegacy
         void Start()
         {
             _animator = GetComponent<Animator>();
+            _player = GameObject.Find("Edea");
+
+            // Calculate the bounds of the area of attack
+            minBounds = AreaOfAttack.bounds.min;
+            maxBounds = AreaOfAttack.bounds.max;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -59,67 +67,74 @@ namespace ForsakenLegacy
             }
         }
 
-        // <<--- Method Called in Animation Events --->>
-        private void CreateBullet()
-        {
-            chargeFeedback.PlayFeedbacks();
-            Vector3 bulletPos = transform.position;
-            bulletPos.y += 0.5f;
-            bullet = Instantiate(bulletPrefab, bulletPos, transform.rotation);
-            bullet.transform.SetParent(transform);
-        }
-
         private void Shoot()
         {
-            if (bullet)
+            if (_bullet)
             {
-                Rigidbody rb = bullet.GetComponent<Rigidbody>();
+                Rigidbody rb = _bullet.GetComponent<Rigidbody>();
 
                 // Calculate the direction to the player
-                Vector3 directionToPlayer = (player.transform.position - bullet.transform.position).normalized;
+                Vector3 directionToPlayer = (_player.transform.position - _bullet.transform.position).normalized;
 
                 // Calculate the distance to the player
-                float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+                float distanceToPlayer = Vector3.Distance(transform.position, _player.transform.position);
 
                 // Adjust speed and force based on distance
-                float speed = Mathf.Clamp(distanceToPlayer / bulletSpeed, 0, 2);
+                float speed = Mathf.Clamp(distanceToPlayer / _bulletSpeed, 0, 2);
 
                 // Spawn Indicator
                 float timeOfFlight = distanceToPlayer / speed;
-                Vector3 landingPosition = bullet.transform.position + directionToPlayer * speed * timeOfFlight + Physics.gravity * timeOfFlight * timeOfFlight * 0.5f;
+                Vector3 landingPosition = _bullet.transform.position + directionToPlayer * speed * timeOfFlight + Physics.gravity * timeOfFlight * timeOfFlight * 0.5f;
                 SpawnIndicator(landingPosition);
 
                 // Apply the adjusted initial velocity
                 rb.velocity = directionToPlayer * speed;
 
                 // Apply a force to curve the bullet
-                rb.AddForce(Vector3.up * curveForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * _curveForce, ForceMode.Impulse);
                 rb.useGravity = true;
             }
         }
 
         private void SpawnIndicator(Vector3 landingPosition)
         {
-            landingPosition.y = player.transform.position.y - 0.3f;
+            landingPosition.y = _player.transform.position.y - 0.3f;
+
+            // Calculate the bounds of the area of attack
+            Vector3 minBounds = AreaOfAttack.bounds.min;
+            Vector3 maxBounds = AreaOfAttack.bounds.max;
+
+            // Clamp the landing position within the area of attack bounds
+            landingPosition.x = Mathf.Clamp(landingPosition.x, minBounds.x, maxBounds.x);
+            landingPosition.z = Mathf.Clamp(landingPosition.z, minBounds.z, maxBounds.z);
             
             // Instantiate the indicator at the landing position
-            indicator = Instantiate(indicatorPrefab, landingPosition, Quaternion.identity);
-            indicator.transform.SetParent(transform);
+            _indicator = Instantiate(IndicatorPrefab, landingPosition, Quaternion.identity);
         }
 
         public void DestroyIndicatorBullet()
         {
-            if(bullet)
+            if(_bullet)
             {
-                if(bullet.GetComponent<Rigidbody>().useGravity == false)
+                if(_bullet.GetComponent<Rigidbody>().useGravity == false)
                 {
-                    Destroy(bullet);
-                    if (indicator)
+                    Destroy(_bullet);
+                    if (_indicator)
                     {
-                        Destroy(indicator);
+                        Destroy(_indicator);
                     }
                 }
             }
+        }
+
+        // <<--- Method Called in Animation Events --->>
+        private void CreateBullet()
+        {
+            chargeFeedback.PlayFeedbacks();
+            Vector3 bulletPos = transform.position;
+            bulletPos.y += 0.5f;
+            _bullet = Instantiate(BulletPrefab, bulletPos, transform.rotation);
+            _bullet.transform.SetParent(transform);
         }
     }
 }

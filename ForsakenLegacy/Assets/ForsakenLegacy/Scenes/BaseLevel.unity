@@ -3077,6 +3077,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!135 &48726807 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 714441834816063131, guid: b3925781af1016d47881a83035407bce,
+    type: 3}
+  m_PrefabInstance: {fileID: 1219732968359122271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &52466264
 GameObject:
   m_ObjectHideFlags: 0
@@ -22780,13 +22786,30 @@ PrefabInstance:
     - target: {fileID: 372493382301547311, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 714441834017408634, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1983939317}
+    - target: {fileID: 714441834017408634, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: AreaOfAttack
+      value: 
+      objectReference: {fileID: 48726807}
+    - target: {fileID: 714441834017408634, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 8333842359372403609, guid: e82939b2167300c4b8096b59b9c202e1,
+        type: 3}
+    - target: {fileID: 714441834017408634, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: IndicatorPrefab
+      value: 
+      objectReference: {fileID: 6142030844027650263, guid: 67c706a15cd4922449aa959f59eb698f,
+        type: 3}
     - target: {fileID: 2570903884345179809, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: FeedbacksList.Array.size
@@ -23287,6 +23310,11 @@ PrefabInstance:
       propertyPath: feedbackSpawn
       value: 
       objectReference: {fileID: 881687486}
+    - target: {fileID: 3400985523721233510, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5604146720025368554, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: managedReferences[8304442559998722051].LookAtTarget
