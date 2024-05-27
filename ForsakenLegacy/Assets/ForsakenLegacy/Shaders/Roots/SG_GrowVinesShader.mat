@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-592063780633588288
+--- !u!114 &-6118952914789283125
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: _DashTrail
-  m_Shader: {fileID: -6465566751694194690, guid: 0d30c8c6768db1f43aaaa082f17adf62,
+  m_Name: SG_GrowVinesShader
+  m_Shader: {fileID: -6465566751694194690, guid: de71f199145321a41bc0eaab81909b4b,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,8 +37,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTX:
-        m_Texture: {fileID: 2800000, guid: 9f9e4aca8bab2b74aaed6715f75873ef, type: 3}
+    - _Color_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_168b99f2212846ea85ca5d416ae42f2f_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: fcff861c427193047a43718c2fc39e73, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b533cf7eb4cc4eaab85692a6cbe9aa19_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 968ad145097c69a40a876fde0f19c0ec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d4f6df9fca3c446d9db9096e6d05630c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7d24764325b4b7d42bb78c01bb12e3b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -55,12 +67,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolveScale: 35
+    - _Clip: 1
+    - _Grow: 1
+    - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Scale: 0.04
+    - _Smooth: 0
     m_Colors:
-    - _Color01: {r: 0, g: 0, b: 0, a: 0}
-    - _Color02: {r: 0.30713776, g: 0.32213977, b: 0.5471698, a: 0}
-    - _DissolveSpeed: {r: -0.5, g: 0, b: 0, a: 0}
-    - _MainTXSpeed: {r: -0.1, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Tling: {r: 0.2, g: 3, b: 0, a: 0}
   m_BuildTextureStacks: []

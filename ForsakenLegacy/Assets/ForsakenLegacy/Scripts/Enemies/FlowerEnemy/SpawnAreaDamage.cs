@@ -7,10 +7,14 @@ namespace ForsakenLegacy
     public class SpawnAreaDamage : MonoBehaviour
     {
         public GameObject DamageAreaPrefab;
+        public AudioSource LandedAudio;
 
         private void OnTriggerEnter(Collider other) {
             if(other.gameObject.CompareTag("Bullet"))
             {
+                LandedAudio.Play();
+                Debug.Log("Played Sound");
+
                 Vector3 areaPos = transform.position;
                 areaPos.y = transform.position.y + 0.3f; // Adjust the y position of the damage area to be above the spawn area
 

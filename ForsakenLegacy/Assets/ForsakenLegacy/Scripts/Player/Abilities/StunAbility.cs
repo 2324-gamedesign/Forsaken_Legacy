@@ -57,7 +57,7 @@ namespace ForsakenLegacy
                 stunImage.enabled = true;
                 bool isAttacking = GetComponent<AttackMelee>().isAttacking;
 
-                if (!GetComponent<PlayerController>().isInAbility && !isAttacking && canstun)
+                if (!GetComponent<PlayerController>()._isInAbility && !isAttacking && canstun)
                 {
                     StartCoroutine("PerformStun");
                 }
@@ -67,7 +67,7 @@ namespace ForsakenLegacy
         private IEnumerator PerformStun()
         {
             canstun = false;
-            GetComponent<PlayerController>().isInAbility = true;
+            GetComponent<PlayerController>()._isInAbility = true;
 
             // Play the stun feedback
             stunFeedback.PlayFeedbacks();
@@ -87,7 +87,7 @@ namespace ForsakenLegacy
                 }
             }
 
-            GetComponent<PlayerController>().isInAbility = false;
+            GetComponent<PlayerController>()._isInAbility = false;
             StartCoroutine(StunCooldown());
         }
 

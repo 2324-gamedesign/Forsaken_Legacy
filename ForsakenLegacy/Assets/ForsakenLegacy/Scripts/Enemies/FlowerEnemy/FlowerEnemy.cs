@@ -7,6 +7,9 @@ namespace ForsakenLegacy
 {
     public class FlowerEnemy : MonoBehaviour
     {
+        public GameObject BulletPrefab;
+        public AudioSource ShootBullet;
+
         private GameObject _player;
         private Animator _animator;
 
@@ -15,7 +18,6 @@ namespace ForsakenLegacy
         private Vector3 maxBounds;
 
         private bool canSee;
-        public GameObject BulletPrefab;
         private GameObject _bullet;
 
         public GameObject IndicatorPrefab;
@@ -72,6 +74,7 @@ namespace ForsakenLegacy
             if (_bullet)
             {
                 Rigidbody rb = _bullet.GetComponent<Rigidbody>();
+                ShootBullet.Play();
 
                 // Calculate the direction to the player
                 Vector3 directionToPlayer = (_player.transform.position - _bullet.transform.position).normalized;
