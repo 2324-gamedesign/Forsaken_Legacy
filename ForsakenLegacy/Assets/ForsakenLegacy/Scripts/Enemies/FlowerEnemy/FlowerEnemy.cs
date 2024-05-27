@@ -115,20 +115,20 @@ namespace ForsakenLegacy
             _indicator = Instantiate(IndicatorPrefab, landingPosition, Quaternion.identity);
         }
 
-        public void DestroyIndicatorBullet()
-        {
-            if(_bullet)
-            {
-                if(_bullet.GetComponent<Rigidbody>().useGravity == false)
-                {
-                    Destroy(_bullet);
-                    if (_indicator)
-                    {
-                        Destroy(_indicator);
-                    }
-                }
-            }
-        }
+        // public void DestroyIndicatorBullet()
+        // {
+        //     if(_bullet)
+        //     {
+        //         if(_bullet.GetComponent<Rigidbody>().useGravity == false)
+        //         {
+        //             Destroy(_bullet);
+        //             if (_indicator)
+        //             {
+        //                 Destroy(_indicator);
+        //             }
+        //         }
+        //     }
+        // }
 
         // <<--- Method Called in Animation Events --->>
         private void CreateBullet()
