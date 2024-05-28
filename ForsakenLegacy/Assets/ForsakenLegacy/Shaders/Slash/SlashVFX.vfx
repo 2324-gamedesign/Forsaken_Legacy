@@ -20,7 +20,7 @@ MonoBehaviour:
     x: 355
     y: -191
     width: 2071
-    height: 1481
+    height: 1461
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1920,7 +1920,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":15.19160270690918,"g":19.02032470703125,"b":41.826236724853519,"a":0.772549033164978}'
+      m_SerializableObject: '{"r":15.19160270690918,"g":19.02032470703125,"b":41.826236724853519,"a":0.8352941274642944}'
     m_Space: 2147483647
   m_Property:
     name: _Color

@@ -14,6 +14,8 @@ public class CameraTopDown : MonoBehaviour
     public float followDelay = 0.5f;
     private Vector3 targetPosition;
 
+    private DitherToShowPlayer _ditherToShowPlayer = null;
+
     void Start()
     {
         HandleCamera();
@@ -22,6 +24,7 @@ public class CameraTopDown : MonoBehaviour
     void Update()
     {
         HandleCamera();
+        HandleDither();
     }
 
     protected virtual void HandleCamera()
@@ -51,5 +54,32 @@ public class CameraTopDown : MonoBehaviour
 
         // Apply the smoothed position to the camera's transform
         transform.position = smoothedPosition;
+    }
+
+    private void HandleDither()
+    {
+        if(player != null)
+        {
+            Vector3 dir = player.position - transform.position;
+            Ray ray = new Ray(transform.position, dir.normalized);
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray, out hit))
+            {
+                if(hit.collider == null || hit.collider.gameObject == player)
+                {
+                    if(_ditherToShowPlayer != null) _ditherToShowPlayer.Dither = false;
+                }
+                else if(hit.collider.gameObject.GetComponent<DitherToShowPlayer>())
+                {
+                    _ditherToShowPlayer = hit.collider.gameObject.GetComponent<DitherToShowPlayer>();
+                    _ditherToShowPlayer.Dither = true;
+                }
+                else
+                {
+                    if(_ditherToShowPlayer != null) _ditherToShowPlayer.Dither = false;
+                }
+            }
+        }
     }
 }
