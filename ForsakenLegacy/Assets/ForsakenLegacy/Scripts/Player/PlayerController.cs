@@ -21,56 +21,54 @@ namespace ForsakenLegacy
         [Header("Player")]
 
         [SerializeField] private bool canMove = true;
-        private float moveSpeed = 2.0f;
-        public bool isInAbility = false;
-        private float walkSpeed = 2.0f;
-        private float sprintSpeed = 7f;
-        private bool movementPressed;
+        private float _moveSpeed = 2.0f;
+        public bool _isInAbility = false;
+        private bool _movementPressed;
+        public float _maxWalkingAngle = 60f;
+        private float _speed;
+        private Vector3 _velocity;
+        private bool _isStopping;
 
         //Footsteps and Gravity
-        public float maxSlopeAngle = 60f;
-        private float minSlopeAngle = 0.001f;
-        private float groundDist = 0.1f;
-        public LayerMask groundLayer;
-        // private bool isFalling;
-        // private float FallTimeout = 0.15f;
-        // private float GroundedRadius = 0.28f;
-        // private Transform groundCheck;
+        public float MaxSlopeAngle = 60f;
+        private readonly float _minSlopeAngle = 0.001f;
+        private readonly float _groundDist = 0.1f;
+        public LayerMask GroundLayer;
+ 
+        [Header("Audio")]
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
+        private AudioSource _audioSource;
+
         [Range(0, 1)] public float FootstepAudioVolume = 0.2f;
         
         //Camera
-        public Transform mainCamera;
+        [Header("Camera")]
+        public Transform MainCamera;
 
-        // Player
-        private float speed;
-        private float acceleration = 3f;
-        private float deceleration = 3f;
-        private float maxWalkSpeed = 0.5f;
-        private float maxSprintSpeed = 2.0f;
-        public float rotateSpeed = 90f;
-        public int maxBounces = 5;
-        public float anglePower = 0.5f;
-        private float playerY;
-        private bool isStopping;
+        // Player Readonly Variables
+        private readonly float _walkSpeed = 2.0f;
+        private readonly float _sprintSpeed = 7f;
+        private readonly float _acceleration = 3f;
+        private readonly float _maxWalkSpeed = 0.5f;
+        private readonly float _maxSprintSpeed = 2.0f;
+        private readonly float _rotateSpeed = 90f;
+        private readonly int _maxBounces = 5;
+        private readonly float _anglePower = 0.5f;
+        // private float playerY;
 
         //Player Components
         private PlayerInput _playerInput;
-        public Animator _animator;
+        private Animator _animator;
         private Rigidbody _rb;
-        // private CharacterController _controller;
         private InputController _input;
         private CapsuleCollider _capsuleCollider;
 
-        //new vars
-        public float maxWalkingAngle = 60f;
-        private Vector3 velocity;
 
         //Animations Hash
-        private readonly int SpeedHash = Animator.StringToHash("Speed");
-        private readonly int FallHash = Animator.StringToHash("Fall");
-        private readonly int IsStoppingHash = Animator.StringToHash("isStopping");
+        private readonly int _speedHash = Animator.StringToHash("Speed");
+        private readonly int _fallHash = Animator.StringToHash("Fall");
+        private readonly int _isStoppingHash = Animator.StringToHash("isStopping");
 
         private bool _hasAnimator;
 
@@ -98,30 +96,22 @@ namespace ForsakenLegacy
         private void Start()
         { 
             _hasAnimator = TryGetComponent(out _animator);
-            // _controller = GetComponent<CharacterController>();
+
             _input = GetComponent<InputController>();
             _rb = GetComponent<Rigidbody>();
             _playerInput = GetComponent<PlayerInput>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
+            _audioSource = GetComponent<AudioSource>();
             
             _rb.isKinematic = true;
         }
-
-        // private void OnDisable()
-        // {
-        //     playerY = transform.position.y;
-        // }
-        // private void OnEnable()
-        // {
-        //     transform.position = new Vector3(transform.position.x, playerY, transform.position.z);
-        // }
 
         private void FixedUpdate()
         {
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
-            if (canMove && !isInAbility && !isAttacking) {MoveInput();}
+            if (canMove && !_isInAbility && !isAttacking) {MoveInput();}
             // PushOutIfPenetrating();
         }
 
@@ -163,11 +153,11 @@ namespace ForsakenLegacy
             // If falling, increase falling speed, otherwise stop falling.
             if (falling)
             {
-                velocity += Physics.gravity * Time.deltaTime;
+                _velocity += Physics.gravity * Time.deltaTime;
             }
             else
             {
-                velocity = Vector3.zero;
+                _velocity = Vector3.zero;
             }
 
             // Calculate movement direction based on camera orientation
@@ -175,7 +165,7 @@ namespace ForsakenLegacy
             moveDirection.y = 0f; // Ensure movement is only in the horizontal plane
             moveDirection.Normalize(); // Normalize the movement direction to ensure    consistent speed in all directions
 
-            Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;
+            Vector3 movement = moveDirection * _moveSpeed * Time.deltaTime;
 
             // If the player is standing on the ground, project their movement onto that plane
             // This allows for walking down slopes smoothly.
@@ -188,13 +178,13 @@ namespace ForsakenLegacy
             transform.position = MovePlayer(movement);
 
             // Move player based on falling speed
-            transform.position = MovePlayer(velocity * Time.deltaTime);
+            transform.position = MovePlayer(_velocity * Time.deltaTime);
 
             //Set current maxSpeed
-            float currentMaxSpeed = sprint ? maxSprintSpeed : maxWalkSpeed;
+            float currentMaxSpeed = sprint ? _maxSprintSpeed : _maxWalkSpeed;
 
             // Update moveSpeed based on sprinting
-            moveSpeed = sprint ? sprintSpeed : walkSpeed;
+            _moveSpeed = sprint ? _sprintSpeed : _walkSpeed;
             
             // Rotate towards the movement direction
             if (moveDirection.magnitude >= 0.1f)
@@ -214,8 +204,8 @@ namespace ForsakenLegacy
             //set animation parameters
             if (_hasAnimator)
             {
-               _animator.SetFloat(SpeedHash, speed);
-               _animator.SetBool(FallHash, false);
+               _animator.SetFloat(_speedHash, _speed);
+               _animator.SetBool(_fallHash, false);
             }
         }
 
@@ -228,36 +218,36 @@ namespace ForsakenLegacy
             if (moveInput == Vector2.zero)
             {
                 targetSpeed = 0f;
-                if(movementPressed)
+                if(_movementPressed)
                 {
-                    movementPressed = false;
-                    _animator.SetTrigger(IsStoppingHash);
+                    _movementPressed = false;
+                    _animator.SetTrigger(_isStoppingHash);
                 }
             }
             else
             {
                 targetSpeed = currentMaxSpeed;
-                movementPressed = true;
-                _animator.ResetTrigger(IsStoppingHash);
+                _movementPressed = true;
+                _animator.ResetTrigger(_isStoppingHash);
             }
             
-            speed = Mathf.MoveTowards(speed, targetSpeed, acceleration * Time.deltaTime);
+            _speed = Mathf.MoveTowards(_speed, targetSpeed, _acceleration * Time.deltaTime);
         }
 
         // Detects sudden stop and sets the isStopping flag
         private void DetectSuddenStop()
         {
-            float previousSpeed = speed;
+            float previousSpeed = _speed;
             bool wasRunning = previousSpeed > 1.5f;
-            bool isNowIdle = Mathf.Approximately(speed, 0f);
+            bool isNowIdle = Mathf.Approximately(_speed, 0f);
 
             if (wasRunning && isNowIdle)
             {
-                isStopping = true;
+                _isStopping = true;
             }
             else
             {
-                isStopping = false;
+                _isStopping = false;
             }
         }
 
@@ -269,7 +259,7 @@ namespace ForsakenLegacy
 
             int bounces = 0;
 
-            while (bounces < maxBounces && remaining.magnitude > minSlopeAngle)
+            while (bounces < _maxBounces && remaining.magnitude > _minSlopeAngle)
             {
                 // Do a cast of the collider to see if an object is hit during this movement bounce
                 float distance = remaining.magnitude;
@@ -292,7 +282,7 @@ namespace ForsakenLegacy
                 // Set the fraction of remaining movement (minus some small value)
                 position += remaining * (fraction);
                 // Push slightly along normal to stop from getting caught in walls
-                position += hit.normal * minSlopeAngle * 2;
+                position += hit.normal * _minSlopeAngle * 2;
                 // Decrease remaining movement by fraction of movement remaining
                 remaining *= (1 - fraction);
 
@@ -305,17 +295,17 @@ namespace ForsakenLegacy
 
                 // Normalize angle between to be between 0 and 1
                 // 0 means no angle, 1 means 90 degree angle
-                angleBetween = Mathf.Min(maxSlopeAngle, Mathf.Abs(angleBetween));
-                float normalizedAngle = angleBetween / maxSlopeAngle;
+                angleBetween = Mathf.Min(MaxSlopeAngle, Mathf.Abs(angleBetween));
+                float normalizedAngle = angleBetween / MaxSlopeAngle;
 
                 // Reduce the remaining movement by the remaining movement that ocurred
-                remaining *= Mathf.Pow(1 - normalizedAngle, anglePower) * 0.9f + 0.1f;
+                remaining *= Mathf.Pow(1 - normalizedAngle, _anglePower) * 0.9f + 0.1f;
 
                 // Rotate the remaining movement to be projected along the plane of the surface hit (emulate pushing against the object)
                 Vector3 projected = Vector3.ProjectOnPlane(remaining, planeNormal).normalized * remaining.magnitude;
 
                 // If projected remaining movement is less than original remaining movement (so if the projection broke due to float operations), then change this to just project along the vertical.
-                if (projected.magnitude + minSlopeAngle < remaining.magnitude)
+                if (projected.magnitude + _minSlopeAngle < remaining.magnitude)
                 {
                     remaining = Vector3.ProjectOnPlane(remaining, Vector3.up).normalized * remaining.magnitude;
                 }
@@ -361,70 +351,10 @@ namespace ForsakenLegacy
 
         private bool isGrounded(out RaycastHit groundHit)
         {
-            bool onGround = CastSelf(transform.position, transform.rotation, Vector3.down, groundDist, out groundHit);
+            bool onGround = CastSelf(transform.position, transform.rotation, Vector3.down, _groundDist, out groundHit);
             float angle = Vector3.Angle(groundHit.normal, Vector3.up);
-            return onGround && angle < maxWalkingAngle;
+            return onGround && angle < _maxWalkingAngle;
         }
-
-        // private void HandleGravity()
-        // {
-        //     if (Grounded)
-        //     {
-        //         // reset the fall timeout timer
-        //         _fallTimeoutDelta = FallTimeout;
-
-        //         // update animator if using character
-        //         if (_hasAnimator)
-        //         {
-        //             _animator.SetBool(_animIDFall, false);
-        //         }
-
-        //         // stop our velocity dropping infinitely when grounded
-        //         if (_verticalVelocity < 0.0f)
-        //         {
-        //             _verticalVelocity = -2f;
-        //         }
-
-        //         //if we are still playing the fall end animation don't move
-        //         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("FallEnd"))
-        //         {
-        //             canMove = false;
-        //         }
-        //         else
-        //         {
-        //             canMove = true;
-		// 		}
-        //     }
-        //     else
-        //     {
-        //         // fall timeout
-        //         if (_fallTimeoutDelta >= 0.0f)
-        //         {
-        //             _fallTimeoutDelta -= Time.deltaTime;
-        //         }
-        //         else
-        //         {
-        //             // update animator if using character
-        //             if (_hasAnimator)
-        //             {
-        //                 _animator.SetBool(_animIDFall, true);
-        //             }
-        //         }
-
-        //         // fall timeout
-        //         if (_fallTimeoutDelta >= 0.0f)
-        //         {
-        //             _fallTimeoutDelta -= Time.deltaTime;
-        //         }
-        //     }
-
-        //     // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-        //     if (_verticalVelocity < _terminalVelocity)
-        //     {
-        //         _verticalVelocity += gravity * Time.deltaTime;
-        //     }
-        // }
-
 
         //Events called in animation
         private void OnFootstep(AnimationEvent animationEvent)
@@ -434,7 +364,8 @@ namespace ForsakenLegacy
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.position, FootstepAudioVolume);
+                    _audioSource.clip = FootstepAudioClips[index];
+                    _audioSource.Play();
                 }
             }
         }

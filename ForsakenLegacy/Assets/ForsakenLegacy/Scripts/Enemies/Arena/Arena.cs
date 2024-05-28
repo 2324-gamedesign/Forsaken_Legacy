@@ -95,6 +95,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     public void CloseDoors()
     {
         isInProgress = true;
+        MusicManager.Instance.Combat();
 
         //Close the doors
         foreach(GameObject door in doors)
@@ -112,6 +113,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     {
         cleared = true;
         isInProgress = false;
+        MusicManager.Instance.Exploration();
        
         //Open the doors
         foreach(GameObject door in doors)

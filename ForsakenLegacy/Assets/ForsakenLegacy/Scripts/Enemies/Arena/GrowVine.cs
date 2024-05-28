@@ -9,8 +9,8 @@ public class GrowVine : MonoBehaviour
     private Material mat;
     private float timeToGrow = 3;
     private float refreshRate = 0.05f;
-    private float minGrow = 0.6f;
-    private float maxGrow = 0.97f;
+    public float minGrow = 0f;
+    public float maxGrow = 0.97f;
     private bool fullyGrown = false;
     // Start is called before the first frame update
     void Start()

@@ -421,22 +421,22 @@ PrefabInstance:
     - target: {fileID: -6063354155749413847, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.41091752
+      value: 0.4109175
       objectReference: {fileID: 0}
     - target: {fileID: -6063354155749413847, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.91152006
+      value: -0.9115201
       objectReference: {fileID: 0}
     - target: {fileID: -6063354155749413847, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00077407784
+      value: -0.0007740435
       objectReference: {fileID: 0}
     - target: {fileID: -6063354155749413847, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.016653556
+      value: -0.016653456
       objectReference: {fileID: 0}
     - target: {fileID: -6021311396105876081, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
@@ -531,37 +531,37 @@ PrefabInstance:
     - target: {fileID: -5738099386740791124, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.14128555
+      value: 0.027243653
       objectReference: {fileID: 0}
     - target: {fileID: -5738099386740791124, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.048341874
+      value: 0.006992623
       objectReference: {fileID: 0}
     - target: {fileID: -5738099386740791124, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.26712817
+      value: 0.26768097
       objectReference: {fileID: 0}
     - target: {fileID: -5738099386740791124, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.95202106
+      value: 0.96309704
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0038738893
+      value: 0.0034278985
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6964067
+      value: 0.6996622
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.021499963
+      value: -0.022619946
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
@@ -886,22 +886,22 @@ PrefabInstance:
     - target: {fileID: -2593687625098271875, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.110914156
+      value: 0.003928607
       objectReference: {fileID: 0}
     - target: {fileID: -2593687625098271875, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0047237375
+      value: 0.021836452
       objectReference: {fileID: 0}
     - target: {fileID: -2593687625098271875, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.32698843
+      value: 0.33101523
       objectReference: {fileID: 0}
     - target: {fileID: -2593687625098271875, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.93848515
+      value: 0.94336456
       objectReference: {fileID: 0}
     - target: {fileID: -2453550708452717748, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
@@ -1776,22 +1776,22 @@ PrefabInstance:
     - target: {fileID: 6250409095508506177, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.42267743
+      value: 0.42267746
       objectReference: {fileID: 0}
     - target: {fileID: 6250409095508506177, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.9060401
+      value: -0.90603995
       objectReference: {fileID: 0}
     - target: {fileID: 6250409095508506177, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.020845756
+      value: -0.020845843
       objectReference: {fileID: 0}
     - target: {fileID: 6250409095508506177, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0008879451
+      value: -0.00088787155
       objectReference: {fileID: 0}
     - target: {fileID: 6386480451222621022, guid: c821ad4220082444386ec2270c89fdca,
         type: 3}
@@ -2289,3 +2289,4 @@ MonoBehaviour:
     dialogueLines:
     - name: Lilika
       sentence: Slay your enemies. I shall pray for your triumph, my Goddess.
+  tutorial: {fileID: 0}

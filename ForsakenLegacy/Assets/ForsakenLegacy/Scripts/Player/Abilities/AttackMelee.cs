@@ -21,10 +21,12 @@ namespace ForsakenLegacy
         private bool isAttackingCheck = true;
         private float maxComboDelay = 1f;
         public GameObject weapon;
-        public AudioClip[] FootstepAudioClips;
         public Rig rigLayer;
-        
         public Animator _animator;
+
+        //Audio
+        private AudioSource _audioSource;
+        public AudioClip[] SlashAudioClips;
 
         // Feedbacks
         public MMFeedbacks activateWeapon;
@@ -37,6 +39,7 @@ namespace ForsakenLegacy
 
             attackAction = _playerInput.actions.FindAction("Attack");
             attackAction.performed += OnAttackPerformed;
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -138,6 +141,19 @@ namespace ForsakenLegacy
             // rigLayer.weight = 0f;
             weapon.gameObject.SetActive(false);
             activateWeapon.PlayFeedbacks();
+        }
+        private void OnSlash(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                if (SlashAudioClips.Length > 0)
+                {
+                    var index = Random.Range(0, SlashAudioClips.Length);
+                    _audioSource.clip = SlashAudioClips[index];
+                    // Play an attack sound
+                    _audioSource.Play();
+                }
+            }
         }
     }
 }
