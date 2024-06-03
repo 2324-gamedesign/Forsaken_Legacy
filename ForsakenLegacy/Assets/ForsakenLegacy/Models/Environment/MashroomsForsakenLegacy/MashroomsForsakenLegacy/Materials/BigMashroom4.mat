@@ -28,7 +28,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 3545f3c608194fb46917c60ad9e5cc02, type: 3}
+        m_Texture: {fileID: 2800000, guid: 435795e1a89983b4f8a53adb4448dc8b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -76,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3545f3c608194fb46917c60ad9e5cc02, type: 3}
+        m_Texture: {fileID: 2800000, guid: 435795e1a89983b4f8a53adb4448dc8b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -177,7 +177,7 @@ Material:
     - _RimLightSmoothness: 0
     - _RimPower: 0.55
     - _SizeFalloff: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecClipMaskScale: 1
     - _SpecShadowStrength: 1
@@ -192,7 +192,7 @@ Material:
     - _StencilRef: 0
     - _StepViaRampTexture: 0
     - _Surface: 0
-    - _ToonBlending: 0.651
+    - _ToonBlending: 0.838
     - _ToonEnabled: 1
     - _UseRampColor: 0
     - _WorkflowMode: 1
