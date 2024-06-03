@@ -112,6 +112,7 @@ namespace ForsakenLegacy
             _hasAnimator = TryGetComponent(out _animator);
 
             if (canMove && !_isInAbility && !isAttacking) {MoveInput();}
+
             // PushOutIfPenetrating();
         }
 
@@ -347,7 +348,6 @@ namespace ForsakenLegacy
             // Return if any objects were hit
             return didHit;
         }
-
 
         private bool isGrounded(out RaycastHit groundHit)
         {
