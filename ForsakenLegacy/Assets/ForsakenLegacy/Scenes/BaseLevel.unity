@@ -4216,12 +4216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137cba140f5e4ed439b0b435ff6c5177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 9.5
-  distance: 10
-  angle: 50
-  smoothSpeed: 0
+  VerticalOffset: 15
+  Angle: 80
+  FollowSmoothness: 0.3
+  FollowDelay: 0.5
   player: {fileID: 1983939318}
-  followDelay: 0.5
 --- !u!1 &142158301
 GameObject:
   m_ObjectHideFlags: 0

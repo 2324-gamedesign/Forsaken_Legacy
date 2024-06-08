@@ -3,15 +3,24 @@ using UnityEngine;
 
 public class CameraTopDown : MonoBehaviour
 {
-    public float height = 10f;
-    public float distance = 20f;
-    public float angle = 45f;
-    public float smoothSpeed = 0f;
-    public Transform player;
-    private Vector3 refVelocity;
+    [Header("Camera Settings")]
+    [Range(5f, 50f)]
+    public float VerticalOffset = 10f; // Height above the player
+    [Range(0f, 360f)]
+    public float Angle = 45f; // Angle of rotation around the player
+    private readonly float _angle = 10f; // Distance behind the player
 
-    // Add a delay factor to control the delay between player movement and camera follow
-    public float followDelay = 0.5f;
+    [Header("Follow Settings")]
+    [Range(0f, 1f)]
+    public float FollowSmoothness = 0.3f; // Smoothness of camera follow
+    [Range(0f, 1f)]
+    public float FollowDelay = 0.5f; // Delay in following the player
+
+
+    [Header("Target Settings")]
+    public Transform player;
+
+    private Vector3 refVelocity;
     private Vector3 targetPosition;
 
     private DitherToShowPlayer _ditherToShowPlayer = null;
@@ -35,25 +44,27 @@ public class CameraTopDown : MonoBehaviour
         }
 
         // Calculate the target height based on the player's position
-        float targetHeight = player.position.y + height;
+        float targetHeight = player.position.y + VerticalOffset;
 
         // Calculate the world position of the camera
-        Vector3 worldPosition = (Vector3.forward * - distance) + (Vector3.up * targetHeight);
+        Vector3 worldPosition = (Vector3.forward * -_angle) + (Vector3.up * targetHeight);
 
-        Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * worldPosition;
+        Vector3 rotatedVector = Quaternion.AngleAxis(Angle, Vector3.up) * worldPosition;
 
         Vector3 flatPlayerPos = player.position;
         flatPlayerPos.y = 0f;
         Vector3 finalPos = flatPlayerPos + rotatedVector;
 
         // Set the target position with a delay
-        targetPosition = Vector3.Lerp(targetPosition, finalPos, Time.deltaTime /    followDelay);
+        targetPosition = Vector3.Lerp(targetPosition, finalPos, Time.deltaTime / FollowDelay);
 
         // Smoothly move towards the target position
-        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPosition,   ref refVelocity, smoothSpeed);
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref refVelocity, FollowSmoothness);
 
         // Apply the smoothed position to the camera's transform
         transform.position = smoothedPosition;
+
+        transform.LookAt(player);
     }
 
     private void HandleDither()
