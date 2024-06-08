@@ -28,13 +28,18 @@ public class CameraTopDown : MonoBehaviour
     void Start()
     {
         HandleCamera();
-        CalculateAngle();
+        StartCoroutine(CalculateAngleStart());
     }
 
     void Update()
     {
         HandleCamera();
         HandleDither();
+    }
+    private IEnumerator CalculateAngleStart()
+    {
+        yield return new WaitForSeconds(1f);
+        CalculateAngle();
     }
     public void CalculateAngle()
     {
