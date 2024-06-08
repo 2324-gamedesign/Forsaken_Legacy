@@ -68,7 +68,7 @@ namespace ForsakenLegacy
         void Update()
         {
             _animator.SetFloat("Speed", _navMeshAgent.speed);
-            if (_target && !_target.GetComponent<HealthSystem>().isDead)
+            if (_target && !_target.GetComponent<HealthSystem>().IsDead)
             {
                 if(!isAttacking) CheckForPlayerInSight();
                 if (targetInSight && !isAttacking)
@@ -190,7 +190,7 @@ namespace ForsakenLegacy
         private void OnTriggerEnter(Collider other) {
             if(attackRange)
             {
-                if(other == attackRange && !_target.GetComponent<HealthSystem>().isDead)
+                if(other == attackRange && !_target.GetComponent<HealthSystem>().IsDead)
                 {
                     HandleLookAhead(false);
                     DOTween.KillAll();
@@ -215,7 +215,7 @@ namespace ForsakenLegacy
 
         void TriggerAttack()
         {
-            if(!_target.GetComponent<HealthSystem>().isDead)
+            if(!_target.GetComponent<HealthSystem>().IsDead)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);

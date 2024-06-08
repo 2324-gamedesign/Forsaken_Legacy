@@ -3,50 +3,56 @@ using UnityEngine.UI;
 using TMPro;
 using MoreMountains.Feedbacks;
 using UnityEngine.InputSystem;
+using Unity.Mathematics;
+using System.Collections;
 
 namespace ForsakenLegacy
 {
     public class HealthSystem : MonoBehaviour, IDataPersistence
     {
-        public int maxHealth = 100;
-        public bool isDead = false; // Flag to track if the player is dead.
-        [SerializeField] private int currentHealth;
-        private bool isInvulnerable = false;
-        private float timeSinceLastHit = 0.0f;
-        public float invulnerabiltyTime = 1.0f; // The time in seconds the player is invulnerable after taking damage.
+        public int MaxHealth = 100;
+        public bool IsDead = false; // Flag to track if the player is dead.
+        [SerializeField] private int _currentHealth;
+        private bool _isInvulnerable = false;
+        private float _timeSinceLastHit = 0.0f;
+        private readonly float _invulnerabiltyTime = 1.0f; // The time in seconds the player is invulnerable after taking damage.
 
-        public int healingPotions;
-        public int healingAmount = 10;
-        private InputAction healAction;
+        [Header("Potions")]
+        private int _healingPotions;
+        public int MaxPotions = 2;
+        public int HealingAmount = 10;
+        private InputAction _healAction;
         private PlayerInput _playerInput;
         
-        // References to UI elements
-        public Image healthBarFill; // Assign this in the inspector
-        public TMP_Text potionNumberText; // Assign this in the inspector
+        [Header("Health Bar UI")]
+        public Image healthBarFill;
+        public Image healthBarFillDelay;
+        public TMP_Text potionNumberText; 
+        public Image potionFill;
 
-        //Feedbacks
-        public MMFeedbacks hitFeedback; // Assign this in the inspector
-        public MMFeedbacks deathFeedback; // Assign this in the inspector
+        [Header("Health Bar Feedbacks")]
+        public MMFeedbacks hitFeedback; 
+        public MMFeedbacks deathFeedback; 
 
         void Start()
         {
             _playerInput = GetComponent<PlayerInput>();
-            healAction = _playerInput.actions["Heal"];
-            healAction.performed += Heal;
+            _healAction = _playerInput.actions["Heal"];
+            _healAction.performed += Heal;
 
-            currentHealth = maxHealth; // Set current health to max at the start.
+            _currentHealth = MaxHealth; // Set current health to max at the start.
             UpdateHealthUI();
         }
     
         private void Update()
         {
-            if (isInvulnerable)
+            if (_isInvulnerable)
             {
-                timeSinceLastHit += Time.deltaTime;
-                if (timeSinceLastHit > invulnerabiltyTime)
+                _timeSinceLastHit += Time.deltaTime;
+                if (_timeSinceLastHit > _invulnerabiltyTime)
                 {
-                    timeSinceLastHit = 0.0f;
-                    isInvulnerable = false;
+                    _timeSinceLastHit = 0.0f;
+                    _isInvulnerable = false;
                 }
             }
         }
@@ -55,38 +61,38 @@ namespace ForsakenLegacy
         //Manage Save and Load of HealthPoints thoigh Data peristance interface
         public void LoadData(GameData data)
         {
-            this.currentHealth = data.currentHealth;
-            this.healingPotions = data.healingPotions;
+            this._currentHealth = data.currentHealth;
+            this._healingPotions = data.healingPotions;
             UpdatePotionUI();
             UpdateHealthUI();
         }
         public void SaveData(ref GameData data)
         {
-            data.currentHealth = this.currentHealth;
-            data.healingPotions = this.healingPotions;
+            data.currentHealth = this._currentHealth;
+            data.healingPotions = this._healingPotions;
         }
 
 
         public void TakeDamage(int damage)
         {
             // Return Conditions
-            if (currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 return;
             }
-            if (isInvulnerable)
+            if (_isInvulnerable)
             {
                 return;
             }
 
             //Deal Damage
-            isInvulnerable = true;
-            currentHealth -= damage;
+            _isInvulnerable = true;
+            _currentHealth -= damage;
 
-            if (currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
-                currentHealth = 0;
-                isDead = true; // Set the flag to indicate the player is dead.
+                _currentHealth = 0;
+                IsDead = true; // Set the flag to indicate the player is dead.
                 Die();
             }
             else
@@ -99,50 +105,96 @@ namespace ForsakenLegacy
 
         public void Heal(InputAction.CallbackContext context) 
         {
-            if(healingPotions <= 0 || currentHealth == maxHealth)
+            if(_healingPotions <= 0 || _currentHealth == MaxHealth)
             {
                 return;
             }
 
-            healingPotions -= 1; // Decrement the number of healing potions by 1.
-            currentHealth += healingAmount;
-            if (currentHealth > maxHealth)
+            _healingPotions -= 1; // Decrement the number of healing potions by 1.
+            _currentHealth += HealingAmount;
+            if (_currentHealth > MaxHealth)
             {
-                currentHealth = maxHealth;
+                _currentHealth = MaxHealth;
             }
             
             UpdateHealthUI();
             UpdatePotionUI();
         }
 
-        public void IncreasePotions(int potions)
+        public bool IncreasePotions(int potions)
         {
-            healingPotions += potions;
+            if (_healingPotions + potions > MaxPotions)
+            {
+                return false; // Return false if the number of potions to increase exceeds the maximum.
+            }
+
+            _healingPotions += potions;
             UpdatePotionUI(); // Update the UI to reflect the new number of healing potions.
+            return true; // Return true if the potions were successfully increased.
         }
 
         private void Die()
         {
-            Debug.Log("Player Died");
+            Debug.Log("--- You Died ---");
             deathFeedback.PlayFeedbacks();
-            // Implement what happens when the player dies.
         }
         public void UpdatePotionUI()
         {
-            potionNumberText.text = healingPotions.ToString(); // Update the UI text with the new number of healing potions.
+            // Set text of current potions to teh number of current potion "/" the number of max potions
+            potionNumberText.text = _healingPotions.ToString() + "/" + MaxPotions.ToString();
+            //fill the potion fill image based on teh percentage of current potions on the max potions
+            potionFill.fillAmount = (float)_healingPotions / MaxPotions;
         }
 
         private void UpdateHealthUI()
         {
-            if(currentHealth > 0)
+            if(_currentHealth > 0)
             {
-                isDead = false;
+                IsDead = false;
             }
-            healthBarFill.fillAmount = (float)currentHealth / maxHealth;
+            StartCoroutine(HealthBarFillUI());
         }
+        private IEnumerator HealthBarFillUI()
+        {
+            //gradually update the healthbar through time
+            float fillAmount = (float)_currentHealth / MaxHealth;
+            if(fillAmount < healthBarFill.fillAmount)
+            {
+                while (healthBarFill.fillAmount > fillAmount)
+                {
+                    healthBarFill.fillAmount -= 0.01f;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(1f);
+                while (healthBarFillDelay.fillAmount > healthBarFill.fillAmount)
+                {
+                    healthBarFillDelay.fillAmount -= 0.01f;
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (healthBarFill.fillAmount < fillAmount)
+                {
+                    healthBarFill.fillAmount += 0.005f;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(1f);
+                while (healthBarFillDelay.fillAmount < healthBarFill.fillAmount)
+                {
+                    healthBarFillDelay.fillAmount += 0.005f;
+                    yield return null;
+                }
+            }
+        }
+
         public int GetCurrentHealth()
         {
-            return currentHealth;
+            return _currentHealth;
+        }
+        public int GetCurrentPotions()
+        {
+            return _healingPotions;
         }
     }
 }

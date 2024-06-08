@@ -8,13 +8,13 @@ public class CameraTopDown : MonoBehaviour
     public float VerticalOffset = 10f; // Height above the player
     [Range(0f, 360f)]
     public float Angle = 45f; // Angle of rotation around the player
-    private readonly float _angle = 10f; // Distance behind the player
+    private readonly float _horizontalOffset = 10f; // Distance behind the player
 
     [Header("Follow Settings")]
-    [Range(0f, 1f)]
-    public float FollowSmoothness = 0.3f; // Smoothness of camera follow
-    [Range(0f, 1f)]
-    public float FollowDelay = 0.5f; // Delay in following the player
+    [Range(0.1f, 1f)]
+    public float FollowSmoothness = 0.1f; // Smoothness of camera follow
+    [Range(0.1f, 1f)]
+    public float FollowDelay = 0.1f; // Delay in following the player
 
 
     [Header("Target Settings")]
@@ -28,12 +28,17 @@ public class CameraTopDown : MonoBehaviour
     void Start()
     {
         HandleCamera();
+        CalculateAngle();
     }
 
     void Update()
     {
         HandleCamera();
         HandleDither();
+    }
+    public void CalculateAngle()
+    {
+        transform.LookAt(player.position);
     }
 
     protected virtual void HandleCamera()
@@ -47,12 +52,13 @@ public class CameraTopDown : MonoBehaviour
         float targetHeight = player.position.y + VerticalOffset;
 
         // Calculate the world position of the camera
-        Vector3 worldPosition = (Vector3.forward * -_angle) + (Vector3.up * targetHeight);
+        Vector3 worldPosition = (Vector3.forward * -_horizontalOffset) + (Vector3.up * targetHeight);
 
         Vector3 rotatedVector = Quaternion.AngleAxis(Angle, Vector3.up) * worldPosition;
 
         Vector3 flatPlayerPos = player.position;
         flatPlayerPos.y = 0f;
+
         Vector3 finalPos = flatPlayerPos + rotatedVector;
 
         // Set the target position with a delay
@@ -63,8 +69,6 @@ public class CameraTopDown : MonoBehaviour
 
         // Apply the smoothed position to the camera's transform
         transform.position = smoothedPosition;
-
-        transform.LookAt(player);
     }
 
     private void HandleDither()

@@ -121,7 +121,7 @@ namespace ForsakenLegacy
         {
             if(attackRange && !isInsideAttackRange)
             {
-                if(other == attackRange && !target.GetComponent<HealthSystem>().isDead)
+                if(other == attackRange && !target.GetComponent<HealthSystem>().IsDead)
                 {
                     isInsideAttackRange = true;
                     Debug.Log("Enter Attack Range");
@@ -153,7 +153,7 @@ namespace ForsakenLegacy
 
         void TriggerAttack()
         {
-            if(!target.GetComponent<HealthSystem>().isDead && !GetComponent<Stunnable>().isStunned)
+            if(!target.GetComponent<HealthSystem>().IsDead && !GetComponent<Stunnable>().isStunned)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
