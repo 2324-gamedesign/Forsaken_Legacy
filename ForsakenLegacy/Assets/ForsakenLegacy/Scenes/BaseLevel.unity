@@ -3102,13 +3102,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52466264}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.129846, y: 1.129846, z: 1.1298457}
+  m_LocalScale: {x: 1.4359981, y: 1.2482817, z: 1.4995605}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 465960759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -3135,21 +3135,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7607843}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 37aabe8eb1063c44584d56c53f194b26, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee9515e2a2d9c9f47830b5812edb8ee2, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &106482543
@@ -4217,7 +4217,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VerticalOffset: 10
+<<<<<<< Updated upstream
   Angle: 50
+=======
+  Angle: 40
+>>>>>>> Stashed changes
   FollowSmoothness: 0.1
   FollowDelay: 0.1
   player: {fileID: 1983939318}
@@ -7507,7 +7511,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 33, y: 18}
-  m_SizeDelta: {x: 182.41, y: 150}
+  m_SizeDelta: {x: 180, y: 150}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &375247607
 MonoBehaviour:
@@ -7529,7 +7533,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 915df7a18d17c3548b1a5781043825f9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9daf5214630bb26478bc502ff9430401, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7908,7 +7912,7 @@ RectTransform:
   m_GameObject: {fileID: 465960758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.58659965, y: 0.58659965, z: 0.58659965}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 52466265}
@@ -7916,8 +7920,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 134.8, y: 18}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchoredPosition: {x: 146.9, y: 16.5}
+  m_SizeDelta: {x: 186.9078, y: 162.7794}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &465960760
 MonoBehaviour:
@@ -7939,8 +7943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5435255387823749147, guid: fe42c8b526e77e54ab91d0590272d9e8,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: d407f8cfe0041384ea227bf65380ef66, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18559,21 +18562,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7607843}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fcca7c0563e2c32418f44786e62c7f7a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 149e421313597d7408b3cdf635b62ed2, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillMethod: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1684252809
