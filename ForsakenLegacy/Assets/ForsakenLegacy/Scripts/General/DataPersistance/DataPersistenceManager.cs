@@ -31,7 +31,15 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-        NewGame();
+
+        if (!SceneLoader.IsNewGame())
+        {
+            LoadGame();
+        }
+        else
+        {
+            NewGame();
+        }
     }
 
     public void NewGame()

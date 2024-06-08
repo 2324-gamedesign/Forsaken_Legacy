@@ -142,8 +142,8 @@ namespace ForsakenLegacy
         {
             // Set text of current potions to teh number of current potion "/" the number of max potions
             potionNumberText.text = _healingPotions.ToString() + "/" + MaxPotions.ToString();
-            //fill the potion fill image based on teh percentage of current potions on the max potions
-            potionFill.fillAmount = (float)_healingPotions / MaxPotions;
+
+            StartCoroutine(PotionFillUI());
         }
 
         private void UpdateHealthUI()
@@ -179,10 +179,27 @@ namespace ForsakenLegacy
                     healthBarFill.fillAmount += 0.005f;
                     yield return null;
                 }
-                yield return new WaitForSeconds(1f);
-                while (healthBarFillDelay.fillAmount < healthBarFill.fillAmount)
+                healthBarFillDelay.fillAmount = healthBarFill.fillAmount;
+            }
+        }
+
+        private IEnumerator PotionFillUI()
+        {
+            //gradually update the healthbar through time
+            float fillAmount = (float)_healingPotions / MaxPotions;
+            if(fillAmount < potionFill.fillAmount)
+            {
+                while (potionFill.fillAmount > fillAmount)
                 {
-                    healthBarFillDelay.fillAmount += 0.005f;
+                    potionFill.fillAmount -= 0.01f;
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (potionFill.fillAmount < fillAmount)
+                {
+                    potionFill.fillAmount += 0.01f;
                     yield return null;
                 }
             }

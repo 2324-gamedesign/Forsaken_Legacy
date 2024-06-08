@@ -116,33 +116,33 @@ namespace ForsakenLegacy
             // PushOutIfPenetrating();
         }
 
-        // private void PushOutIfPenetrating()
-        // {
-        //     //Check for overlapping colliders
-        //     Collider[] colliders = Physics.OverlapCapsule(
-        //         transform.position + Vector3.up * 0.25f,
-        //         transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
-        //         _capsuleCollider.radius,
-        //         groundLayer);
-        //     //Loop through the detected colliders
-        //     foreach (Collider collider in colliders)
-        //     {
-        //         if (collider != _capsuleCollider)
-        //         {
-        //             // Calculate the direction and distance to push the player out
-        //             Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
-        //             float distance = _capsuleCollider.radius - direction.magnitude;
-        //             // Apply the push out
-        //             transform.position += direction.normalized * distance;
-        //         }
-        //     }
+        private void PushOutIfPenetrating()
+        {
+            //Check for overlapping colliders
+            Collider[] colliders = Physics.OverlapCapsule(
+                transform.position + Vector3.up * 0.25f,
+                transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
+                _capsuleCollider.radius,
+                GroundLayer);
+            //Loop through the detected colliders
+            foreach (Collider collider in colliders)
+            {
+                if (collider != _capsuleCollider)
+                {
+                    // Calculate the direction and distance to push the player out
+                    Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
+                    float distance = _capsuleCollider.radius - direction.magnitude;
+                    // Apply the push out
+                    transform.position += direction.normalized * distance;
+                }
+            }
            
-        //     //Check if the player is too close to the ground and adjust position upwards if necessary
-        //     if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, groundLayer))
-        //     {
-        //         transform.position += Vector3.up * (1 - hit.distance);
-        //     }
-        // }
+            //Check if the player is too close to the ground and adjust position upwards if necessary
+            if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, GroundLayer))
+            {
+                transform.position += Vector3.up * (1 - hit.distance);
+            }
+        }
 
         private void MoveInput()
         {
@@ -150,7 +150,7 @@ namespace ForsakenLegacy
             Vector2 moveInput = _input.move;
             bool sprint = _input.sprint;
 
-            bool falling = !isGrounded(out RaycastHit groundHit);
+            bool falling = !IsGrounded(out RaycastHit groundHit);
             // If falling, increase falling speed, otherwise stop falling.
             if (falling)
             {
@@ -349,7 +349,7 @@ namespace ForsakenLegacy
             return didHit;
         }
 
-        private bool isGrounded(out RaycastHit groundHit)
+        private bool IsGrounded(out RaycastHit groundHit)
         {
             bool onGround = CastSelf(transform.position, transform.rotation, Vector3.down, _groundDist, out groundHit);
             float angle = Vector3.Angle(groundHit.normal, Vector3.up);
