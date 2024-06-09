@@ -38,7 +38,7 @@ public class CameraTopDown : MonoBehaviour
     }
     private IEnumerator CalculateAngleStart()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         CalculateAngle();
     }
     public void CalculateAngle()
