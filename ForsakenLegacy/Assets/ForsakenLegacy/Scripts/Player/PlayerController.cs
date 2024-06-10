@@ -111,6 +111,9 @@ namespace ForsakenLegacy
             bool isAttacking = gameObject.GetComponent<AttackMelee>().isAttacking;
             _hasAnimator = TryGetComponent(out _animator);
 
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) {canMove = false;}
+            else {canMove = true;}
+
             if (canMove && !_isInAbility && !isAttacking) {MoveInput();}
 
             PushOutIfPenetrating();
