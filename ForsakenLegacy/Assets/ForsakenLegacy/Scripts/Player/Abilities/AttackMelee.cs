@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 using MoreMountains.Feedbacks;
 using ForsakenLegacy;
 using UnityEngine.Animations.Rigging;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
 
 namespace ForsakenLegacy
 {
@@ -13,7 +15,7 @@ namespace ForsakenLegacy
     {
         private InputAction attackAction;
         private PlayerInput _playerInput;
-
+        private PlayerController _playerController;
         [SerializeField] private int noOfClicks = 0;
         private float lastClickedTime = 0;
 
@@ -36,6 +38,7 @@ namespace ForsakenLegacy
         { 
             _playerInput = GetComponent<PlayerInput>();
             rigLayer = GetComponentInChildren<Rig>();
+            _playerController = GetComponent<PlayerController>();
 
             attackAction = _playerInput.actions.FindAction("Attack");
             attackAction.performed += OnAttackPerformed;
@@ -48,7 +51,6 @@ namespace ForsakenLegacy
             _animator.SetInteger("noOfClicks", noOfClicks);
 
             HandleAttackAnim();
-            SetRootMotion();
         }
 
         void OnAttackPerformed(InputAction.CallbackContext context)
@@ -78,6 +80,7 @@ namespace ForsakenLegacy
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo3") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo1-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Combo2-End") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stun"))
             {
                 isAttacking = true;
+                _animator.ResetTrigger("isStopping");
                 HandleWeapon();
             }
             else
@@ -100,6 +103,7 @@ namespace ForsakenLegacy
                 {
                     GameManager.Instance.SetMoveState();
                     WeaponColliderOff();
+                    noOfClicks = 0;
                 }
                 // weapon.gameObject.SetActive(isAttacking);
                 activateWeapon.PlayFeedbacks();
@@ -108,16 +112,23 @@ namespace ForsakenLegacy
             }
         }
 
-        private void SetRootMotion()
+        private void OnAnimatorMove() 
         {
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stopping"))
             {
                 _animator.applyRootMotion = false;
+                return;
+            }
+
+            Vector3 movement = _animator.deltaPosition;
+            if (!_playerController.CastSelf(transform.position, transform.rotation, movement.normalized, movement.magnitude, out RaycastHit hit))
+            {
+                _animator.ApplyBuiltinRootMotion();
             }
             else
             {
-                _animator.applyRootMotion = true;
-            }
+                _animator.applyRootMotion = false;
+            } 
         }
 
         // Methods called in animation
