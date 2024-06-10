@@ -77,9 +77,13 @@ public class DialogueManager : MonoBehaviour
 
         GameManager.Instance.SetDialogueState();
         isInDialogue = true;
+        Vector2 anchorPos = dialoguePanel.anchoredPosition;
+        anchorPos += new Vector2(0, 600);
 
-        dialoguePanel.DOAnchorPos(Vector2.zero, 0.5f);
-        DisplayNextSentence();
+        dialoguePanel.DOAnchorPos(anchorPos, 0.5f).OnComplete(() =>
+        {
+            DisplayNextSentence();
+        });
     }
 
     public void DisplayNextSentence()
@@ -119,11 +123,14 @@ public class DialogueManager : MonoBehaviour
 
     public void CloseBarkPanel()
     {
+        Vector2 anchorPos = dialoguePanel.anchoredPosition;
+        anchorPos -= new Vector2(0, 600);
         // Animate the panel to move off-screen
-        dialoguePanel.DOAnchorPos(new Vector2(100, -600), .2f).OnComplete(() =>
+        dialoguePanel.DOAnchorPos(anchorPos, 0.5f).OnComplete(() =>
         {
+            // Clear the text
             nameText.text = "";
-            dialogueText.text = "";   // Clear the text
+            dialogueText.text = "";  
             profileImage.enabled = true;
         });
     }

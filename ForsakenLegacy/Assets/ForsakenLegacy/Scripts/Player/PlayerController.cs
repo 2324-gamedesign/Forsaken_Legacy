@@ -113,35 +113,43 @@ namespace ForsakenLegacy
 
             if (canMove && !_isInAbility && !isAttacking) {MoveInput();}
 
-            // PushOutIfPenetrating();
+            PushOutIfPenetrating();
         }
 
         private void PushOutIfPenetrating()
         {
-            //Check for overlapping colliders
-            Collider[] colliders = Physics.OverlapCapsule(
-                transform.position + Vector3.up * 0.25f,
-                transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
-                _capsuleCollider.radius,
-                GroundLayer);
-            //Loop through the detected colliders
-            foreach (Collider collider in colliders)
-            {
-                if (collider != _capsuleCollider)
-                {
-                    // Calculate the direction and distance to push the player out
-                    Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
-                    float distance = _capsuleCollider.radius - direction.magnitude;
-                    // Apply the push out
-                    transform.position += direction.normalized * distance;
-                }
-            }
+            // //Check for overlapping colliders
+            // Collider[] colliders = Physics.OverlapCapsule(
+            //     transform.position,
+            //     transform.position + Vector3.up * (0.25f + _capsuleCollider.height),
+            //     _capsuleCollider.radius,
+            //     GroundLayer);
+            // //Loop through the detected colliders
+            // foreach (Collider collider in colliders)
+            // {
+            //     if (collider != _capsuleCollider)
+            //     {
+            //         // Calculate the direction and distance to push the player out
+            //         Vector3 direction = transform.position - collider.ClosestPoint(transform.position);
+            //         float distance = _capsuleCollider.radius - direction.magnitude;
+            //         // Apply the push out
+            //         transform.position += direction.normalized * distance;
+            //         Debug.Log("pushing out" + distance);
+            //     }
+            // }
+            // if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * (0.25f + _capsuleCollider.height), _capsuleCollider.radius, transform.position + Vector3.down, out RaycastHit hits))
+            // {
+            //     Debug.Log("hitting");
+            // }
            
             //Check if the player is too close to the ground and adjust position upwards if necessary
             if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 1, GroundLayer))
             {
                 transform.position += Vector3.up * (1 - hit.distance);
+                Debug.Log("pushing out");
             }
+
+
         }
 
         private void MoveInput()
