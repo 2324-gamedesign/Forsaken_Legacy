@@ -78,7 +78,7 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.SetDialogueState();
         isInDialogue = true;
         Vector2 anchorPos = dialoguePanel.anchoredPosition;
-        anchorPos += new Vector2(0, 600);
+        anchorPos += new Vector2(0, 800);
 
         dialoguePanel.DOAnchorPos(anchorPos, 0.5f).OnComplete(() =>
         {
@@ -124,7 +124,7 @@ public class DialogueManager : MonoBehaviour
     public void CloseBarkPanel()
     {
         Vector2 anchorPos = dialoguePanel.anchoredPosition;
-        anchorPos -= new Vector2(0, 600);
+        anchorPos -= new Vector2(0, 800);
         // Animate the panel to move off-screen
         dialoguePanel.DOAnchorPos(anchorPos, 0.5f).OnComplete(() =>
         {

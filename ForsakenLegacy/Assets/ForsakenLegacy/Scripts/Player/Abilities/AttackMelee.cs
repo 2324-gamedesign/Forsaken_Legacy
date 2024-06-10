@@ -88,6 +88,10 @@ namespace ForsakenLegacy
                 rigLayer.weight = 0f;
                 isAttacking = false;
                 HandleWeapon();
+                if(noOfClicks > 1)
+                {
+                    noOfClicks = 0;
+                }
             }
         }
 
@@ -106,7 +110,7 @@ namespace ForsakenLegacy
                     noOfClicks = 0;
                 }
                 // weapon.gameObject.SetActive(isAttacking);
-                activateWeapon.PlayFeedbacks();
+                // activateWeapon.PlayFeedbacks();
                 attack.PlayFeedbacks();
                 isAttackingCheck = isAttacking;
             }
@@ -114,7 +118,7 @@ namespace ForsakenLegacy
 
         private void OnAnimatorMove() 
         {
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stopping"))
+            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle-Walk-Run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Dash") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Stopping") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             {
                 _animator.applyRootMotion = false;
                 return;
