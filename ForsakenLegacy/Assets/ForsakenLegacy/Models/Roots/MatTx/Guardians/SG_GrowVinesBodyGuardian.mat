@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SG_GrowVinesBody
+  m_Name: SG_GrowVinesBodyGuardian
   m_Shader: {fileID: -6465566751694194690, guid: de71f199145321a41bc0eaab81909b4b,
     type: 3}
   m_Parent: {fileID: 0}

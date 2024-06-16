@@ -11,45 +11,38 @@ namespace ForsakenLegacy
 {
     public class Guardian : MonoBehaviour
     {
-        public Transform target;
-        public Collider attackRange;
-        private Vector3 randomTargetOffset;
+        private Transform _target;
+        private Collider _attackRange;
+        private Vector3 _randomTargetOffset;
 
         private NavMeshAgent _navMeshAgent;
         private Animator _animator;
 
         //floats to handle speed and animator
-        private float idleSpeed = 0f;
-        private float walkSpeed = 2f;
-        private float runSpeed = 4f;
+        private readonly float _idleSpeed = 0f;
+        private readonly float _walkSpeed = 2f;
+        private readonly float _runSpeed = 4f;
 
-        private float minDistanceToPlayer = 0.9f;
-        private bool isInsideAttackRange = false;
+        private readonly float _minDistanceToPlayer = 0.9f;
+        private bool _isInsideAttackRange = false;
 
-        public SphereCollider weaponCollider;
-        private bool isAttacking = false;
+        public Collider WeaponCollider;
+        private bool _isAttacking = false;
+        public bool _isStunned = false;
 
-        //Patrolling
-        private Vector3 originalPosition;
-        public bool isPatrolling;
-
-        public bool isStunned = false;
-
-        public MMFeedbacks feedbackAttack;
-        public MMFeedbacks feedbackSpawn;
+        public MMFeedbacks FeedbackAttack;
+        public MMFeedbacks FeedbackSpawn;
 
         private void Awake() 
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
-            originalPosition = transform.position;
-            //find player by name Edea
-            target = GameObject.Find("Edea").transform;
-            attackRange = GameObject.FindGameObjectWithTag("Player").GetComponent<SphereCollider>();
 
-            randomTargetOffset = Random.insideUnitCircle * (attackRange.bounds.extents.x * 0.8f);
-            
-            Patrol();
+            //find player by name
+            _target = GameObject.Find("Edea").transform;
+            _attackRange = GameObject.FindGameObjectWithTag("Player").GetComponent<SphereCollider>();
+
+            _randomTargetOffset = Random.insideUnitCircle * (_attackRange.bounds.extents.x * 0.8f);
         }
 
         // Update is called once per frame
@@ -58,50 +51,43 @@ namespace ForsakenLegacy
             _animator.SetFloat("Speed", _navMeshAgent.speed);
 
             //If it's in attack, avoid enemy penetrating into player
-            if (isAttacking)
+            if (_isAttacking)
             {
-                Vector3 toPlayer = target.transform.position - transform.position;
+                Vector3 toPlayer = _target.transform.position - transform.position;
                 float distanceToPlayer = toPlayer.magnitude;
 
-                if (distanceToPlayer < minDistanceToPlayer)
+                if (distanceToPlayer < _minDistanceToPlayer)
                 {
-                    Vector3 newPosition = target.transform.position - toPlayer.normalized * minDistanceToPlayer;
+                    Vector3 newPosition = _target.transform.position - toPlayer.normalized * _minDistanceToPlayer;
                     transform.position = newPosition;
                 }
-            }
-
-            //If the enemy is active and the parent arena is not in progress and it is not already patrolling, handle the patroll behavior
-            if(!GetComponentInParent<Arena>().isInProgress && !isPatrolling)
-            {
-                Patrol();
             }
         }
 
         public void Spawn()
         {
-            feedbackSpawn.PlayFeedbacks();
+            FeedbackSpawn.PlayFeedbacks();
         }
         public void StartPursuit()
         {
-            isPatrolling = false;
-            CancelInvoke("TriggerAttack");
+            CancelInvoke(nameof(TriggerAttack));
 
             if(!GetComponent<Stunnable>().isStunned)
             {
                 //if it is still attacking wait for attack animation to stop and then call this again
-                if(isAttacking)
+                if(_isAttacking)
                 {
-                    Invoke("StartPursuit", 0.5f);
+                    Invoke(nameof(StartPursuit), 0.5f);
                     return;
                 }
 
                 HandleLookAhead(false);
 
                 // Start pursuing the player
-                InvokeRepeating("SetDestination", 0.1f, 0.5f);
+                InvokeRepeating(nameof(SetDestination), 0.1f, 0.5f);
 
                 _navMeshAgent.isStopped = false;
-                _navMeshAgent.speed = runSpeed;
+                _navMeshAgent.speed = _runSpeed;
             }
         }
 
@@ -114,26 +100,26 @@ namespace ForsakenLegacy
 
         private void SetDestination()
         {
-            _navMeshAgent.SetDestination(target.transform.position + randomTargetOffset);
+            _navMeshAgent.SetDestination(_target.transform.position + _randomTargetOffset);
         }
 
         private void OnTriggerEnter(Collider other) 
         {
-            if(attackRange && !isInsideAttackRange)
+            if(_attackRange && !_isInsideAttackRange)
             {
-                if(other == attackRange && !target.GetComponent<HealthSystem>().IsDead)
+                if(other == _attackRange && !_target.GetComponent<HealthSystem>().IsDead)
                 {
-                    isInsideAttackRange = true;
+                    _isInsideAttackRange = true;
                     Debug.Log("Enter Attack Range");
 
-                    CancelInvoke("SetDestination");
+                    CancelInvoke(nameof(SetDestination));
 
                     HandleLookAhead(false);
                     DOTween.KillAll();
 
                     StopPursuit();
 
-                    InvokeRepeating("TriggerAttack", 0.1f, 5f);
+                    InvokeRepeating(nameof(TriggerAttack), 0.1f, 5f);
                 }
             }
             else return;
@@ -141,24 +127,24 @@ namespace ForsakenLegacy
 
         private void OnTriggerExit(Collider other) 
         {
-            if(other == attackRange)
+            if(other == _attackRange)
             {
                 Debug.Log("Exit Attack Range");
-                isInsideAttackRange = false;
+                _isInsideAttackRange = false;
 
-                CancelInvoke("TriggerAttack");
+                CancelInvoke(nameof(TriggerAttack));
                 StartPursuit();
             }
         }
 
         void TriggerAttack()
         {
-            if(!target.GetComponent<HealthSystem>().IsDead && !GetComponent<Stunnable>().isStunned)
+            if(!_target.GetComponent<HealthSystem>().IsDead && !GetComponent<Stunnable>().isStunned)
             {
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
 
-                feedbackAttack.PlayFeedbacks();
+                FeedbackAttack.PlayFeedbacks();
 
                 // Trigger the attack animation or perform attack logic here
                 if(indexAttack == 0) _animator.SetTrigger("Attack");
@@ -166,19 +152,8 @@ namespace ForsakenLegacy
             }
             else
             {
-                CancelInvoke("TriggerAttack");
-                _navMeshAgent.speed = idleSpeed;
-            }
-        }
-
-        //Method that handles the start of patrolling
-        private void Patrol()
-        {  
-            isPatrolling = true;
-            if(transform.position != originalPosition)
-            {
-                // ReturnToOriginalPosition();
-                return;
+                CancelInvoke(nameof(TriggerAttack));
+                _navMeshAgent.speed = _idleSpeed;
             }
         }
 
@@ -228,14 +203,14 @@ namespace ForsakenLegacy
         //Methods called in animation
         void SetStop()
         {
-            isAttacking = true;
-            _navMeshAgent.speed = idleSpeed;
+            _isAttacking = true;
+            _navMeshAgent.speed = _idleSpeed;
         }
         void SetGo()
         {
-            if(!isInsideAttackRange)
+            if(!_isInsideAttackRange)
             {
-                isAttacking = false;
+                _isAttacking = false;
             }
         }
         void SetRootMotion()
@@ -248,11 +223,11 @@ namespace ForsakenLegacy
         }
         void ColliderWeaponOn()
         {
-            weaponCollider.enabled = true;
+            WeaponCollider.enabled = true;
         }
         void ColliderWeaponOff()
         {
-            weaponCollider.enabled = false;
+            WeaponCollider.enabled = false;
         }
     }
 }

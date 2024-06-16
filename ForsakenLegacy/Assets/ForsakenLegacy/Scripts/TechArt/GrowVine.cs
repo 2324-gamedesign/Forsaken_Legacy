@@ -7,10 +7,10 @@ using UnityEngine.Rendering;
 public class GrowVine : MonoBehaviour
 {
     private Material mat;
-    private float timeToGrow = 3;
-    private float refreshRate = 0.05f;
-    public float minGrow = 0f;
-    public float maxGrow = 0.97f;
+    public float TimeToGrow = 3;
+    private readonly float refreshRate = 0.05f;
+    public float MinGrow = 0f;
+    public float MaxGrow = 0.97f;
     private bool fullyGrown = false;
     // Start is called before the first frame update
     void Start()
@@ -33,9 +33,9 @@ public class GrowVine : MonoBehaviour
         float growValue = mat.GetFloat("_Grow");
         if (!fullyGrown)
         {
-            while (growValue < maxGrow)
+            while (growValue < MaxGrow)
             {
-                growValue += 1 / (timeToGrow / refreshRate);
+                growValue += 1 / (TimeToGrow / refreshRate);
                 mat.SetFloat("_Grow", growValue);
 
                 yield return new WaitForSeconds(refreshRate);
@@ -46,9 +46,9 @@ public class GrowVine : MonoBehaviour
     private IEnumerator ShrinkRoutine()
     {
         float growValue = mat.GetFloat("_Grow");
-        while (growValue > minGrow)
+        while (growValue > MinGrow)
         {
-            growValue -= 1 / (timeToGrow / refreshRate);
+            growValue -= 1 / (TimeToGrow / refreshRate);
             mat.SetFloat("_Grow", growValue);
 
             yield return new WaitForSeconds(refreshRate);

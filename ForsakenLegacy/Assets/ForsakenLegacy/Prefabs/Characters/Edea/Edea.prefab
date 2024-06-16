@@ -16106,7 +16106,6 @@ GameObject:
   - component: {fileID: 8842400182999384689}
   - component: {fileID: 8842400182999384688}
   - component: {fileID: 8842400182999384695}
-  - component: {fileID: 9024155250874679985}
   - component: {fileID: 9024155250874679993}
   - component: {fileID: -7871144247685354997}
   - component: {fileID: 2399336354237088839}
@@ -16115,6 +16114,7 @@ GameObject:
   - component: {fileID: 7971716268587466377}
   - component: {fileID: 4175981672042463359}
   - component: {fileID: 9085401954991627983}
+  - component: {fileID: 9024155250874679985}
   m_Layer: 0
   m_Name: Edea
   m_TagString: Player
@@ -16179,11 +16179,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  isInAbility: 0
-  maxSlopeAngle: 95
-  groundLayer:
+  _isInAbility: 0
+  _maxWalkingAngle: 60
+  MaxSlopeAngle: 60
+  GroundLayer:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 0
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
@@ -16198,12 +16199,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.5
-  mainCamera: {fileID: 0}
-  rotateSpeed: 90
-  maxBounces: 5
-  anglePower: 0.5
-  _animator: {fileID: 3160420520397199573}
-  maxWalkingAngle: 60
+  MainCamera: {fileID: 0}
 --- !u!114 &8842400182999384688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16250,30 +16246,6 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   sprint: 0
   analogMovement: 0
---- !u!114 &9024155250874679985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536553095858804757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RigLayers:
-  - m_Rig: {fileID: 8842400184595153414}
-    m_Active: 1
-  m_Effectors:
-  - m_Transform: {fileID: 5396338141945773929}
-    m_Style:
-      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
-      size: 0.1
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
 --- !u!114 &9024155250874679993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16306,9 +16278,9 @@ MonoBehaviour:
   noOfClicks: 0
   isAttacking: 0
   weapon: {fileID: 4731159357442614739}
-  FootstepAudioClips: []
   rigLayer: {fileID: 0}
   _animator: {fileID: 3160420520397199573}
+  SlashAudioClips: []
   activateWeapon: {fileID: 8842400184249855785}
   attack: {fileID: 2995757188424088020}
 --- !u!114 &2399336354237088839
@@ -16323,14 +16295,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6472161f0b370344fa15633d4eb05e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  isDead: 0
-  currentHealth: 0
-  invulnerabiltyTime: 1
-  healingPotions: 0
-  healingAmount: 10
+  MaxHealth: 100
+  IsDead: 0
+  _currentHealth: 0
+  MaxPotions: 2
+  HealingAmount: 10
   healthBarFill: {fileID: 0}
+  healthBarFillDelay: {fileID: 0}
   potionNumberText: {fileID: 0}
+  potionFill: {fileID: 0}
   hitFeedback: {fileID: 6823360114733629190}
   deathFeedback: {fileID: 3656388959748563208}
 --- !u!114 &830706651657728827
@@ -16435,6 +16408,30 @@ CapsuleCollider:
   m_Height: 2.1690187
   m_Direction: 1
   m_Center: {x: -1.5820117e-10, y: 1.024941, z: 0.011796354}
+--- !u!114 &9024155250874679985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8536553095858804757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RigLayers:
+  - m_Rig: {fileID: 8842400184595153414}
+    m_Active: 1
+  m_Effectors:
+  - m_Transform: {fileID: 5396338141945773929}
+    m_Style:
+      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
+      color: {r: 1, g: 0, b: 0, a: 0.5}
+      size: 0.1
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+    m_Visible: 1
 --- !u!1 &8562608317485811965
 GameObject:
   m_ObjectHideFlags: 0
