@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
-        id = (System.Guid.NewGuid().ToString());
+        id = System.Guid.NewGuid().ToString();
     }
 
     private void Start()

@@ -57,7 +57,7 @@ namespace ForsakenLegacy
         }
         private IEnumerator PerformDash()
         {
-            // GameManager.Instance.SetAbilityState();
+            GameManager.Instance.SetAbilityState();
             canDash = false;
         
             _animator.Play("Dash");
@@ -89,7 +89,7 @@ namespace ForsakenLegacy
         
                 // Perform sphere cast for collisions
                 RaycastHit hit;
-                if (Physics.SphereCast(transform.position, _capsuleCollider.radius, dashDirection, out hit, maxDistancePerIteration, LayerMask.GetMask("Ground","Environment")))
+                if (Physics.SphereCast(transform.position, _capsuleCollider.radius - 0.2f, dashDirection, out hit, maxDistancePerIteration, LayerMask.GetMask("Ground","Environment")))
                 {
                     // Calculate the offset position slightly before the point of contact with the obstacle
                     Vector3 newPosition = hit.point - movement.normalized * 0.2f;
@@ -111,7 +111,7 @@ namespace ForsakenLegacy
             dashCooldownImage.fillAmount = 1;
             trail.Stop();
         
-            // GameManager.Instance.SetMoveState();
+            GameManager.Instance.SetMoveState();
             StartCoroutine(DashCooldown());
         }
         private IEnumerator DashCooldown()

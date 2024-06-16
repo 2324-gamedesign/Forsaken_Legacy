@@ -21,6 +21,12 @@ namespace ForsakenLegacy
         [Header("Player")]
 
         [SerializeField] private bool canMove = true;
+        //get set can move
+        public bool CanMove
+        {
+            get { return canMove; }
+            set { canMove = value; }
+        }
         private float _moveSpeed = 2.0f;
         public bool _isInAbility = false;
         private bool _movementPressed;
