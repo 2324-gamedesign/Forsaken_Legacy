@@ -852,7 +852,7 @@ MonoBehaviour:
         m_Calls: []
   DebugActive: 0
   FeedbacksList:
-  - rid: 8304442559998722051
+  - rid: 2461555121691295748
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -860,7 +860,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8304442559998722051
+    - rid: 2461555121691295748
       type: {class: MMF_LookAt, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
       data:
         Active: 1
@@ -961,7 +961,7 @@ MonoBehaviour:
         LockYAxis: 1
         LockZAxis: 0
         Mode: 0
-        TransformToRotate: {fileID: 7973745441083294015}
+        TransformToRotate: {fileID: 0}
         UpwardVector: 1
         ResetShakerValuesAfterShake: 1
         ResetTargetValuesAfterShake: 1
@@ -2484,10 +2484,14 @@ MonoBehaviour:
   FeedbacksList:
   - rid: 6739000850775277568
   - rid: 6739000850775277572
+  - rid: 2461555121691295744
   - rid: 6739000850775277569
   - rid: 6739000850775277570
+  - rid: 6739000850775277575
   - rid: 6739000850775277571
   - rid: 6739000850775277573
+  - rid: 2461555121691295745
+  - rid: 2461555121691295746
   - rid: 6739000850775277574
   KeepPlayModeChanges: 0
   PerformanceMode: 0
@@ -2496,6 +2500,266 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 2461555121691295744
+      type: {class: MMF_Events, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: 1013509633
+        Label: Unity Events
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 7601137949793567042}
+        DebugActive: 0
+        PlayEvents:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 6254421603036835536}
+              m_TargetAssemblyTypeName: GrowVine, Assembly-CSharp
+              m_MethodName: Grow
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        StopEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        InitializationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        ResetEvents:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 2461555121691295745
+      type: {class: MMF_Events, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: -401941061
+        Label: Unity Events
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 7601137949793567042}
+        DebugActive: 0
+        PlayEvents:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2865518217221817734}
+              m_TargetAssemblyTypeName: GrowVine, Assembly-CSharp
+              m_MethodName: Shrink
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        StopEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        InitializationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        ResetEvents:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 2461555121691295746
+      type: {class: MMF_Pause, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: -1724796185
+        Label: Pause
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 7601137949793567042}
+        DebugActive: 0
+        PauseDuration: 1
+        RandomizePauseDuration: 0
+        MinPauseDuration: 1
+        MaxPauseDuration: 3
+        RandomizeOnEachPlay: 1
+        ScriptDriven: 0
+        AutoResume: 0
+        AutoResumeAfter: 0.25
     - rid: 6739000850775277568
       type: {class: MMF_Events, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
       data:
@@ -2567,10 +2831,22 @@ MonoBehaviour:
         PlayEvents:
           m_PersistentCalls:
             m_Calls:
-            - m_Target: {fileID: 78312046287082998}
+            - m_Target: {fileID: 2865518217221817734}
               m_TargetAssemblyTypeName: GrowVine, Assembly-CSharp
               m_MethodName: Grow
               m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+            - m_Target: {fileID: 7575853120920022342}
+              m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+              m_MethodName: set_enabled
+              m_Mode: 6
               m_Arguments:
                 m_ObjectArgument: {fileID: 0}
                 m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2665,7 +2941,7 @@ MonoBehaviour:
         Materials:
         - {fileID: 2100000, guid: 872940a5cb1ba564287e67812cd74618, type: 2}
         InterpolateTransition: 0
-        TransitionDuration: 1
+        TransitionDuration: 4
         TransitionCurve:
           serializedVersion: 2
           m_Curve:
@@ -2767,7 +3043,7 @@ MonoBehaviour:
         Materials:
         - {fileID: 2100000, guid: 331b2edea65f87642a4e5ad5f5699149, type: 2}
         InterpolateTransition: 0
-        TransitionDuration: 1
+        TransitionDuration: 4
         TransitionCurve:
           serializedVersion: 2
           m_Curve:
@@ -2875,6 +3151,18 @@ MonoBehaviour:
                 m_StringArgument: Idle
                 m_BoolArgument: 0
               m_CallState: 2
+            - m_Target: {fileID: 6254421603036835536}
+              m_TargetAssemblyTypeName: GrowVine, Assembly-CSharp
+              m_MethodName: Shrink
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
         StopEvents:
           m_PersistentCalls:
             m_Calls: []
@@ -2952,7 +3240,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 7601137949793567042}
         DebugActive: 0
-        PauseDuration: 3
+        PauseDuration: 1
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -3119,6 +3407,18 @@ MonoBehaviour:
                 m_StringArgument: 
                 m_BoolArgument: 0
               m_CallState: 2
+            - m_Target: {fileID: 7575853120920022342}
+              m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+              m_MethodName: set_enabled
+              m_Mode: 6
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 1
+              m_CallState: 2
         StopEvents:
           m_PersistentCalls:
             m_Calls: []
@@ -3128,6 +3428,82 @@ MonoBehaviour:
         ResetEvents:
           m_PersistentCalls:
             m_Calls: []
+    - rid: 6739000850775277575
+      type: {class: MMF_Pause, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: 694159477
+        Label: Pause
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 7601137949793567042}
+        DebugActive: 0
+        PauseDuration: 1
+        RandomizePauseDuration: 0
+        MinPauseDuration: 1
+        MaxPauseDuration: 3
+        RandomizeOnEachPlay: 1
+        ScriptDriven: 0
+        AutoResume: 0
+        AutoResumeAfter: 0.25
 --- !u!1 &5672916056629208281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3526,6 +3902,9 @@ GameObject:
   - component: {fileID: 3542259158423075407}
   - component: {fileID: 7489681503859493558}
   - component: {fileID: 8001119897617843791}
+  - component: {fileID: 145676500324622028}
+  - component: {fileID: 7410697411508463523}
+  - component: {fileID: 1195004201928389597}
   m_Layer: 8
   m_Name: Guardian
   m_TagString: Enemy
@@ -3543,7 +3922,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -471.12, y: -253.51793, z: 34.42}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.8000006, y: 0.8000001, z: 0.80000055}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2519832126252605867}
@@ -3551,7 +3930,7 @@ Transform:
   - {fileID: 7388913246595618050}
   - {fileID: 2967312488954098453}
   - {fileID: 6783797955037010516}
-  - {fileID: 571675620882271606}
+  - {fileID: 7629238729299443861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4055566162054142789
@@ -3675,13 +4054,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c506aa1556fa944b614c880bc5de48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  attackRange: {fileID: 0}
-  weaponCollider: {fileID: 3221842210108584880}
-  isPatrolling: 0
+  WeaponCollider: {fileID: 3221842210108584880}
+  _isStunned: 0
+  FeedbackAttack: {fileID: 510288262115846153}
+  FeedbackSpawn: {fileID: 7601137949793567042}
+--- !u!114 &145676500324622028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7341922477026139013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0be6866d5c5054daf4a6549cf752c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 05d17505-52c9-4c54-8624-541019ef2205
+  isDead: 0
+  respawnFeedback: {fileID: 6034542423993096339}
+--- !u!114 &7410697411508463523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7341922477026139013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a529cb298a8aa4f9d37877c1f27982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   isStunned: 0
-  feedbackAttack: {fileID: 510288262115846153}
-  feedbackSpawn: {fileID: 7601137949793567042}
+  isStunnable: 1
+  feedbackStunStart: {fileID: 3610052338169944313}
+  feedbackStunEnd: {fileID: 4138592998117817115}
+--- !u!114 &1195004201928389597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7341922477026139013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7863aca1f4713824c8ad9a7cc8c7a73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7361088350569674974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3905,7 +4324,7 @@ MonoBehaviour:
   - rid: 8304442496998703128
   - rid: 8304442496998703125
   - rid: 8304442496998703126
-  - rid: 8304442496998703121
+  - rid: 8477860699411316736
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -3913,77 +4332,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8304442496998703121
-      type: {class: MMF_Destroy, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
-      data:
-        Active: 1
-        UniqueID: 2084710291
-        Label: Destroy
-        ChannelMode: 0
-        Channel: 0
-        MMChannelDefinition: {fileID: 0}
-        Chance: 100
-        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
-        Timing:
-          TimescaleMode: 0
-          ExcludeFromHoldingPauses: 0
-          ContributeToTotalDuration: 1
-          InitialDelay: 0
-          CooldownDuration: 0
-          InterruptsOnStop: 1
-          NumberOfRepeats: 0
-          RepeatForever: 0
-          DelayBetweenRepeats: 1
-          MMFeedbacksDirectionCondition: 0
-          PlayDirection: 0
-          ConstantIntensity: 0
-          UseIntensityInterval: 0
-          IntensityIntervalMin: 0
-          IntensityIntervalMax: 0
-          Sequence: {fileID: 0}
-          TrackID: 0
-          Quantized: 0
-          TargetBPM: 120
-        AutomatedTargetAcquisition:
-          Mode: 0
-          ChildIndex: 0
-        RandomizeOutput: 0
-        RandomMultiplier: {x: 0.8, y: 1}
-        RandomizeDuration: 0
-        RandomDurationMultiplier: {x: 0.5, y: 2}
-        UseRange: 0
-        RangeDistance: 5
-        UseRangeFalloff: 0
-        RangeFalloff:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        RemapRangeFalloff: {x: 0, y: 1}
-        Owner: {fileID: 7575853119390297582}
-        DebugActive: 0
-        TargetGameObject: {fileID: 7341922477026139013}
-        ExtraTargetGameObjects: []
-        Mode: 0
     - rid: 8304442496998703125
       type: {class: MMF_Material, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
       data:
@@ -4055,11 +4403,10 @@ MonoBehaviour:
         TargetRenderer: {fileID: 9143226330540346821}
         RendererMaterialIndexes: 
         Method: 0
-        Loop: 1
+        Loop: 0
         AlwaysNewMaterial: 1
         InitialIndex: 0
         Materials:
-        - {fileID: 2100000, guid: 331b2edea65f87642a4e5ad5f5699149, type: 2}
         - {fileID: 2100000, guid: 152eadb3dca18584d97dcb6f6d472a6f, type: 2}
         InterpolateTransition: 1
         TransitionDuration: 10
@@ -4155,7 +4502,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 7575853119390297582}
         DebugActive: 0
-        PauseDuration: 4
+        PauseDuration: 5
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -4350,11 +4697,10 @@ MonoBehaviour:
         TargetRenderer: {fileID: 8201454115063499661}
         RendererMaterialIndexes: 
         Method: 0
-        Loop: 1
+        Loop: 0
         AlwaysNewMaterial: 1
         InitialIndex: 0
         Materials:
-        - {fileID: 2100000, guid: 872940a5cb1ba564287e67812cd74618, type: 2}
         - {fileID: 2100000, guid: 152eadb3dca18584d97dcb6f6d472a6f, type: 2}
         InterpolateTransition: 1
         TransitionDuration: 10
@@ -4477,6 +4823,98 @@ MonoBehaviour:
         FloatValueMin: 0
         FloatValueMax: 5
         FloatIncrement: 1
+    - rid: 8477860699411316736
+      type: {class: MMF_Events, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: 174599867
+        Label: Unity Events
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 7575853119390297582}
+        DebugActive: 0
+        PlayEvents:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 7341922477026139013}
+              m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+              m_MethodName: SetActive
+              m_Mode: 6
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        StopEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        InitializationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        ResetEvents:
+          m_PersistentCalls:
+            m_Calls: []
 --- !u!1 &7575853121330518357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5698,122 +6136,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7388913246595618050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &28225080816118429
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7973745441083294015}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 125
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 125
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 125
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.13682365
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.19909918
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.0863421
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 98b8a2eed0c39994cbded3f9bd79e368, type: 2}
-    - target: {fileID: 919132149155446097, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      propertyPath: m_Name
-      value: Roots
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 78312046287082998}
-  m_SourcePrefab: {fileID: 100100000, guid: 61b30cb3ff4f7304fb6682a8122cc82a, type: 3}
---- !u!4 &571675620882271606 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-    type: 3}
-  m_PrefabInstance: {fileID: 28225080816118429}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &911186581992249292 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 61b30cb3ff4f7304fb6682a8122cc82a,
-    type: 3}
-  m_PrefabInstance: {fileID: 28225080816118429}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &78312046287082998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911186581992249292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf8b410901c3ca942a2f0b98c71d9dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7575853120643240257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5971,4 +6293,138 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 7ebfde56ceebad747bf4967cf899d93a,
     type: 3}
   m_PrefabInstance: {fileID: 7575853120643240257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7956234701293135742
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7973745441083294015}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2659784675127999316, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0dfa5efc119dfec4e9534bda3fadfaf2, type: 2}
+    - target: {fileID: 919132149155446097, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_Name
+      value: RootsGuardian
+      objectReference: {fileID: 0}
+    - target: {fileID: 1485399773656595580, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8240258de65040d4791c078347d656c8, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5332809968238436118, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2865518217221817734}
+    - targetCorrespondingSourceObject: {fileID: 3197256412778504729, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6254421603036835536}
+  m_SourcePrefab: {fileID: 100100000, guid: 7ad0ccb57794c2e42a372e92304ced5b, type: 3}
+--- !u!1 &2624414580326348904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5332809968238436118, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7956234701293135742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2865518217221817734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624414580326348904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b410901c3ca942a2f0b98c71d9dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToGrow: 0.7
+  MinGrow: 0
+  MaxGrow: 0.97
+--- !u!1 &4770673793816724839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3197256412778504729, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7956234701293135742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6254421603036835536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770673793816724839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b410901c3ca942a2f0b98c71d9dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToGrow: 0.5
+  MinGrow: 0
+  MaxGrow: 0.97
+--- !u!4 &7629238729299443861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ad0ccb57794c2e42a372e92304ced5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7956234701293135742}
   m_PrefabAsset: {fileID: 0}

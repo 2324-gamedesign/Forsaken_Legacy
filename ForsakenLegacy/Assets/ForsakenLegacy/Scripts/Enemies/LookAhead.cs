@@ -24,7 +24,7 @@ public class LookAhead : MonoBehaviour
             if(Vector3.Distance(direction, previousDirection) > 0.01f)
             {
                 tween?.Kill();
-                tween = transform.DOLookAt(transform.position + direction, 0.5f, AxisConstraint.Y); 
+                tween = transform.DOLookAt(transform.position + direction, 0.1f, AxisConstraint.Y); 
                 previousDirection = direction;
             };
             previousPosition = transform.position;

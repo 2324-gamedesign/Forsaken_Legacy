@@ -11,15 +11,15 @@ public class Enemy : MonoBehaviour
 
     private Arena arena;
     
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = (System.Guid.NewGuid().ToString());
+    }
 
     private void Start()
     {
-        GenerateGuid();
         arena = gameObject.GetComponentInParent<Arena>();
-    }
-    private void GenerateGuid()
-    {
-        id = System.Guid.NewGuid().ToString();
     }
 
     public void OnDeath()

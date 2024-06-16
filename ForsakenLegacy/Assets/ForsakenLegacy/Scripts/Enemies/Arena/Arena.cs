@@ -9,16 +9,13 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class Arena : MonoBehaviour, IDataPersistence
 {
-    public GameObject[] doors;
+    public Door[] doors;
     public Dictionary<string, bool> enemies;
     private Collider playerCollider;
     public bool cleared = false;
     public bool isInProgress = false;
 
     public string id;
-    public MMFeedbacks doorOpenFeedback;
-    public MMFeedbacks doorCloseFeedback;
-
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
@@ -67,7 +64,7 @@ public class Arena : MonoBehaviour, IDataPersistence
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other == playerCollider)
+        if(other == playerCollider && !isInProgress && !cleared)
         {
             CloseDoors();
         }
@@ -98,9 +95,9 @@ public class Arena : MonoBehaviour, IDataPersistence
         MusicManager.Instance.Combat();
 
         //Close the doors
-        foreach(GameObject door in doors)
+        foreach(Door door in doors)
         {
-            door.GetComponent<Door>().CloseDoor();
+            door.CloseDoor();
         }
 
         //Enemies start attacking
@@ -116,9 +113,9 @@ public class Arena : MonoBehaviour, IDataPersistence
         MusicManager.Instance.Exploration();
        
         //Open the doors
-        foreach(GameObject door in doors)
+        foreach(Door door in doors)
         {
-            door.GetComponent<Door>().OpenDoor();
+            door.OpenDoor();
         }
     }
 }
