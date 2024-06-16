@@ -1454,7 +1454,7 @@ PrefabInstance:
     - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.254241
+      value: 7.355
       objectReference: {fileID: 0}
     - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
         type: 3}
@@ -21226,7 +21226,7 @@ PrefabInstance:
     - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.7456346
+      value: 7.818
       objectReference: {fileID: 0}
     - target: {fileID: 7700575599747861439, guid: 092b4b4a6230d814f83f6d5b84b65c6f,
         type: 3}
@@ -29462,7 +29462,7 @@ MonoBehaviour:
       onUpdateState:
         m_PersistentCalls:
           m_Calls: []
-    - position: {x: 480, y: 347}
+    - position: {x: 477.89468, y: 394.36862}
       id: Ability
       onEnterState:
         m_PersistentCalls:
@@ -29532,8 +29532,8 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 1786721804}
-            m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-            m_MethodName: set_enabled
+            m_TargetAssemblyTypeName: ForsakenLegacy.PlayerController, Assembly-CSharp
+            m_MethodName: set_CanMove
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -29556,8 +29556,8 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 1786721804}
-            m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-            m_MethodName: set_enabled
+            m_TargetAssemblyTypeName: ForsakenLegacy.PlayerController, Assembly-CSharp
+            m_MethodName: set_CanMove
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -29578,19 +29578,43 @@ MonoBehaviour:
       targetID: Ability
       onEnterTransition:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 1786721804}
+            m_TargetAssemblyTypeName: ForsakenLegacy.PlayerController, Assembly-CSharp
+            m_MethodName: set_CanMove
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       onExitTransition:
         m_PersistentCalls:
           m_Calls: []
       duration: 0
       timeMode: 0
-    - id: Transition 3
+    - id: MoveAbility
       label: Move
       originID: Ability
       targetID: Move
       onEnterTransition:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 1786721804}
+            m_TargetAssemblyTypeName: ForsakenLegacy.PlayerController, Assembly-CSharp
+            m_MethodName: set_CanMove
+            m_Mode: 6
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
       onExitTransition:
         m_PersistentCalls:
           m_Calls: []
@@ -51733,6 +51757,46 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.723276
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000029802319
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.6905592
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.000000059604638
+      objectReference: {fileID: 0}
+    - target: {fileID: 463513925418513588, guid: b3925781af1016d47881a83035407bce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 87.349
+      objectReference: {fileID: 0}
     - target: {fileID: 1035982315952808341, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51751,22 +51815,22 @@ PrefabInstance:
     - target: {fileID: 1278235515147291190, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_Size.x
-      value: 9.361502
+      value: 8.36011
       objectReference: {fileID: 0}
     - target: {fileID: 1278235515147291190, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_Center.x
-      value: 2.3417726
+      value: 2.8424668
       objectReference: {fileID: 0}
     - target: {fileID: 1278235515147291190, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_Center.y
-      value: -0.00000004026687
+      value: -0.000000044878377
       objectReference: {fileID: 0}
     - target: {fileID: 1278235515147291190, guid: b3925781af1016d47881a83035407bce,
         type: 3}
       propertyPath: m_Center.z
-      value: 1.5225666
+      value: 1.5225673
       objectReference: {fileID: 0}
     - target: {fileID: 1322439101568315740, guid: b3925781af1016d47881a83035407bce,
         type: 3}
@@ -51920,6 +51984,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 372493382301547311, guid: b3925781af1016d47881a83035407bce, type: 3}
     - {fileID: 3400985523721233510, guid: b3925781af1016d47881a83035407bce, type: 3}
+    - {fileID: 2873728228431965922, guid: b3925781af1016d47881a83035407bce, type: 3}
+    - {fileID: 7465505879060945471, guid: b3925781af1016d47881a83035407bce, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6294741908921780211, guid: b3925781af1016d47881a83035407bce,
         type: 3}
@@ -54912,7 +54978,7 @@ PrefabInstance:
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 360.33
+      value: 295.57
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
@@ -54922,7 +54988,7 @@ PrefabInstance:
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 143.47
+      value: 61.2
       objectReference: {fileID: 0}
     - target: {fileID: 9024155250874679983, guid: 54992b41001d68943af812dcbe13a051,
         type: 3}

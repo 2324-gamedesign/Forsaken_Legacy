@@ -54,7 +54,11 @@ public class GameManager : MonoBehaviour
     //PlayerStateMachine
     public void SetMoveState()
     {
-        playerStateMachine.Trigger("Move");
+        if(playerStateMachine.CurrentState == "Attack")
+        {
+            playerStateMachine.Trigger("Move");
+        }
+        else playerStateMachine.Trigger("MoveAbility");
     }
 
     public void SetAttackState()
