@@ -6170,11 +6170,11 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0.59303385
             value: 1.0047165
-            inSlope: 0
-            outSlope: 0
+            inSlope: 5.674816
+            outSlope: 5.674816
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0
+            inWeight: 0.037500016
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
@@ -6247,7 +6247,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 7814013508506237820}
         DebugActive: 0
-        PauseDuration: 4
+        PauseDuration: 3
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -6513,11 +6513,11 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0.59303385
             value: 1.0047165
-            inSlope: 0
-            outSlope: 0
+            inSlope: 5.674816
+            outSlope: 5.674816
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0
+            inWeight: 0.037500016
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2

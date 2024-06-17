@@ -4060,7 +4060,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2.3520505
@@ -4449,11 +4449,11 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0.59303385
             value: 1.0047165
-            inSlope: 0
-            outSlope: 0
+            inSlope: 5.674816
+            outSlope: 5.674816
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0
+            inWeight: 0.037500016
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
@@ -4526,7 +4526,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 7575853119390297582}
         DebugActive: 0
-        PauseDuration: 5
+        PauseDuration: 3
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -4743,11 +4743,11 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0.59303385
             value: 1.0047165
-            inSlope: 0
-            outSlope: 0
+            inSlope: 5.674816
+            outSlope: 5.674816
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0
+            inWeight: 0.037500016
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
