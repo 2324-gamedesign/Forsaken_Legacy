@@ -72,8 +72,14 @@ namespace ForsakenLegacy
         {
             CancelInvoke(nameof(TriggerAttack));
 
-            if(!GetComponent<Stunnable>().isStunned)
+            if(!GetComponent<Stunnable>().isStunned && !GetComponent<Enemy>().isDead)
             {
+                if(_target.GetComponent<HealthSystem>().IsDead)
+                {
+                    StopPursuit();
+                    return;
+                }
+
                 //if it is still attacking wait for attack animation to stop and then call this again
                 if(_isAttacking)
                 {
@@ -82,12 +88,14 @@ namespace ForsakenLegacy
                 }
 
                 HandleLookAhead(false);
+                WeaponCollider.enabled = false;
 
                 // Start pursuing the player
                 InvokeRepeating(nameof(SetDestination), 0.1f, 0.5f);
 
                 _navMeshAgent.isStopped = false;
-                _navMeshAgent.speed = _runSpeed;
+                //gradually interpolate the speed to run speed
+                DOTween.To(() => _navMeshAgent.speed, x => _navMeshAgent.speed = x, _runSpeed, 1f).SetEase(Ease.OutSine);
             }
         }
 
@@ -96,6 +104,7 @@ namespace ForsakenLegacy
             CancelInvoke();
             _navMeshAgent.ResetPath();
             _navMeshAgent.isStopped = true;
+            DOTween.To(() => _navMeshAgent.speed, x => _navMeshAgent.speed = x, _idleSpeed, 1f).SetEase(Ease.OutSine);
         }
 
         private void SetDestination()
@@ -110,7 +119,6 @@ namespace ForsakenLegacy
                 if(other == _attackRange && !_target.GetComponent<HealthSystem>().IsDead)
                 {
                     _isInsideAttackRange = true;
-                    Debug.Log("Enter Attack Range");
 
                     CancelInvoke(nameof(SetDestination));
 
@@ -119,7 +127,7 @@ namespace ForsakenLegacy
 
                     StopPursuit();
 
-                    InvokeRepeating(nameof(TriggerAttack), 0.1f, 5f);
+                    InvokeRepeating(nameof(TriggerAttack), 0.1f, 3f);
                 }
             }
             else return;
@@ -129,7 +137,6 @@ namespace ForsakenLegacy
         {
             if(other == _attackRange)
             {
-                Debug.Log("Exit Attack Range");
                 _isInsideAttackRange = false;
 
                 CancelInvoke(nameof(TriggerAttack));
@@ -141,14 +148,16 @@ namespace ForsakenLegacy
         {
             if(!_target.GetComponent<HealthSystem>().IsDead && !GetComponent<Stunnable>().isStunned)
             {
+                _animator.ResetTrigger("Hit");
+                DOTween.KillAll();
+
                 int indexAttack;
                 indexAttack = Random.Range(0, 2);
 
-                FeedbackAttack.PlayFeedbacks();
+                transform.LookAt(_target);
 
                 // Trigger the attack animation or perform attack logic here
-                if(indexAttack == 0) _animator.SetTrigger("Attack");
-                else if(indexAttack == 1) _animator.SetTrigger("Combo");
+                _animator.SetTrigger(indexAttack == 0 ? "Attack" : "Combo");
             }
             else
             {
