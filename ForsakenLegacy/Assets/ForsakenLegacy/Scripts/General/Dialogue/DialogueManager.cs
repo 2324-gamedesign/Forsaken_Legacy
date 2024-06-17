@@ -21,6 +21,15 @@ public class DialogueManager : MonoBehaviour
     private Dictionary<string, CharacterProfile> characterMap;
 
     public TMP_Text tutorial;
+    public TMP_Text nameText;
+    public Text dialogueText;
+    public RectTransform dialoguePanel;
+    private Queue<string> sentences;
+    private Queue<string> names;
+
+    public bool isInDialogue;
+
+    public Image profileImage;
 
     private void Awake()
     {
@@ -42,20 +51,18 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public TMP_Text nameText;
-    public Text dialogueText;
-    public RectTransform dialoguePanel;
-    private Queue<string> sentences;
-    private Queue<string> names;
-
-    public bool isInDialogue;
-
-    public Image profileImage;
-
     private void Start()
     {
         sentences = new Queue<string>();
         names = new Queue<string>();
+    }
+
+    private void Update() 
+    {
+        if(isInDialogue && Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayNextSentence();
+        }
     }
 
     public void StartDialogue(int nextDialogue, Dialogue[] dialogues)
