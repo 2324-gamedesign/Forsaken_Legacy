@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -12,6 +13,11 @@ public class MovePlatform : MonoBehaviour
     public float Duration;
     public float WaitTime;
     private CapsuleCollider _player;
+
+    [Header("Vines")]
+    public GrowVine VineBody;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +31,7 @@ public class MovePlatform : MonoBehaviour
         if (_atStart)
         {
             _atStart = false;
+            VineBody.Grow();
             transform.DOLocalMove(EndPos, Duration).SetEase(Ease.InOutSine).OnComplete(() =>
             {
                 StartCoroutine(Move());
@@ -33,6 +40,7 @@ public class MovePlatform : MonoBehaviour
         else
         {
             _atStart = true;
+            VineBody.Shrink();
             transform.DOLocalMove(_startPos, Duration).SetEase(Ease.InOutSine).OnComplete(() =>
             {
                 StartCoroutine(Move());
